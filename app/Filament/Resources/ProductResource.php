@@ -43,7 +43,7 @@ class ProductResource extends Resource
                 ->label('Judul'),
             Forms\Components\Select::make('category_id')
                 ->label('Kategori')
-                ->options(Category::pluck('name', 'id'))
+                ->options(fn () => Category::pluck('name', 'id'))
                 ->disabled()
                 ->dehydrated(false),
             Forms\Components\TextInput::make('price')
