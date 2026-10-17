@@ -4,7 +4,7 @@
         <div class="p-8">
             <!-- LOGO -->
             <div class="flex justify-center mb-2">
-                <a href="{{ route('home') }}">
+                <a href="/">
                     <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
                          alt="Logo FIKOM PRELOVED" 
                          class="h-28 object-contain">
