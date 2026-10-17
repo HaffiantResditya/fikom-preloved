@@ -71,9 +71,9 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('primaryImage.image_path')
+                Tables\Columns\ImageColumn::make('foto')
                     ->label('Foto')
-                    ->disk('public')
+                    ->getStateUsing(fn ($record) => $record->primaryImage?->url)
                     ->square(),
                 Tables\Columns\TextColumn::make('title')->searchable()->label('Judul')->limit(40),
                 Tables\Columns\TextColumn::make('seller.name')->label('Penjual')->searchable(),

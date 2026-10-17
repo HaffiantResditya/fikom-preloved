@@ -23,7 +23,7 @@
                         {{-- Thumbnail --}}
                         <div class="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                             @if($product->primaryImage)
-                                <img src="{{ Storage::url($product->primaryImage->image_path) }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
+                                <img src="{{ $product->primaryImage->url }}" alt="{{ $product->title }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-gray-300">
                                     <x-heroicon-o-photo class="w-8 h-8"/>

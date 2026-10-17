@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Services\CloudinaryService;
 
 class ProductController extends Controller
 {
@@ -80,15 +81,34 @@ class ProductController extends Controller
                         $ext = 'png';
                     }
 
-                    $filename = 'products/' . uniqid() . '.' . $ext;
-                    Storage::disk('public')->put($filename, (string) $encoded);
-                    $storedFilename = $filename;
+                    // Upload ke Cloudinary jika dikonfigurasi
+                    if (CloudinaryService::isConfigured()) {
+                        $cloudUrl = CloudinaryService::upload((string) $encoded, 'product_' . uniqid() . '.' . $ext);
+                        if ($cloudUrl) {
+                            $storedFilename = $cloudUrl;
+                        }
+                    }
+
+                    if (!$storedFilename) {
+                        $filename = 'products/' . uniqid() . '.' . $ext;
+                        Storage::disk('public')->put($filename, (string) $encoded);
+                        $storedFilename = $filename;
+                    }
                 } catch (\Throwable) {
-                    $storedFilename = $imageFile->store('products', 'public');
+                    if (CloudinaryService::isConfigured()) {
+                        $storedFilename = CloudinaryService::upload($imageFile);
+                    }
+                    if (!$storedFilename) {
+                        $storedFilename = $imageFile->store('products', 'public');
+                    }
                 }
             } else {
-                // Simpan langsung format asli (JPG, WebP, dll) tanpa ketergantungan decoder GD
-                $storedFilename = $imageFile->store('products', 'public');
+                if (CloudinaryService::isConfigured()) {
+                    $storedFilename = CloudinaryService::upload($imageFile);
+                }
+                if (!$storedFilename) {
+                    $storedFilename = $imageFile->store('products', 'public');
+                }
             }
 
             ProductImage::create([
@@ -152,7 +172,9 @@ class ProductController extends Controller
         }
 
         foreach ($product->images as $img) {
-            Storage::disk('public')->delete($img->image_path);
+            if (!filter_var($img->image_path, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($img->image_path);
+            }
         }
 
         $product->delete();

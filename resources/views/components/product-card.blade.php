@@ -7,10 +7,11 @@
     {{-- Image Box --}}
     <div class="relative overflow-hidden h-36 sm:h-40 bg-slate-100">
         @php
-            $cardImage = $product->primaryImage?->image_path ?? $product->images?->first()?->image_path;
+            $imageModel = $product->primaryImage ?? $product->images?->first();
+            $cardImageUrl = $imageModel?->url;
         @endphp
-        @if($cardImage)
-            <img src="{{ Storage::url($cardImage) }}"
+        @if($cardImageUrl)
+            <img src="{{ $cardImageUrl }}"
                  alt="{{ $product->title }}"
                  class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300">
         @else

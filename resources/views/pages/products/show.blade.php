@@ -40,7 +40,7 @@
                 if ($allImages->isNotEmpty()) {
                     foreach ($allImages as $idx => $img) {
                         $galleryItems[] = [
-                            'url' => Storage::url($img->image_path),
+                            'url' => $img->url,
                             'title' => 'Foto ' . ($idx + 1),
                         ];
                     }
