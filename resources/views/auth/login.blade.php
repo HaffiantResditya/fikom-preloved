@@ -65,7 +65,7 @@
                                name="password" 
                                required 
                                autocomplete="current-password" 
-                               placeholder="Amb4tuk4m"
+                               placeholder="Masukkan Sandi"
                                class="fikom-input fikom-input-password" />
                         <button type="button" 
                                 onclick="togglePasswordVisibility('password', 'eye-icon-login')" 
