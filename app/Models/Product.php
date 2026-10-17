@@ -69,4 +69,15 @@ class Product extends Model
     {
         return $this->status === 'approved';
     }
+
+    public function getConditionLabelAttribute(): string
+    {
+        return match ($this->condition) {
+            'Baru' => 'Baru',
+            'Bekas Seperti Baru' => 'Baik',
+            'Bekas Layak Pakai' => 'Layak Pakai',
+            default => $this->condition ?? 'Baik',
+        };
+    }
 }
+
