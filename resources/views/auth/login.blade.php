@@ -1,23 +1,28 @@
 <x-guest-layout>
     <!-- Card Auth Container -->
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden my-4 mx-auto">
-        <div class="p-8">
+    <div class="fikom-card max-w-[430px] my-6">
+        <div class="p-7 sm:p-8">
             <!-- LOGO -->
-            <div class="flex justify-center mb-2">
-                <a href="{{ route('home') }}">
+            <div class="flex justify-center mb-1">
+                <a href="{{ route('home') }}" class="inline-block">
                     <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
                          alt="Logo FIKOM PRELOVED" 
-                         class="h-28 object-contain">
+                         class="fikom-logo"
+                         style="height: 88px; max-height: 92px; width: auto; object-fit: contain;">
                 </a>
             </div>
 
             <!-- HEADER -->
-            <div class="text-center mb-6">
-                <h1 class="text-lg font-bold tracking-tight text-gray-900 uppercase">MASUK KE AKUN KAMPUS</h1>
-                <p class="text-xs text-gray-500 mt-0.5">Gunakan email Student FIKOM untuk mulai jual &amp; beli</p>
+            <div class="text-center mb-5">
+                <h1 class="text-base sm:text-lg font-bold tracking-tight text-gray-900 uppercase">
+                    MASUK KE AKUN KAMPUS
+                </h1>
+                <p class="text-[11px] sm:text-xs text-gray-500 mt-0.5">
+                    Gunakan email Student FIKOM untuk mulai jual &amp; beli
+                </p>
             </div>
 
-            <!-- Session Status -->
+            <!-- Session Status Alert -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
             <!-- FORM LOGIN -->
@@ -27,7 +32,7 @@
                 <!-- Email Kampus -->
                 <div>
                     <label for="email" class="block text-xs font-semibold text-gray-700 mb-1">Email Kampus</label>
-                    <div class="relative">
+                    <div class="relative flex items-center">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -41,7 +46,7 @@
                                autofocus 
                                autocomplete="username" 
                                placeholder="farispratama@mhs.udb.ac.id"
-                               class="w-full pl-10 pr-3 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
+                               class="fikom-input" />
                     </div>
                     <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
                 </div>
@@ -49,7 +54,7 @@
                 <!-- Kata Sandi -->
                 <div>
                     <label for="password" class="block text-xs font-semibold text-gray-700 mb-1">Kata Sandi</label>
-                    <div class="relative">
+                    <div class="relative flex items-center">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -60,8 +65,8 @@
                                name="password" 
                                required 
                                autocomplete="current-password" 
-                               placeholder="Masukkan kata sandi"
-                               class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
+                               placeholder="Amb4tuk4m"
+                               class="fikom-input fikom-input-password" />
                         <button type="button" 
                                 onclick="togglePasswordVisibility('password', 'eye-icon-login')" 
                                 class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -75,34 +80,34 @@
                 </div>
 
                 <!-- Ingatkan Saya & Lupa Sandi -->
-                <div class="flex items-center justify-between text-xs pt-1">
-                    <label for="remember_me" class="inline-flex items-center cursor-pointer text-gray-600">
+                <div class="flex items-center justify-between text-xs pt-0.5">
+                    <label for="remember_me" class="inline-flex items-center cursor-pointer text-gray-600 select-none">
                         <input id="remember_me" 
                                type="checkbox" 
                                name="remember" 
-                               class="rounded border-gray-300 text-blue-800 shadow-sm focus:ring-blue-800">
-                        <span class="ms-2 text-xs text-gray-600">{{ __('Ingatkan saya') }}</span>
+                               class="rounded border-gray-300 text-[#1e4b8a] shadow-sm focus:ring-[#1e4b8a]">
+                        <span class="ms-2 text-xs text-gray-600">Ingatkan saya</span>
                     </label>
 
                     @if (Route::has('password.request'))
-                        <a class="font-bold text-blue-900 hover:underline" href="{{ route('password.request') }}">
-                            {{ __('Lupa Kata Sandi?') }}
+                        <a class="font-bold text-[#1e4b8a] hover:underline" href="{{ route('password.request') }}">
+                            Lupa Kata Sandi?
                         </a>
                     @endif
                 </div>
 
                 <!-- Tombol Submit -->
-                <div class="pt-2">
-                    <button type="submit" class="w-full bg-[#1e40af] hover:bg-blue-900 text-white font-semibold py-2.5 rounded-full transition duration-200 text-sm shadow">
-                        {{ __('Masuk via SSO') }}
+                <div class="pt-1">
+                    <button type="submit" class="fikom-btn-primary">
+                        Masuk via SSO
                     </button>
                 </div>
             </form>
 
             <!-- SEPARATOR -->
-            <div class="relative my-6 text-center">
-                <hr class="border-gray-200">
-                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs text-gray-400">atau</span>
+            <div class="fikom-divider">
+                <hr>
+                <span>atau</span>
             </div>
 
             <!-- LINK REGISTRASI -->
