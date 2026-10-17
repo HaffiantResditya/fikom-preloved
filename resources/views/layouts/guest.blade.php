@@ -9,18 +9,22 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Scripts & Tailwind -->
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo_fikompreloved.svg') }}">
+        <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('images/logo_fikompreloved.svg') }}">
+        <link rel="apple-touch-icon" href="{{ asset('images/logo_fikompreloved.svg') }}">
+
+        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased min-h-screen flex items-center justify-center p-4 bg-no-repeat bg-cover bg-center bg-fixed"
-          style="background-image: url('{{ asset('assets/images/fikom preloved_Background.svg') }}');">
+          style="background-image: url('{{ asset('images/fikom_preloved_background.svg') }}');">
         
-        <!-- Slot Konten Utama (Langsung memuat login.blade.php) -->
-        <div class="w-full flex justify-center items-center">
+        <!-- Slot Konten Utama -->
+        <div class="w-full flex justify-center items-center py-6">
             {{ $slot }}
         </div>
-
     </body>
 </html>
