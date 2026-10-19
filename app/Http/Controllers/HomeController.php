@@ -32,6 +32,20 @@ class HomeController extends Controller
 
     public function pendingNotice()
     {
+        if (auth()->check() && auth()->user()->isSuspended()) {
+            return redirect()->route('suspended.notice');
+        }
+        if (auth()->check() && auth()->user()->isApproved()) {
+            return redirect()->route('home');
+        }
         return view('pages.pending');
+    }
+
+    public function suspendedNotice()
+    {
+        if (auth()->check() && auth()->user()->isApproved()) {
+            return redirect()->route('home');
+        }
+        return view('pages.suspended');
     }
 }

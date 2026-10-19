@@ -9,13 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckApprovedUser
 {
-    /**
-     * Blokir akses user yang belum disetujui admin.
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && !Auth::user()->isApproved() && !Auth::user()->isAdmin()) {
-            return redirect()->route('pending.notice');
+        if (Auth::check() && !Auth::user()->isAdmin()) {
+            if (Auth::user()->isSuspended()) {
+                if (!$request->routeIs('suspended.notice') && !$request->routeIs('logout')) {
+                    return redirect()->route('suspended.notice');
+                }
+            } elseif (!Auth::user()->isApproved()) {
+                if (!$request->routeIs('pending.notice') && !$request->routeIs('logout')) {
+                    return redirect()->route('pending.notice');
+                }
+            }
         }
 
         return $next($request);

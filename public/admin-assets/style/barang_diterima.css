@@ -1,0 +1,47 @@
+﻿/* =============================================
+   BARANG_DITERIMA.CSS
+   Halaman: Moderasi Barang - Filter Diterima
+   ============================================= */
+
+/* Status khusus Diterima di tabel */
+.status-diterima {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green);
+    background: var(--green-bg);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* Harga wajar tag */
+.price-tag-wajar {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    margin-top: 3px;
+}
+
+/* Harga mahal (di atas pasar) */
+.price-tag-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-top: 3px;
+}
+
+/* Waktu disetujui */
+.approved-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green);
+    margin-top: 2px;
+}

@@ -1,0 +1,598 @@
+/* =============================================
+   DETAIL_BARANG.CSS
+   Popup / Modal: Detail & Keputusan Moderasi Barang
+   ============================================= */
+
+/* Backdrop Overlay */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Modal Dialog Card */
+.modal-dialog {
+    background: #ffffff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+    animation: modalSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Header Modal */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-icon-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.modal-icon-badge svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.modal-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.badge-menunggu-moderasi {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #fff1f2;
+    color: #e11d48;
+    border: 1px solid #ffe4e6;
+}
+
+.badge-menunggu-moderasi::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e11d48;
+}
+
+.modal-subtitle {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 3px;
+}
+
+.modal-subtitle strong {
+    color: #334155;
+    font-weight: 700;
+}
+
+.btn-close-modal {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.btn-close-modal:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+/* Modal Body Layout */
+.modal-body {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    padding: 22px 24px;
+}
+
+/* Kolom Kiri: Galeri Foto */
+.gallery-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-photo-wrap {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+}
+
+.main-photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-badge-top {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(15, 23, 42, 0.75);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    backdrop-filter: blur(2px);
+}
+
+.photo-badge-bottom {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(15, 23, 42, 0.75);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    backdrop-filter: blur(2px);
+}
+
+/* Thumbnails */
+.thumbs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.thumb-item {
+    position: relative;
+    height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: #f8fafc;
+    transition: all 0.15s ease;
+}
+
+.thumb-item.active {
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+.thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.thumb-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.75);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 600;
+    text-align: center;
+    padding: 2px 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Status Inspeksi Foto */
+.photo-inspections {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.inspection-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+.inspection-item svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--primary);
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+/* Kolom Kanan: Detail Informasi Barang */
+.info-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-category-path {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.info-item-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 5px 0 8px;
+    line-height: 1.25;
+}
+
+.info-price {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.badge-price-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.badge-price-range svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Deskripsi Barang Box */
+.section-sublabel {
+    font-size: 10px;
+    font-weight: 800;
+    color: #475569;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-top: 14px;
+    margin-bottom: 6px;
+}
+
+.item-desc-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+/* Grid Penjual & Titik COD */
+.meta-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.meta-subcard {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.meta-subcard-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.meta-subcard-title.blue-accent {
+    color: var(--primary);
+}
+
+.meta-subcard-title svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.seller-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.seller-avatar-rm {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.seller-name-bold {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.seller-sub-meta {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.seller-badges-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.badge-ktm-verified {
+    color: #0284c7;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.badge-ktm-verified svg {
+    width: 11px;
+    height: 11px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+}
+
+.seller-rating-val {
+    color: #334155;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.seller-rating-val span {
+    color: #f59e0b;
+}
+
+.cod-place-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.cod-security-desc {
+    font-size: 10px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cod-security-desc svg {
+    width: 12px;
+    height: 12px;
+    stroke: #0284c7;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    background: #fafbfd;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.modal-notice-text {
+    font-size: 11px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.modal-notice-text svg {
+    width: 14px;
+    height: 14px;
+    stroke: #64748b;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.modal-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-modal-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn-modal-action svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.btn-minta-foto {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    color: #334155;
+}
+
+.btn-minta-foto:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.btn-tolak-modal {
+    background: #ffffff;
+    border: 1.5px solid #fecaca;
+    color: #dc2626;
+}
+
+.btn-tolak-modal:hover {
+    background: #fef2f2;
+    border-color: #dc2626;
+}
+
+.btn-setujui-modal {
+    background: var(--primary);
+    border: 1.5px solid var(--primary);
+    color: #ffffff;
+}
+
+.btn-setujui-modal:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+/* Responsif Mobile untuk Popup */
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+    .meta-cards-grid {
+        grid-template-columns: 1fr;
+    }
+    .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .modal-actions-group {
+        flex-direction: column;
+    }
+    .btn-modal-action {
+        justify-content: center;
+        width: 100%;
+    }
+}

@@ -16,7 +16,7 @@ Transaksi dilakukan 100% secara tatap muka atau *Cash on Delivery* (COD) di seki
 *   **Backend Framework:** Laravel 12 (PHP)
 *   **Database:** MySQL / MariaDB
 *   **Frontend / UI:** Laravel Blade, Tailwind CSS, Alpine.js
-*   **Admin Dashboard:** Filament PHP (v3.x)
+*   **Admin Dashboard:** Custom Blade & Controller (Multi-Auth Guard `admin`)
 *   **Dependencies Tambahan:**
     *   `laravel/breeze` : Scaffold autentikasi dasar.
     *   `intervention/image` : Pemrosesan dan kompresi gambar (mencegah *hosting* penuh).
@@ -87,7 +87,7 @@ fikom-preloved/
 │   │   └── Middleware/
 │   │       └── CheckApprovedUser.php # (Blokir akses user 'pending')
 │   ├── Models/                       # (User, Category, Product, ProductImage)
-│   └── Filament/Resources/           # (UserResource & ProductResource untuk Admin)
+│   └── Http/Controllers/Admin/       # (AdminAuthController, AdminDashboardController, dll.)
 ├── public/
 │   ├── images/                       # (Tempat simpan Aset Statis: logo.png, ilustrasi)
 │   └── storage/                      # (Symlink ke storage/app/public)

@@ -23,6 +23,7 @@ class Product extends Model
         'location',
         'cod_area',
         'status',
+        'rejection_reason',
     ];
 
     public function getSlugOptions(): SlugOptions

@@ -1,0 +1,169 @@
+/* =============================================
+   MODERASI_USER.CSS
+   Halaman: Moderasi & Verifikasi User
+   ============================================= */
+
+/* User profile cell: foto + info */
+.user-profile-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+}
+
+.user-info-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.user-info-email {
+    font-size: 12px;
+    color: var(--primary);
+    margin-top: 2px;
+}
+
+.user-info-email:hover {
+    text-decoration: underline;
+}
+
+.user-info-phone {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Fakultas / NIM cell */
+.faculty-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.faculty-prodi {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+.faculty-nim {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Barang count cell */
+.item-count {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+}
+
+.item-count-label {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 3px;
+}
+
+.item-count-label.pending  { color: var(--orange); }
+.item-count-label.aktif    { color: var(--green); }
+.item-count-label.terjual  { color: var(--primary); }
+
+/* Status user badge */
+.badge-user-aktif {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.badge-user-nonaktif {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+.badge-user-pending {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--orange-bg);
+    color: var(--orange);
+}
+
+/* Tombol Lihat Detail */
+.btn-detail-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--card-bg);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.btn-detail-user:hover {
+    background: var(--blue-bg);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-detail-user svg {
+    width: 13px; height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+/* Badge SIAKAD di page title */
+.badge-siakad {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--green-bg);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(45, 184, 122, 0.2);
+}
