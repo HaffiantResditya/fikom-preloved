@@ -74,7 +74,7 @@
                 </span>
             </div>
             <span class="text-[11px] text-slate-400 whitespace-nowrap flex-shrink-0">
-                {{ $product->created_at->diffForHumans() }}
+                {{ $product->created_at->locale('id')->diffForHumans() }}
             </span>
         </div>
     </div>
