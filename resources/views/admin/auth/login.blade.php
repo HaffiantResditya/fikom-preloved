@@ -7,6 +7,8 @@
     <!-- Menghubungkan ke file CSS Terpisah -->
     <link rel="stylesheet" href="{{ asset('admin-assets/style/login.css') }}">
     <link rel="icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('admin-assets/assets/Logo.png') }}">
     <style>
         .alert-error {
             background-color: #fef2f2;
