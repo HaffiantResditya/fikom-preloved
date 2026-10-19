@@ -39,7 +39,7 @@
                                    required 
                                    autofocus 
                                    autocomplete="name" 
-                                   placeholder="Faris Pratama Putra"
+                                   placeholder="Nama Lengkap"
                                    class="w-full pl-10 pr-3 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
                         </div>
                         <x-input-error :messages="$errors->get('name')" class="mt-1 text-xs" />
@@ -59,7 +59,7 @@
                                    name="whatsapp_number" 
                                    value="{{ old('whatsapp_number') }}" 
                                    required 
-                                   placeholder="081319534692"
+                                   placeholder="08xxxxxxxxx"
                                    class="w-full pl-10 pr-3 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
                         </div>
                         <x-input-error :messages="$errors->get('whatsapp_number')" class="mt-1 text-xs" />
@@ -104,7 +104,7 @@
                                name="password" 
                                required 
                                autocomplete="new-password" 
-                               placeholder="Amb4tuk4m"
+                               placeholder="Minimal 8 karakter"
                                class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
                         <button type="button" 
                                 onclick="togglePasswordVisibility('password', 'eye-icon-pass')" 
@@ -135,7 +135,7 @@
                                name="password_confirmation" 
                                required 
                                autocomplete="new-password" 
-                               placeholder="Amb4tuk4m"
+                               placeholder="Minimal 8 karakter"
                                class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
                         <button type="button" 
                                 onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-confirm')" 
