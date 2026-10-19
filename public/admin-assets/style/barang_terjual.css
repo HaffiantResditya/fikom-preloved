@@ -1,0 +1,367 @@
+/* =============================================
+   BARANG_TERJUAL.CSS
+   Halaman: Audit & Pemantauan Barang Terjual
+   ============================================= */
+
+/* Dekorasi background halus sesuai mockup */
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.bg-deco-top {
+    position: fixed;
+    top: 60px;
+    right: -40px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 24px solid rgba(220, 140, 140, 0.12);
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    transform: rotate(-25deg);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-deco-bottom {
+    position: fixed;
+    bottom: -60px;
+    right: -40px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244, 180, 180, 0.25) 0%, rgba(244, 180, 180, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Sidebar navigasi Barang Terjual aktif */
+.sidebar-nav a.active {
+    background: var(--primary);
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.sidebar-nav a.active svg {
+    stroke: #ffffff;
+}
+
+/* Sub-badge judul halaman */
+.badge-audit-subtitle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #ede9fe;
+    color: #5b21b6;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid #ddd6fe;
+}
+
+/* Search bar modern full-width */
+.search-card-wrap {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.search-full-input {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0 14px;
+    transition: all 0.2s ease;
+}
+
+.search-full-input:focus-within {
+    background: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.search-full-input svg {
+    width: 17px;
+    height: 17px;
+    stroke: var(--text-light);
+    stroke-width: 2;
+    fill: none;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.search-full-input input {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+}
+
+.search-full-input input::placeholder {
+    color: var(--text-light);
+}
+
+/* Kolom Transaksi & Waktu */
+.trx-id {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.15s;
+}
+
+.trx-id:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.trx-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+/* Kolom Barang Terjual */
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-img {
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.product-cat {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.product-price {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text);
+    margin-top: 2px;
+}
+
+/* Kolom Penjual & Pembeli */
+.user-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-badge-icon {
+    width: 18px;
+    height: 18px;
+    background: #eff6ff;
+    color: var(--primary);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.user-badge-icon svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.user-nim {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+/* Kolom Titik COD Aman */
+.cod-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cod-loc-line {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cod-pin-icon {
+    width: 14px;
+    height: 14px;
+    stroke: var(--primary);
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.cod-location {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text);
+}
+
+.cod-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    padding-left: 18px;
+}
+
+.cod-cctv {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #0284c7;
+    font-weight: 600;
+    padding-left: 18px;
+    margin-top: 2px;
+}
+
+.cod-cctv svg {
+    width: 12px;
+    height: 12px;
+    stroke: #0284c7;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Kolom Status Penjualan */
+.badge-terjual {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: #eff6ff;
+    color: var(--primary);
+    border: 1px solid #bfdbfe;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-terjual svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--primary);
+    stroke-width: 2.5;
+    fill: none;
+}
+
+/* Kolom Status Audit */
+.audit-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge-audit-selesai {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 11px;
+    font-weight: 700;
+    width: fit-content;
+}
+
+.audit-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0284c7;
+}
+
+.audit-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* Kolom Aksi */
+.actions-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-action-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-action-icon:hover {
+    background: var(--blue-bg);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-action-icon svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+}
+
+/* Styling Checkbox di Tabel */
+.trx-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}

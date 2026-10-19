@@ -36,6 +36,13 @@
                             <h3 class="font-semibold text-gray-800 truncate">{{ $product->title }}</h3>
                             <p class="text-sm text-gray-500">{{ $product->category->name }} • Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                             <p class="text-xs text-gray-400 mt-1">{{ $product->created_at->diffForHumans() }}</p>
+
+                            @if($product->status === 'rejected')
+                                <div class="mt-2.5 p-2.5 bg-red-50 border border-red-100 rounded-lg text-xs text-red-700 flex items-start gap-2 max-w-xl">
+                                    <span class="font-bold flex-shrink-0">⚠️ Alasan Ditolak:</span>
+                                    <span>{{ $product->rejection_reason ?: 'Barang tidak memenuhi standar kurasi atau melanggar ketentuan kampus.' }}</span>
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Status Badge --}}

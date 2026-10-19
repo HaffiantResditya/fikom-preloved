@@ -1,0 +1,61 @@
+﻿/* =============================================
+   BARANG_DITOLAK.CSS
+   Halaman: Moderasi Barang - Filter Ditolak
+   ============================================= */
+
+/* Alasan penolakan di bawah nama barang */
+.reject-reason {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    background: var(--red-bg);
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-top: 4px;
+}
+
+/* Harga dilarang */
+.price-tag-banned {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    margin-top: 3px;
+}
+
+/* Waktu ditolak */
+.rejected-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    margin-top: 2px;
+}
+
+/* Warning icon di nama penjual (pelanggaran) */
+.warn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    font-size: 8px;
+    font-weight: 900;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+/* Row ditolak: warna latar sedikit merah */
+.row-rejected td {
+    background: #fffafa;
+}
+
+.row-rejected:hover td {
+    background: #fff0f0 !important;
+}

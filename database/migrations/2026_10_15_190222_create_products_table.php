@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('location', 150);
             $table->string('cod_area', 150);
             $table->enum('status', ['pending', 'approved', 'rejected', 'sold'])->default('pending');
+            $table->text('rejection_reason')->nullable();
             $table->timestamps();
         });
     }
