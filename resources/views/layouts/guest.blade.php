@@ -13,9 +13,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- Favicon -->
-        <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo_fikompreloved.svg') }}">
-        <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('images/logo_fikompreloved.svg') }}">
-        <link rel="apple-touch-icon" href="{{ asset('images/logo_fikompreloved.svg') }}">
+        <link rel="icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('admin-assets/assets/Logo.png') }}">
 
         <!-- Tailwind CSS CDN Fallback + Vite Compiled Assets -->
         <script src="https://cdn.tailwindcss.com"></script>

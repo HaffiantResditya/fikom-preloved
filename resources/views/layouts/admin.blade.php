@@ -13,6 +13,8 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('admin-assets/assets/Logo.png') }}">
 
     <!-- Shared Base Styles -->
     <link rel="stylesheet" href="{{ asset('admin-assets/style/style.css') }}">
