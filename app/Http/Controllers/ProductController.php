@@ -26,7 +26,7 @@ class ProductController extends Controller
             'title'       => 'required|string|max:150',
             'category_id' => 'required|exists:categories,id',
             'price'       => 'required|integer|min:0',
-            'condition'   => 'required|in:Baru,Bekas Seperti Baru,Bekas Layak Pakai',
+            'condition'   => 'required|in:Seperti Baru,Baik,Layak Pakai,Baru,Bekas Seperti Baru,Bekas Layak Pakai',
             'description' => 'required|string',
             'location'    => 'required|string|max:150',
             'cod_area'    => 'required|string|max:150',
@@ -34,12 +34,21 @@ class ProductController extends Controller
             'images.*'    => 'image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
+        $rawCond = strtolower(trim($request->condition));
+        if (str_contains($rawCond, 'seperti') || $rawCond === 'baru') {
+            $condition = 'Seperti Baru';
+        } elseif (str_contains($rawCond, 'layak')) {
+            $condition = 'Layak Pakai';
+        } else {
+            $condition = 'Baik';
+        }
+
         $product = Product::create([
             'seller_id'   => Auth::id(),
             'category_id' => $request->category_id,
             'title'       => $request->title,
             'price'       => $request->price,
-            'condition'   => $request->condition,
+            'condition'   => $condition,
             'description' => $request->description,
             'location'    => $request->location,
             'cod_area'    => $request->cod_area,

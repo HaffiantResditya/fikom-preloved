@@ -84,7 +84,7 @@
                 <span class="w-1 h-4 bg-slate-400 rounded-full inline-block"></span>
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Grid Produk Terbaru</span>
             </div>
-            <a href="{{ route('catalog') }}" class="text-xs font-semibold text-slate-600 hover:text-black transition flex items-center gap-1">
+            <a href="{{ route('catalog', ['category' => 'semua']) }}" class="text-xs font-semibold text-slate-600 hover:text-black transition flex items-center gap-1">
                 Lihat Semua →
             </a>
         </div>

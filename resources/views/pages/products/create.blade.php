@@ -36,9 +36,9 @@
                     <select name="condition" id="condition" required
                             class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 @error('condition') border-red-400 @enderror">
                         <option value="">Pilih Kondisi</option>
-                        <option value="Baru" {{ old('condition') === 'Baru' ? 'selected' : '' }}>Baru</option>
-                        <option value="Bekas Seperti Baru" {{ old('condition') === 'Bekas Seperti Baru' ? 'selected' : '' }}>Bekas Seperti Baru</option>
-                        <option value="Bekas Layak Pakai" {{ old('condition') === 'Bekas Layak Pakai' ? 'selected' : '' }}>Bekas Layak Pakai</option>
+                        <option value="Seperti Baru" {{ old('condition') === 'Seperti Baru' ? 'selected' : '' }}>Seperti Baru</option>
+                        <option value="Baik" {{ old('condition') === 'Baik' ? 'selected' : '' }}>Baik</option>
+                        <option value="Layak Pakai" {{ old('condition') === 'Layak Pakai' ? 'selected' : '' }}>Layak Pakai</option>
                     </select>
                     @error('condition') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>

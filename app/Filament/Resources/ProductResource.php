@@ -54,9 +54,9 @@ class ProductResource extends Resource
             Forms\Components\Select::make('condition')
                 ->label('Kondisi')
                 ->options([
-                    'Baru' => 'Baru',
-                    'Bekas Seperti Baru' => 'Bekas Seperti Baru',
-                    'Bekas Layak Pakai' => 'Bekas Layak Pakai',
+                    'Seperti Baru' => 'Seperti Baru',
+                    'Baik' => 'Baik',
+                    'Layak Pakai' => 'Layak Pakai',
                 ])
                 ->disabled()
                 ->dehydrated(false),
@@ -81,7 +81,16 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')
                     ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
-                Tables\Columns\TextColumn::make('condition')->label('Kondisi')->badge(),
+                Tables\Columns\TextColumn::make('condition')
+                    ->label('Kondisi')
+                    ->badge()
+                    ->formatStateUsing(fn ($record) => $record->condition_label)
+                    ->color(fn(string $state) => match ($state) {
+                        'Seperti Baru', 'Bekas Seperti Baru', 'Baru' => 'success',
+                        'Baik' => 'warning',
+                        'Layak Pakai', 'Bekas Layak Pakai' => 'gray',
+                        default => 'gray',
+                    }),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
                     ->badge()

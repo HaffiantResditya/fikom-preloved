@@ -129,9 +129,19 @@
                     </h1>
 
                     {{-- Badge Kondisi --}}
+                    @php
+                        $cLabel = $product->condition_label;
+                        if ($cLabel === 'Seperti Baru') {
+                            $badgeClass = 'bg-emerald-50 text-emerald-700 border border-emerald-200/80';
+                        } elseif ($cLabel === 'Layak Pakai') {
+                            $badgeClass = 'bg-slate-100 text-slate-700 border border-slate-200/80';
+                        } else {
+                            $badgeClass = 'bg-amber-50 text-amber-700 border border-amber-200/80';
+                        }
+                    @endphp
                     <div class="mt-2.5">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#fef3c7] text-[#d97706]">
-                            {{ $product->condition_label }}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold {{ $badgeClass }}">
+                            {{ $cLabel }}
                         </span>
                     </div>
 
