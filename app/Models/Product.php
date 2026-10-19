@@ -72,12 +72,14 @@ class Product extends Model
 
     public function getConditionLabelAttribute(): string
     {
-        return match ($this->condition) {
-            'Baru' => 'Baru',
-            'Bekas Seperti Baru' => 'Baik',
-            'Bekas Layak Pakai' => 'Layak Pakai',
-            default => $this->condition ?? 'Baik',
-        };
+        $cond = strtolower(trim($this->condition ?? ''));
+        if (str_contains($cond, 'seperti') || $cond === 'baru') {
+            return 'Seperti Baru';
+        }
+        if (str_contains($cond, 'layak')) {
+            return 'Layak Pakai';
+        }
+        return 'Baik';
     }
 }
 
