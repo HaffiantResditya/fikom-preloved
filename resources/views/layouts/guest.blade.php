@@ -156,7 +156,7 @@
     </head>
     <body class="antialiased p-4">
         <!-- Slot Konten Utama -->
-        <div class="w-full flex justify-center items-center">
+        <div class="w-full min-h-screen flex flex-col justify-center items-center py-6">
             {{ $slot }}
         </div>
 

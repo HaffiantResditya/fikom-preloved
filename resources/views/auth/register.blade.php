@@ -1,16 +1,7 @@
 <x-guest-layout>
-    <!-- Navigasi Cepat Kembali -->
-    <div class="w-full max-w-lg mx-auto mb-2 text-left">
-        <a href="{{ route('home') }}" class="inline-flex items-center text-xs text-gray-500 hover:text-gray-800 transition font-medium">
-            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            Kembali ke Beranda
-        </a>
-    </div>
-
-    <!-- Card Auth Container -->
-    <div class="fikom-card max-w-lg my-2">
+    <div class="w-full max-w-lg mx-auto">
+        <!-- Card Auth Container -->
+        <div class="fikom-card w-full my-0">
         <div class="p-7 sm:p-8">
             <!-- LOGO -->
             <div class="flex justify-center mb-1">
@@ -213,6 +204,17 @@
             &copy; 2026 FIKOM PRELOVED &mdash; Universitas Duta Bangsa Surakarta
         </div>
     </div>
+
+    <!-- Navigasi Kembali ke Beranda (Tengah Halaman di Bagian Bawah) -->
+    <div class="text-center mt-4">
+        <a href="{{ route('home') }}" class="inline-flex items-center text-xs text-gray-500 hover:text-[#1e4b8a] transition font-medium">
+            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Kembali ke Beranda
+        </a>
+    </div>
+</div>
 
     <!-- MODAL SYARAT & KETENTUAN -->
     <div id="terms-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
