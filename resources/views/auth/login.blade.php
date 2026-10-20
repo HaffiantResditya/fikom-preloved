@@ -44,7 +44,7 @@
                                    required 
                                    autofocus 
                                    autocomplete="username" 
-                                   placeholder="farispratama@mhs.udb.ac.id"
+                                   placeholder="namamahasiswa@mhs.udb.ac.id"
                                    oninput="checkLoginEmailHint(this.value)"
                                    class="fikom-input" />
                         </div>

@@ -43,7 +43,7 @@
                                    value="{{ old('email') }}" 
                                    required 
                                    autofocus 
-                                   placeholder="farispratama@mhs.udb.ac.id"
+                                   placeholder="namamahasiswa@mhs.udb.ac.id"
                                    oninput="checkForgotEmailHint(this.value)"
                                    class="fikom-input" />
                         </div>

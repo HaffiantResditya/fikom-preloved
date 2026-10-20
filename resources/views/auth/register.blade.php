@@ -82,7 +82,7 @@
                                value="{{ old('email') }}" 
                                required 
                                autocomplete="username" 
-                               placeholder="farispratama@mhs.udb.ac.id"
+                               placeholder="namamahasiswa@mhs.udb.ac.id"
                                oninput="checkRegisterEmail(this.value)"
                                class="fikom-input" />
                     </div>

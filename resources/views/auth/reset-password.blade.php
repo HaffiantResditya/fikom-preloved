@@ -43,7 +43,7 @@
                                    required 
                                    autofocus 
                                    autocomplete="username" 
-                                   placeholder="farispratama@mhs.udb.ac.id"
+                                   placeholder="namamahasiswa@mhs.udb.ac.id"
                                    class="fikom-input" />
                         </div>
                         <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
