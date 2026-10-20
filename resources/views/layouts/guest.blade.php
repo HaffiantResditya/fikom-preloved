@@ -105,6 +105,26 @@
                 background-color: #173b6c;
             }
 
+            .fikom-btn-primary:disabled {
+                opacity: 0.75;
+                cursor: not-allowed;
+            }
+
+            .fikom-spinner {
+                width: 16px;
+                height: 16px;
+                border: 2px solid rgba(255, 255, 255, 0.35);
+                border-radius: 50%;
+                border-top-color: #ffffff;
+                animation: fikom-spin 0.6s linear infinite;
+                display: inline-block;
+                margin-right: 8px;
+            }
+
+            @keyframes fikom-spin {
+                to { transform: rotate(360deg); }
+            }
+
             .fikom-divider {
                 position: relative;
                 margin: 20px 0;
@@ -127,6 +147,11 @@
                 font-size: 12px;
                 color: #9ca3af;
             }
+
+            /* Strength Bar Transition */
+            .strength-meter-bar {
+                transition: width 0.3s ease, background-color 0.3s ease;
+            }
         </style>
     </head>
     <body class="antialiased p-4">
@@ -134,5 +159,61 @@
         <div class="w-full flex justify-center items-center">
             {{ $slot }}
         </div>
+
+        <!-- Global Scripts untuk Form Auth -->
+        <script>
+            // Toggle intip password
+            function togglePasswordVisibility(inputId, iconId) {
+                const passwordInput = document.getElementById(inputId);
+                const eyeIcon = document.getElementById(iconId);
+                if (!passwordInput || !eyeIcon) return;
+
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+                }
+            }
+
+            // Anti double-submit & loading spinner otomatis untuk tombol form
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('form').forEach(function (form) {
+                    form.addEventListener('submit', function (e) {
+                        if (form.checkValidity && !form.checkValidity()) {
+                            return; // Biarkan HTML5 validation berjalan jika ada yang belum terisi
+                        }
+                        const btn = form.querySelector('button[type="submit"]');
+                        if (btn && !btn.disabled) {
+                            setTimeout(function () {
+                                btn.disabled = true;
+                                const originalText = btn.innerText.trim();
+                                btn.innerHTML = `<span class="fikom-spinner"></span> Memproses...`;
+                            }, 20);
+                        }
+                    });
+                });
+            });
+
+            // Modal Helper untuk Syarat & Ketentuan / Kebijakan
+            function openFikomModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeFikomModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        </script>
     </body>
 </html>

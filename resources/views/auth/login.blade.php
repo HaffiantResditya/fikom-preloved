@@ -1,6 +1,16 @@
 <x-guest-layout>
+    <!-- Navigasi Cepat Kembali -->
+    <div class="w-full max-w-[430px] mx-auto mb-2 text-left">
+        <a href="{{ route('home') }}" class="inline-flex items-center text-xs text-gray-500 hover:text-gray-800 transition font-medium">
+            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Kembali ke Beranda
+        </a>
+    </div>
+
     <!-- Card Auth Container -->
-    <div class="fikom-card max-w-[430px] my-6">
+    <div class="fikom-card max-w-[430px] my-2">
         <div class="p-7 sm:p-8">
             <!-- LOGO -->
             <div class="flex justify-center mb-1">
@@ -46,7 +56,15 @@
                                autofocus 
                                autocomplete="username" 
                                placeholder="farispratama@mhs.udb.ac.id"
+                               oninput="checkLoginEmailHint(this.value)"
                                class="fikom-input" />
+                    </div>
+                    <!-- Real-time gentle hint -->
+                    <div id="email-hint" class="hidden mt-1 text-[11px] text-amber-600 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Mahasiswa diwajibkan menggunakan email resmi kampus (@mhs.udb.ac.id)</span>
                     </div>
                     <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
                 </div>
@@ -99,7 +117,7 @@
                 <!-- Tombol Submit -->
                 <div class="pt-1">
                     <button type="submit" class="fikom-btn-primary">
-                        Masuk via SSO
+                        Masuk ke Akun Kampus
                     </button>
                 </div>
             </form>
@@ -127,17 +145,15 @@
         </div>
     </div>
 
-    <!-- Script toggle intip kata sandi -->
+    <!-- Script lokal untuk hint email -->
     <script>
-        function togglePasswordVisibility(inputId, iconId) {
-            const passwordInput = document.getElementById(inputId);
-            const eyeIcon = document.getElementById(iconId);
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
+        function checkLoginEmailHint(val) {
+            const hint = document.getElementById('email-hint');
+            if (!hint) return;
+            if (val.includes('@') && !val.toLowerCase().endsWith('@mhs.udb.ac.id')) {
+                hint.classList.remove('hidden');
             } else {
-                passwordInput.type = 'password';
-                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+                hint.classList.add('hidden');
             }
         }
     </script>

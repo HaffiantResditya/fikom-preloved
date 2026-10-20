@@ -1,22 +1,33 @@
 <x-guest-layout>
+    <!-- Navigasi Cepat Kembali -->
+    <div class="w-full max-w-[430px] mx-auto mb-2 text-left">
+        <a href="{{ route('login') }}" class="inline-flex items-center text-xs text-gray-500 hover:text-gray-800 transition font-medium">
+            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Kembali ke Login
+        </a>
+    </div>
+
     <!-- Card Auth Container -->
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden my-4 mx-auto">
-        <div class="p-8">
+    <div class="fikom-card max-w-[430px] my-2">
+        <div class="p-7 sm:p-8">
             <!-- LOGO -->
-            <div class="flex justify-center mb-2">
+            <div class="flex justify-center mb-1">
                 <a href="{{ route('home') }}">
                     <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
                          alt="Logo FIKOM PRELOVED" 
-                         class="h-28 object-contain">
+                         class="fikom-logo"
+                         style="height: 88px; max-height: 92px; width: auto; object-fit: contain;">
                 </a>
             </div>
 
             <!-- HEADER -->
-            <div class="text-center mb-6">
+            <div class="text-center mb-5">
                 <h1 class="text-base sm:text-lg font-bold tracking-tight text-gray-900 uppercase">
                     ATUR ULANG KATA SANDI
                 </h1>
-                <p class="text-xs text-gray-500 mt-1 max-w-xs mx-auto leading-relaxed">
+                <p class="text-[11px] sm:text-xs text-gray-500 mt-0.5 max-w-xs mx-auto leading-relaxed">
                     Masukkan kata sandi baru untuk akun mahasiswa Anda
                 </p>
             </div>
@@ -30,7 +41,7 @@
                 <!-- Alamat Email -->
                 <div>
                     <label for="email" class="block text-xs font-semibold text-gray-700 mb-1">Email Kampus</label>
-                    <div class="relative">
+                    <div class="relative flex items-center">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -44,7 +55,7 @@
                                autofocus 
                                autocomplete="username" 
                                placeholder="farispratama@mhs.udb.ac.id"
-                               class="w-full pl-10 pr-3 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
+                               class="fikom-input" />
                     </div>
                     <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
                 </div>
@@ -53,9 +64,9 @@
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label for="password" class="text-xs font-semibold text-gray-700">Kata Sandi Baru</label>
-                        <span class="text-[11px] text-gray-400">Minimal 8 karakter</span>
+                        <span id="reset-strength-text" class="text-[11px] text-gray-400">Min. 8 karakter</span>
                     </div>
-                    <div class="relative">
+                    <div class="relative flex items-center">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -67,7 +78,8 @@
                                required 
                                autocomplete="new-password" 
                                placeholder="Masukkan kata sandi baru"
-                               class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
+                               oninput="checkResetStrength(this.value); checkResetMatch();"
+                               class="fikom-input fikom-input-password" />
                         <button type="button" 
                                 onclick="togglePasswordVisibility('password', 'eye-icon-reset-pass')" 
                                 class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -77,6 +89,11 @@
                             </svg>
                         </button>
                     </div>
+
+                    <!-- Subtle Password Strength Bar -->
+                    <div class="w-full bg-gray-100 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                        <div id="reset-strength-bar" class="strength-meter-bar h-full w-0 bg-gray-300 rounded-full"></div>
+                    </div>
                     <x-input-error :messages="$errors->get('password')" class="mt-1 text-xs" />
                 </div>
 
@@ -84,9 +101,9 @@
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label for="password_confirmation" class="text-xs font-semibold text-gray-700">Konfirmasi Kata Sandi Baru</label>
-                        <span class="text-[11px] text-gray-400">Minimal 8 karakter</span>
+                        <span id="reset-match-indicator" class="text-[11px] text-gray-400">Harus sama</span>
                     </div>
-                    <div class="relative">
+                    <div class="relative flex items-center">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -98,7 +115,8 @@
                                required 
                                autocomplete="new-password" 
                                placeholder="Ulangi kata sandi baru"
-                               class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
+                               oninput="checkResetMatch()"
+                               class="fikom-input fikom-input-password" />
                         <button type="button" 
                                 onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-reset-confirm')" 
                                 class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -112,9 +130,9 @@
                 </div>
 
                 <!-- Tombol Submit -->
-                <div class="pt-2">
-                    <button type="submit" class="w-full bg-[#1e40af] hover:bg-blue-900 text-white font-semibold py-2.5 rounded-full transition duration-200 text-sm shadow">
-                        {{ __('Simpan Kata Sandi Baru') }}
+                <div class="pt-1">
+                    <button type="submit" class="fikom-btn-primary">
+                        Simpan Kata Sandi Baru
                     </button>
                 </div>
             </form>
@@ -126,17 +144,59 @@
         </div>
     </div>
 
-    <!-- Script toggle intip kata sandi -->
+    <!-- Script lokal validasi reset password -->
     <script>
-        function togglePasswordVisibility(inputId, iconId) {
-            const passwordInput = document.getElementById(inputId);
-            const eyeIcon = document.getElementById(iconId);
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
+        function checkResetStrength(pass) {
+            const bar = document.getElementById('reset-strength-bar');
+            const text = document.getElementById('reset-strength-text');
+            if (!bar || !text) return;
+
+            let strength = 0;
+            if (pass.length >= 8) strength++;
+            if (/[0-9]/.test(pass) && /[a-zA-Z]/.test(pass)) strength++;
+            if (/[^a-zA-Z0-9]/.test(pass) || pass.length >= 12) strength++;
+
+            if (pass.length === 0) {
+                bar.style.width = '0%';
+                bar.className = 'strength-meter-bar h-full bg-gray-300';
+                text.innerText = 'Min. 8 karakter';
+                text.className = 'text-[11px] text-gray-400';
+            } else if (strength <= 1) {
+                bar.style.width = '33%';
+                bar.className = 'strength-meter-bar h-full bg-red-500';
+                text.innerText = 'Lemah';
+                text.className = 'text-[11px] text-red-500 font-medium';
+            } else if (strength === 2) {
+                bar.style.width = '66%';
+                bar.className = 'strength-meter-bar h-full bg-amber-500';
+                text.innerText = 'Sedang';
+                text.className = 'text-[11px] text-amber-600 font-medium';
             } else {
-                passwordInput.type = 'password';
-                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+                bar.style.width = '100%';
+                bar.className = 'strength-meter-bar h-full bg-emerald-500';
+                text.innerText = 'Kuat ✓';
+                text.className = 'text-[11px] text-emerald-600 font-semibold';
+            }
+        }
+
+        function checkResetMatch() {
+            const pass = document.getElementById('password').value;
+            const confirm = document.getElementById('password_confirmation').value;
+            const indicator = document.getElementById('reset-match-indicator');
+            if (!indicator) return;
+
+            if (!confirm) {
+                indicator.innerText = 'Harus sama';
+                indicator.className = 'text-[11px] text-gray-400';
+                return;
+            }
+
+            if (pass === confirm) {
+                indicator.innerText = 'Cocok ✓';
+                indicator.className = 'text-[11px] text-emerald-600 font-semibold';
+            } else {
+                indicator.innerText = 'Belum cocok';
+                indicator.className = 'text-[11px] text-red-500 font-medium';
             }
         }
     </script>
