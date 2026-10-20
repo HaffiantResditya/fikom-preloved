@@ -59,11 +59,8 @@
                 object-fit: contain;
                 display: block;
                 margin: 0 auto;
-                transition: transform 0.3s ease;
-            }
-
-            .fikom-logo:hover {
-                transform: scale(1.02);
+                user-select: none;
+                pointer-events: none;
             }
 
             .fikom-input {

@@ -5,12 +5,10 @@
             <div class="p-7 sm:p-8">
                 <!-- LOGO -->
                 <div class="flex justify-center mb-1">
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
-                             alt="Logo FIKOM PRELOVED" 
-                             class="fikom-logo"
-                             style="height: 88px; max-height: 92px; width: auto; object-fit: contain;">
-                    </a>
+                    <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
+                         alt="Logo FIKOM PRELOVED" 
+                         class="fikom-logo"
+                         style="height: 88px; max-height: 92px; width: auto; object-fit: contain;">
                 </div>
 
                 <!-- HEADER -->

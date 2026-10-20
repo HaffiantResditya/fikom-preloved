@@ -4,11 +4,9 @@
         <div class="p-8">
             <!-- LOGO -->
             <div class="flex justify-center mb-2">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
-                         alt="Logo FIKOM PRELOVED" 
-                         class="h-28 object-contain">
-                </a>
+                <img src="{{ asset('images/logo_fikompreloved.svg') }}" 
+                     alt="Logo FIKOM PRELOVED" 
+                     class="h-28 object-contain">
             </div>
 
             <!-- HEADER -->
