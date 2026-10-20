@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="w-full max-w-[430px] mx-auto">
         <!-- Card Auth Container -->
-        <div class="fikom-card w-full my-0">
+        <div class="fikom-card w-full my-0 {{ $errors->any() ? 'shake-error' : '' }}">
             <div class="p-7 sm:p-8">
                 <!-- LOGO -->
                 <div class="flex justify-center mb-1">
@@ -16,7 +16,7 @@
                 <!-- HEADER -->
                 <div class="text-center mb-5">
                     <h1 class="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center justify-center gap-1.5 uppercase">
-                        LUPA KATA SANDI ? <span>🔑</span>
+                        LUPA KATA SANDI ? <span class="fikom-wiggle">🔑</span>
                     </h1>
                     <p class="text-[11px] sm:text-xs text-gray-500 mt-1 max-w-xs mx-auto leading-relaxed">
                         Masukkan email kampus Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi akun Anda.
@@ -24,7 +24,7 @@
                 </div>
 
                 <!-- Session Status -->
-                <x-auth-session-status class="mb-4" :status="session('status')" />
+                <x-auth-session-status class="mb-4 pop-badge" :status="session('status')" />
 
                 <!-- FORM FORGOT PASSWORD -->
                 <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
@@ -49,7 +49,7 @@
                                    oninput="checkForgotEmailHint(this.value)"
                                    class="fikom-input" />
                         </div>
-                        <div id="forgot-email-hint" class="hidden mt-1 text-[11px] text-amber-600 flex items-center gap-1">
+                        <div id="forgot-email-hint" class="hidden mt-1 text-[11px] text-amber-600 flex items-center gap-1 pop-badge">
                             <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                             </svg>

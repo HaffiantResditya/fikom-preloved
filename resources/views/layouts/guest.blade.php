@@ -48,6 +48,7 @@
                 margin: 24px auto;
                 width: 100%;
                 box-sizing: border-box;
+                animation: fikomFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             }
 
             .fikom-logo {
@@ -58,6 +59,11 @@
                 object-fit: contain;
                 display: block;
                 margin: 0 auto;
+                transition: transform 0.3s ease;
+            }
+
+            .fikom-logo:hover {
+                transform: scale(1.02);
             }
 
             .fikom-input {
@@ -80,6 +86,15 @@
                 box-shadow: 0 0 0 3px rgba(30, 75, 138, 0.15);
             }
 
+            .relative:focus-within svg {
+                color: #1e4b8a;
+                transform: scale(1.08);
+            }
+
+            .relative svg {
+                transition: transform 0.2s ease, color 0.2s ease;
+            }
+
             .fikom-input-password {
                 padding-right: 42px;
             }
@@ -98,16 +113,25 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: background-color 0.2s ease-in-out;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                transform: translateY(0);
             }
 
             .fikom-btn-primary:hover {
                 background-color: #173b6c;
+                transform: translateY(-1.5px);
+                box-shadow: 0 6px 14px -2px rgba(30, 75, 138, 0.35);
+            }
+
+            .fikom-btn-primary:active {
+                transform: scale(0.98) translateY(0);
+                box-shadow: 0 2px 4px -1px rgba(30, 75, 138, 0.2);
             }
 
             .fikom-btn-primary:disabled {
                 opacity: 0.75;
                 cursor: not-allowed;
+                transform: none;
             }
 
             .fikom-spinner {
@@ -150,7 +174,53 @@
 
             /* Strength Bar Transition */
             .strength-meter-bar {
-                transition: width 0.3s ease, background-color 0.3s ease;
+                transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+            }
+
+            /* Micro-Animations Keyframes */
+            @keyframes fikomFadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(14px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes fikomShake {
+                0%, 100% { transform: translateX(0); }
+                15%, 45%, 75% { transform: translateX(-5px); }
+                30%, 60%, 90% { transform: translateX(5px); }
+            }
+
+            .shake-error {
+                animation: fikomShake 0.45s ease-in-out;
+            }
+
+            @keyframes fikomPop {
+                0% { transform: scale(0.8); opacity: 0; }
+                70% { transform: scale(1.05); }
+                100% { transform: scale(1); opacity: 1; }
+            }
+
+            .pop-badge {
+                animation: fikomPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+
+            @keyframes fikomWiggle {
+                0%, 100% { transform: rotate(0deg); }
+                20% { transform: rotate(-10deg); }
+                40% { transform: rotate(10deg); }
+                60% { transform: rotate(-6deg); }
+                80% { transform: rotate(6deg); }
+            }
+
+            .fikom-wiggle {
+                display: inline-block;
+                animation: fikomWiggle 1.8s ease-in-out infinite;
+                transform-origin: center;
             }
         </style>
     </head>
@@ -202,6 +272,10 @@
                 if (modal) {
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
+                    const modalBox = modal.querySelector('div');
+                    if (modalBox) {
+                        modalBox.classList.add('pop-badge');
+                    }
                     document.body.style.overflow = 'hidden';
                 }
             }

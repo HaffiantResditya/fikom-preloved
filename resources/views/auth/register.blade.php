@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="w-full max-w-lg mx-auto">
         <!-- Card Auth Container -->
-        <div class="fikom-card w-full my-0">
+        <div class="fikom-card w-full my-0 {{ $errors->any() ? 'shake-error' : '' }}">
         <div class="p-7 sm:p-8">
             <!-- LOGO -->
             <div class="flex justify-center mb-1">
@@ -268,10 +268,10 @@
 
             msg.classList.remove('hidden');
             if (val.toLowerCase().endsWith('@mhs.udb.ac.id')) {
-                msg.className = 'mt-1 text-[11px] text-emerald-600 flex items-center gap-1';
+                msg.className = 'mt-1 text-[11px] text-emerald-600 flex items-center gap-1 pop-badge';
                 msg.innerHTML = `<span>✓ Email kampus resmi terverifikasi</span>`;
             } else {
-                msg.className = 'mt-1 text-[11px] text-amber-600 flex items-center gap-1';
+                msg.className = 'mt-1 text-[11px] text-amber-600 flex items-center gap-1 pop-badge';
                 msg.innerHTML = `<span>⚠ Harus menggunakan akhiran @mhs.udb.ac.id</span>`;
             }
         }
@@ -295,17 +295,17 @@
                 bar.style.width = '33%';
                 bar.className = 'strength-meter-bar h-full bg-red-500';
                 text.innerText = 'Lemah';
-                text.className = 'text-[11px] text-red-500 font-medium';
+                text.className = 'text-[11px] text-red-500 font-medium pop-badge';
             } else if (strength === 2) {
                 bar.style.width = '66%';
                 bar.className = 'strength-meter-bar h-full bg-amber-500';
                 text.innerText = 'Sedang';
-                text.className = 'text-[11px] text-amber-600 font-medium';
+                text.className = 'text-[11px] text-amber-600 font-medium pop-badge';
             } else {
                 bar.style.width = '100%';
                 bar.className = 'strength-meter-bar h-full bg-emerald-500';
                 text.innerText = 'Kuat ✓';
-                text.className = 'text-[11px] text-emerald-600 font-semibold';
+                text.className = 'text-[11px] text-emerald-600 font-semibold pop-badge';
             }
         }
 
@@ -323,10 +323,10 @@
 
             if (pass === confirm) {
                 indicator.innerText = 'Cocok ✓';
-                indicator.className = 'text-[11px] text-emerald-600 font-semibold';
+                indicator.className = 'text-[11px] text-emerald-600 font-semibold pop-badge';
             } else {
                 indicator.innerText = 'Belum cocok';
-                indicator.className = 'text-[11px] text-red-500 font-medium';
+                indicator.className = 'text-[11px] text-red-500 font-medium pop-badge';
             }
         }
     </script>
