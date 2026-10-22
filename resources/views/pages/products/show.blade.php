@@ -39,7 +39,6 @@
                 </nav>
             @endif
 
-<<<<<<< HEAD
             {{-- Tombol Kembali --}}
             <div class="mb-6">
                 @if($product->status !== 'approved' && Auth::check() && Auth::id() === $product->seller_id)
@@ -131,8 +130,6 @@
                 </div>
             @endif
 
-=======
->>>>>>> 9f06ffaca7ece7e616741af3e9b06a081a60808b
             @php
                 $allImages = $product->images;
                 $galleryItems = [];
@@ -169,7 +166,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start" x-data="{
                      activeImg: '{{ $galleryItems[0]['url'] }}',
                      activeIndex: 0,
-                     showWaModal: false
+                     showWaModal: false,
+                     isWishlisted: false
                  }">
 
                 {{-- Kolom Kiri: Galeri Foto Produk --}}
@@ -177,7 +175,6 @@
                     {{-- Main Product Image Container --}}
                     <div
                         class="relative bg-[#e8f3fc] rounded-3xl aspect-[1.12/1] sm:aspect-square flex items-center justify-center p-8 border border-slate-200/50 shadow-xs overflow-hidden">
-
 
                         <template x-if="activeImg">
                             <img :src="activeImg" alt="{{ $product->title }}"
@@ -297,88 +294,125 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-<<<<<<< HEAD
-                            <span>{{ $product->cod_area }}</span>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-1">Penjual bersedia melakukan COD di area yang telah disepakati.</p>
-=======
                             <span>{{ $product->cod_area ?: $product->location }}</span>
                         </div>
                         <p class="text-xs sm:text-sm text-slate-500 mt-1.5">Penjual bersedia melakukan COD di area yang telah disepakati.</p>
                     </div>
 
-                    {{-- Tombol Aksi Chat WhatsApp --}}
-                    <div class="mt-6">
-                        <button type="button" @click="showWaModal = true"
-                            class="w-full inline-flex items-center justify-center gap-2.5 bg-[#16a34a] hover:bg-[#15803d] text-white font-semibold py-3.5 px-6 rounded-full shadow-xs hover:shadow transition-all duration-200 text-sm sm:text-base cursor-pointer">
-                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 0012 20.25z" />
-                            </svg>
-                            <span>Chat Penjual via WhatsApp</span>
-                        </button>
->>>>>>> 9f06ffaca7ece7e616741af3e9b06a081a60808b
-                    </div>
+                    {{-- Tombol Aksi Sesuai Status & Kepemilikan --}}
+                    @if(Auth::check() && Auth::id() === $product->seller_id)
+                        {{-- Ini adalah barang milik user yang sedang login (Penjual) --}}
+                        @if($product->status === 'approved')
+                            <div class="mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-9 h-9 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold text-slate-800">Ini adalah iklan barang Anda</p>
+                                        <p class="text-[11px] text-slate-500">Iklan Anda sedang tayang di katalog publik.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <form method="POST" action="{{ route('products.mark-sold', $product) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                            onclick="return confirm('Tandai barang ini sebagai sudah terjual?')"
+                                            class="inline-flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-full text-xs transition shadow-xs cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            Tandai Terjual
+                                        </button>
+                                    </form>
+                                    <a href="{{ route('profile.show') }}"
+                                       class="inline-flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-2.5 px-4 rounded-full text-xs transition shadow-xs">
+                                        Kelola di Profil
+                                    </a>
+                                </div>
+                            </div>
+                        @elseif($product->status === 'rejected')
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-6">
+                                <a href="{{ route('products.create', [
+                                    'title' => $product->title,
+                                    'category_id' => $product->category_id,
+                                    'condition' => $product->condition,
+                                    'price' => $product->price,
+                                    'description' => $product->description,
+                                    'location' => $product->location,
+                                    'cod_area' => $product->cod_area,
+                                ]) }}"
+                                   class="flex-1 inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-full shadow-sm hover:shadow transition text-xs sm:text-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Perbaiki / Pasang Ulang
+                                </a>
 
-                    {{-- Tombol Aksi Sesuai Status --}}
-                    @if($product->status === 'approved')
-                        <div class="flex items-center gap-3 mt-6">
-                            <button type="button" @click="showWaModal = true" id="whatsapp-contact-btn"
-                                class="flex-1 inline-flex items-center justify-center gap-2.5 bg-[#16a34a] hover:bg-[#15803d] text-white font-bold py-3.5 px-6 rounded-full shadow-sm hover:shadow transition text-xs sm:text-sm cursor-pointer">
-                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                                </svg>
-                                Chat Penjual via WhatsApp
-                            </button>
+                                <a href="{{ route('products.create') }}"
+                                   class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold py-3.5 px-6 rounded-full shadow-xs transition text-xs sm:text-sm">
+                                    <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    Pasang Iklan Baru
+                                </a>
+                            </div>
+                        @elseif($product->status === 'pending')
+                            <div class="mt-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                    <p class="text-xs sm:text-sm font-semibold text-amber-900">Iklan Anda sedang dalam tahap kurasi dan menunggu persetujuan admin.</p>
+                                </div>
+                                <a href="{{ route('profile.show') }}" class="inline-flex items-center justify-center bg-white border border-amber-200 hover:bg-amber-50/50 text-amber-900 font-bold py-2 px-4 rounded-full text-xs transition">
+                                    Lihat di Profil →
+                                </a>
+                            </div>
+                        @elseif($product->status === 'sold')
+                            <div class="mt-6 p-4 rounded-2xl bg-slate-100 border border-slate-200 text-center">
+                                <p class="text-xs sm:text-sm font-bold text-slate-700">Barang ini telah ditandai sebagai Terjual</p>
+                            </div>
+                        @endif
+                    @else
+                        {{-- Ini adalah pembeli / pengunjung umum --}}
+                        @if($product->status === 'approved')
+                            <div class="flex items-center gap-3 mt-6">
+                                <button type="button" @click="showWaModal = true" id="whatsapp-contact-btn"
+                                    class="flex-1 inline-flex items-center justify-center gap-2.5 bg-[#16a34a] hover:bg-[#15803d] text-white font-bold py-3.5 px-6 rounded-full shadow-sm hover:shadow transition text-xs sm:text-sm cursor-pointer">
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                                    </svg>
+                                    Chat Penjual via WhatsApp
+                                </button>
 
-                            <button type="button" @click="isWishlisted = !isWishlisted"
-                                class="w-14 sm:w-16 h-12 rounded-full border border-slate-300 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow-xs flex-shrink-0"
-                                title="Simpan ke Wishlist">
-                                <svg class="w-5 h-5 transition-colors"
-                                    :class="isWishlisted ? 'fill-red-500 text-red-500 stroke-red-500' : 'fill-none stroke-current'"
-                                    viewBox="0 0 24 24" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                </svg>
-                            </button>
-                        </div>
-                    @elseif($product->status === 'rejected')
-                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-6">
-                            {{-- 1 Tombol Perbaiki / Pasang Ulang --}}
-                            <a href="{{ route('products.create', [
-                                'title' => $product->title,
-                                'category_id' => $product->category_id,
-                                'condition' => $product->condition,
-                                'price' => $product->price,
-                                'description' => $product->description,
-                                'location' => $product->location,
-                                'cod_area' => $product->cod_area,
-                            ]) }}"
-                               class="flex-1 inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-full shadow-sm hover:shadow transition text-xs sm:text-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Perbaiki / Pasang Ulang
-                            </a>
-
-                            {{-- 1 Tombol Pasang Iklan --}}
-                            <a href="{{ route('products.create') }}"
-                               class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold py-3.5 px-6 rounded-full shadow-xs transition text-xs sm:text-sm">
-                                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg>
-                                Pasang Iklan
-                            </a>
-                        </div>
+                                <button type="button" @click="isWishlisted = !isWishlisted"
+                                    class="w-14 sm:w-16 h-12 rounded-full border border-slate-300 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow-xs flex-shrink-0 cursor-pointer"
+                                    title="Simpan ke Wishlist">
+                                    <svg class="w-5 h-5 transition-colors"
+                                        :class="isWishlisted ? 'fill-red-500 text-red-500 stroke-red-500' : 'fill-none stroke-current'"
+                                        viewBox="0 0 24 24" stroke-width="1.8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        @elseif($product->status === 'sold')
+                            <div class="mt-6 p-4 rounded-2xl bg-slate-100 border border-slate-200 text-center">
+                                <p class="text-xs sm:text-sm font-bold text-slate-700">Barang ini telah Terjual</p>
+                            </div>
+                        @endif
                     @endif
 
-                    {{-- Pop-up Modal Konfirmasi WhatsApp (Persis Seperti Mockup) --}}
-                    @if($product->status === 'approved')
+                    {{-- Pop-up Modal Konfirmasi WhatsApp (Hanya untuk pembeli ketika barang approved) --}}
+                    @if($product->status === 'approved' && (!Auth::check() || Auth::id() !== $product->seller_id))
                         <div x-show="showWaModal"
                              x-cloak
                              class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6"
                              role="dialog"
-                             aria-modal="true">
+                             aria-modal="true"
+                             @keydown.escape.window="showWaModal = false">
 
                             {{-- Backdrop --}}
                             <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity"
@@ -390,7 +424,7 @@
 
                                 {{-- Tombol Silang (Close) --}}
                                 <button type="button" @click="showWaModal = false"
-                                        class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition">
+                                        class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition p-1 rounded-lg hover:bg-slate-100 cursor-pointer">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
@@ -435,14 +469,14 @@
                                 {{-- Tombol Batal & Lanjut ke WhatsApp --}}
                                 <div class="flex items-center gap-3 mt-5">
                                     <button type="button" @click="showWaModal = false"
-                                            class="px-6 py-2.5 rounded-full border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm hover:bg-slate-50 transition">
+                                            class="px-6 py-2.5 rounded-full border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm hover:bg-slate-50 transition cursor-pointer">
                                         Batal
                                     </button>
                                     <a href="{{ $product->getWhatsappLink() }}"
                                        target="_blank"
                                        rel="noopener noreferrer"
                                        @click="showWaModal = false"
-                                       class="flex-1 inline-flex items-center justify-center gap-2 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold py-2.5 px-5 rounded-full shadow-sm hover:shadow transition text-xs sm:text-sm">
+                                       class="flex-1 inline-flex items-center justify-center gap-2 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold py-2.5 px-5 rounded-full shadow-sm hover:shadow transition text-xs sm:text-sm cursor-pointer">
                                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                                             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                                         </svg>
@@ -458,7 +492,6 @@
                     <div class="mt-6">
                         <h2 class="text-sm sm:text-base font-bold text-slate-900 mb-3">Informasi Tambahan</h2>
                         <div class="space-y-2 text-xs sm:text-sm text-slate-600">
-<<<<<<< HEAD
                             @if($product->status === 'rejected')
                                 <div class="flex items-center gap-2">
                                     <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -511,119 +544,10 @@
                                     <span>Transaksi dilakukan langsung antara pembeli dan penjual</span>
                                 </div>
                             @endif
-=======
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Produk tersedia</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Harga dapat didiskusikan langsung dengan penjual</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Transaksi dilakukan langsung antara pembeli dan penjual</span>
->>>>>>> 9f06ffaca7ece7e616741af3e9b06a081a60808b
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Modal Konfirmasi WhatsApp --}}
-            <div x-show="showWaModal" x-cloak
-                class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                @keydown.escape.window="showWaModal = false">
-
-                {{-- Modal Card --}}
-                <div @click.away="showWaModal = false"
-                    x-show="showWaModal"
-                    x-transition:enter="transition ease-out duration-200"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100 scale-100"
-                    x-transition:leave-end="opacity-0 scale-95"
-                    class="relative bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-left">
-
-                    {{-- Tombol Tutup (X) --}}
-                    <button type="button" @click="showWaModal = false"
-                        class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition p-1 rounded-lg hover:bg-slate-100 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-
-                    {{-- Header Modal --}}
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                            {{-- WhatsApp Icon --}}
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.815 2.796.815 3.183 0 5.769-2.587 5.77-5.766.001-3.181-2.585-5.768-5.77-5.768zm0-2c4.291 0 7.769 3.477 7.77 7.768 0 4.29-3.478 7.767-7.77 7.767-1.391 0-2.693-.367-3.821-1.01l-4.57 1.198 1.22-4.455c-.754-1.189-1.18-2.584-1.179-4.068 0-4.29 3.478-7.768 7.77-7.768z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-base sm:text-lg font-bold text-slate-900">Lanjutkan ke WhatsApp?</h3>
-                    </div>
-
-                    {{-- Deskripsi --}}
-                    <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-4">
-                        Kamu akan diarahkan ke WhatsApp untuk menghubungi penjual dan mendiskusikan detail barang serta lokasi COD.
-                    </p>
-
-                    {{-- Snippet Produk --}}
-                    <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-center gap-3 mb-5">
-                        <div class="w-14 h-14 rounded-lg bg-white border border-slate-200/60 flex items-center justify-center overflow-hidden flex-shrink-0 p-1">
-                            @php
-                                $thumbUrl = $product->primaryImage?->url ?? ($product->images?->first()?->url ?? null);
-                            @endphp
-                            @if($thumbUrl)
-                                <img src="{{ $thumbUrl }}" alt="{{ $product->title }}" class="max-h-full max-w-full object-contain">
-                            @else
-                                <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            @endif
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <h4 class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ $product->title }}</h4>
-                            <div class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                            <div class="text-[11px] text-slate-500 mt-0.5">{{ $product->seller->name }}</div>
-                        </div>
-                    </div>
-
-                    {{-- Tombol Aksi --}}
-                    <div class="flex items-center gap-3">
-                        <button type="button" @click="showWaModal = false"
-                            class="flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm transition text-center shadow-xs cursor-pointer">
-                            Batal
-                        </button>
-                        <a href="{{ $product->getWhatsappLink() }}" target="_blank" rel="noopener noreferrer"
-                            @click="showWaModal = false"
-                            class="flex-[2] inline-flex items-center justify-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm transition text-center shadow-xs cursor-pointer">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.815 2.796.815 3.183 0 5.769-2.587 5.77-5.766.001-3.181-2.585-5.768-5.77-5.768zm0-2c4.291 0 7.769 3.477 7.77 7.768 0 4.29-3.478 7.767-7.77 7.767-1.391 0-2.693-.367-3.821-1.01l-4.57 1.198 1.22-4.455c-.754-1.189-1.18-2.584-1.179-4.068 0-4.29 3.478-7.768 7.77-7.768z" />
-                            </svg>
-                            <span>Lanjut ke WhatsApp</span>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
