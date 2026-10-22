@@ -126,7 +126,7 @@
                             @php
                                 $hasMin = request()->filled('min_price');
                                 $hasMax = request()->filled('max_price');
-                                $catalogCeiling = $maxCatalogPrice ?? 20000000;
+                                $catalogCeiling = $maxCatalogPrice ?? 1000000;
                                 $rawMin = $hasMin ? (int) preg_replace('/[^0-9]/', '', request('min_price')) : 0;
                                 $rawMax = $hasMax ? (int) preg_replace('/[^0-9]/', '', request('max_price')) : $catalogCeiling;
                             @endphp
@@ -151,10 +151,10 @@
                                 <div class="relative h-1.5 w-full bg-slate-200 rounded-full">
                                     <div id="slider-range-bar" class="absolute h-full bg-slate-900 rounded-full" style="left: 0%; right: 0%;"></div>
                                 </div>
-                                <input type="range" id="min_range" min="0" max="{{ $catalogCeiling }}" step="100000"
+                                <input type="range" id="min_range" min="0" max="{{ $catalogCeiling }}" step="25000"
                                        value="{{ $rawMin }}"
                                        class="range-slider-thumb absolute w-full top-2.5 left-0 appearance-none bg-transparent pointer-events-none cursor-pointer">
-                                <input type="range" id="max_range" min="0" max="{{ $catalogCeiling }}" step="100000"
+                                <input type="range" id="max_range" min="0" max="{{ $catalogCeiling }}" step="25000"
                                        value="{{ $rawMax }}"
                                        class="range-slider-thumb absolute w-full top-2.5 left-0 appearance-none bg-transparent pointer-events-none cursor-pointer">
                             </div>
