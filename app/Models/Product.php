@@ -58,12 +58,13 @@ class Product extends Model
      */
     public function getWhatsappLink(): string
     {
-        $number = preg_replace('/[^0-9]/', '', $this->seller->whatsapp_number ?? '');
+        $rawNumber = $this->seller->whatsapp_number ?? '';
+        $number = preg_replace('/[^0-9]/', '', $rawNumber);
         if (str_starts_with($number, '0')) {
             $number = '62' . substr($number, 1);
         }
         $message = urlencode("Halo, saya tertarik dengan barang Anda: *{$this->title}* (Rp " . number_format($this->price, 0, ',', '.') . "). Apakah masih tersedia?");
-        return "https://wa.me/{$number}?text={$message}";
+        return $number ? "https://wa.me/{$number}?text={$message}" : "https://wa.me/?text={$message}";
     }
 
     public function isApproved(): bool

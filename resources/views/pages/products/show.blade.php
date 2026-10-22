@@ -27,18 +27,6 @@
                 <span class="text-slate-900 font-bold">Detail Produk</span>
             </nav>
 
-            {{-- Tombol Kembali --}}
-            <div class="mb-6">
-                <a href="{{ route('catalog', ['category' => $product->category->slug]) }}"
-                    class="inline-flex items-center gap-2 bg-white border border-slate-200/90 text-slate-800 text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-xs hover:bg-slate-50 hover:border-slate-300 transition">
-                    <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Kembali ke {{ $product->category->name }}
-                </a>
-            </div>
-
             @php
                 $allImages = $product->images;
                 $galleryItems = [];
@@ -75,7 +63,6 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start" x-data="{
                      activeImg: '{{ $galleryItems[0]['url'] }}',
                      activeIndex: 0,
-                     isWishlisted: false,
                      showWaModal: false
                  }">
 
@@ -84,17 +71,7 @@
                     {{-- Main Product Image Container --}}
                     <div
                         class="relative bg-[#e8f3fc] rounded-3xl aspect-[1.12/1] sm:aspect-square flex items-center justify-center p-8 border border-slate-200/50 shadow-xs overflow-hidden">
-                        {{-- Wishlist Floating Button --}}
-                        <button type="button" @click="isWishlisted = !isWishlisted"
-                            class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 shadow-sm border border-slate-200/80 flex items-center justify-center text-slate-700 hover:text-red-500 hover:scale-105 transition z-10"
-                            title="Tambah ke Wishlist">
-                            <svg class="w-5 h-5 transition-colors"
-                                :class="isWishlisted ? 'fill-red-500 text-red-500 stroke-red-500' : 'fill-none stroke-current'"
-                                viewBox="0 0 24 24" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                            </svg>
-                        </button>
+
 
                         <template x-if="activeImg">
                             <img :src="activeImg" alt="{{ $product->title }}"
@@ -163,9 +140,7 @@
                             <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                             <span>{{ $product->location }}</span>
                         </div>
@@ -199,12 +174,21 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span>{{ $product->cod_area }}</span>
+                            <span>{{ $product->cod_area ?: $product->location }}</span>
                         </div>
-                        <div>
-                            <p class="text-xs text-gray-400">Dijual oleh</p>
-                            <p class="font-semibold text-gray-800">{{ $product->seller->name }}</p>
-                        </div>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1.5">Penjual bersedia melakukan COD di area yang telah disepakati.</p>
+                    </div>
+
+                    {{-- Tombol Aksi Chat WhatsApp --}}
+                    <div class="mt-6">
+                        <button type="button" @click="showWaModal = true"
+                            class="w-full inline-flex items-center justify-center gap-2.5 bg-[#16a34a] hover:bg-[#15803d] text-white font-semibold py-3.5 px-6 rounded-full shadow-xs hover:shadow transition-all duration-200 text-sm sm:text-base cursor-pointer">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 0012 20.25z" />
+                            </svg>
+                            <span>Chat Penjual via WhatsApp</span>
+                        </button>
                     </div>
 
 
@@ -215,31 +199,114 @@
                             <div class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Produk tersedia</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Harga dapat didiskusikan langsung dengan penjual</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Transaksi dilakukan langsung antara pembeli dan penjual</span>
-                            </div>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Produk tersedia</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Harga dapat didiskusikan langsung dengan penjual</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Transaksi dilakukan langsung antara pembeli dan penjual</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            {{-- Modal Konfirmasi WhatsApp --}}
+            <div x-show="showWaModal" x-cloak
+                class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                @keydown.escape.window="showWaModal = false">
+
+                {{-- Modal Card --}}
+                <div @click.away="showWaModal = false"
+                    x-show="showWaModal"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="relative bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-left">
+
+                    {{-- Tombol Tutup (X) --}}
+                    <button type="button" @click="showWaModal = false"
+                        class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition p-1 rounded-lg hover:bg-slate-100 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    {{-- Header Modal --}}
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            {{-- WhatsApp Icon --}}
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.815 2.796.815 3.183 0 5.769-2.587 5.77-5.766.001-3.181-2.585-5.768-5.77-5.768zm0-2c4.291 0 7.769 3.477 7.77 7.768 0 4.29-3.478 7.767-7.77 7.767-1.391 0-2.693-.367-3.821-1.01l-4.57 1.198 1.22-4.455c-.754-1.189-1.18-2.584-1.179-4.068 0-4.29 3.478-7.768 7.77-7.768z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-900">Lanjutkan ke WhatsApp?</h3>
+                    </div>
+
+                    {{-- Deskripsi --}}
+                    <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-4">
+                        Kamu akan diarahkan ke WhatsApp untuk menghubungi penjual dan mendiskusikan detail barang serta lokasi COD.
+                    </p>
+
+                    {{-- Snippet Produk --}}
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-center gap-3 mb-5">
+                        <div class="w-14 h-14 rounded-lg bg-white border border-slate-200/60 flex items-center justify-center overflow-hidden flex-shrink-0 p-1">
+                            @php
+                                $thumbUrl = $product->primaryImage?->url ?? ($product->images?->first()?->url ?? null);
+                            @endphp
+                            @if($thumbUrl)
+                                <img src="{{ $thumbUrl }}" alt="{{ $product->title }}" class="max-h-full max-w-full object-contain">
+                            @else
+                                <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            @endif
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h4 class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ $product->title }}</h4>
+                            <div class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">{{ $product->seller->name }}</div>
+                        </div>
+                    </div>
+
+                    {{-- Tombol Aksi --}}
+                    <div class="flex items-center gap-3">
+                        <button type="button" @click="showWaModal = false"
+                            class="flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm transition text-center shadow-xs cursor-pointer">
+                            Batal
+                        </button>
+                        <a href="{{ $product->getWhatsappLink() }}" target="_blank" rel="noopener noreferrer"
+                            @click="showWaModal = false"
+                            class="flex-[2] inline-flex items-center justify-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm transition text-center shadow-xs cursor-pointer">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.815 2.796.815 3.183 0 5.769-2.587 5.77-5.766.001-3.181-2.585-5.768-5.77-5.768zm0-2c4.291 0 7.769 3.477 7.77 7.768 0 4.29-3.478 7.767-7.77 7.767-1.391 0-2.693-.367-3.821-1.01l-4.57 1.198 1.22-4.455c-.754-1.189-1.18-2.584-1.179-4.068 0-4.29 3.478-7.768 7.77-7.768z" />
+                            </svg>
+                            <span>Lanjut ke WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
