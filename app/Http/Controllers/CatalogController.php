@@ -92,7 +92,7 @@ class CatalogController extends Controller
         $products = $query->paginate(6)->withQueryString();
 
         $highestProductPrice = (int) Product::where('status', 'approved')->max('price');
-        $maxCatalogPrice = max(20000000, (int) (ceil($highestProductPrice / 1000000) * 1000000));
+        $maxCatalogPrice = 1000000;
 
         return view('pages.catalog', compact(
             'products',
