@@ -61,41 +61,35 @@
                             </svg>
                         </button>
                         <div x-show="open" @click.outside="open = false" x-transition
-                             class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 z-50 text-xs sm:text-sm">
-                            <div class="px-4 py-2 border-b border-slate-100 flex items-center gap-2.5">
-                                @if(auth()->user()->profile_photo_url)
-                                    <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full object-cover border border-slate-200 flex-shrink-0">
-                                @else
-                                    <div class="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                    </div>
-                                @endif
-                                <div class="min-w-0 flex-1">
-                                    <p class="font-semibold text-slate-900 truncate">{{ auth()->user()->name }}</p>
-                                    <p class="text-slate-400 text-xs truncate">{{ auth()->user()->email }}</p>
-                                </div>
-                            </div>
+                             class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-50 text-sm">
                             @if(auth()->user()->isAdmin())
-                                <a href="/admin" class="block px-4 py-2 font-semibold text-amber-700 hover:bg-amber-50">
-                                    🛡️ Dashboard Admin
+                                <a href="/admin" class="flex items-center gap-3 px-4 py-2.5 font-semibold text-amber-700 hover:bg-amber-50 rounded-xl mx-1.5 transition">
+                                    <span class="text-base">🛡️</span>
+                                    <span>Dashboard Admin</span>
                                 </a>
                             @endif
                             @if(auth()->user()->isApproved())
-                                <a href="{{ route('products.my-listings') }}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">
-                                    Iklan Saya
+                                <a href="{{ route('products.my-listings') }}" class="flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 rounded-xl mx-1.5 transition font-medium">
+                                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    </svg>
+                                    <span>Iklan Saya</span>
                                 </a>
                             @endif
-                            <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">
-                                Profil Saya
+                            <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 rounded-xl mx-1.5 transition font-medium">
+                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span>Profil Saya</span>
                             </a>
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">
-                                Edit Profil
-                            </a>
-                            <div class="border-t border-slate-100 my-1"></div>
+                            <div class="border-t border-slate-100 my-1.5 mx-2"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
-                                    Keluar
+                                <button type="submit" class="flex items-center gap-3 w-full text-left px-4 py-2.5 text-red-600 hover:bg-red-50 rounded-xl mx-1.5 transition font-medium">
+                                    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    <span>Keluar</span>
                                 </button>
                             </form>
                         </div>

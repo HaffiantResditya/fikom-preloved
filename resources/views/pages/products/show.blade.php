@@ -129,13 +129,7 @@
                     </div>
                 </div>
             @endif
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             @php
                 $allImages = $product->images;
                 $galleryItems = [];
