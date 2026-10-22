@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('title', 150);
             $table->string('slug', 150)->unique();
             $table->unsignedInteger('price');
-            $table->enum('condition', ['Baru', 'Bekas Seperti Baru', 'Bekas Layak Pakai']);
+            $table->string('condition', 50)->default('Baik');
             $table->text('description');
             $table->string('location', 150);
             $table->string('cod_area', 150);
             $table->enum('status', ['pending', 'approved', 'rejected', 'sold'])->default('pending');
+            $table->text('rejection_reason')->nullable();
             $table->timestamps();
         });
     }

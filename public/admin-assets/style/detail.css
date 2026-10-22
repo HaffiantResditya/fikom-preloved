@@ -1,0 +1,465 @@
+/* =============================================
+   DETAIL.CSS
+   Popup / Modal: Detail Barang Terjual
+   ============================================= */
+
+/* Backdrop Overlay */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Modal Dialog Card */
+.detail-trx-dialog {
+    background: #ffffff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 680px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+    animation: modalSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Header Modal */
+.detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.detail-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.detail-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.badge-selesai-terverifikasi {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #eff6ff;
+    color: var(--primary);
+    border: 1px solid #bfdbfe;
+}
+
+.badge-selesai-terverifikasi svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--primary);
+    stroke-width: 2.5;
+    fill: none;
+}
+
+.detail-subtitle {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 3px;
+}
+
+.btn-close-modal {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.btn-close-modal:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+/* Modal Body */
+.detail-body {
+    padding: 20px 24px;
+}
+
+/* Card Rangkuman Produk (Atas) */
+.product-summary-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.product-cover-wrap {
+    position: relative;
+    width: 135px;
+    height: 125px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.product-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.badge-terjual-overlay {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.product-details-wrap {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-cat-path {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 3px;
+}
+
+.product-name-heading {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.25;
+    margin-bottom: 4px;
+}
+
+.product-desc-text {
+    font-size: 11px;
+    color: #64748b;
+    line-height: 1.45;
+    margin-bottom: 10px;
+}
+
+/* Grid Spesifikasi Transaksi (2x2) */
+.trx-specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.spec-label {
+    font-size: 10px;
+    color: #64748b;
+    margin-bottom: 1px;
+}
+
+.spec-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.spec-value.price-accent {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+/* Grid Bagian Bawah (2 Kolom) */
+.detail-bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.detail-subcard {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.subcard-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.subcard-header svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--primary);
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+/* Konten Penjual */
+.seller-content-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.seller-avatar-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.seller-meta-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.seller-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.seller-name-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.badge-mahasiswa-aktif {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--primary);
+    background: #eff6ff;
+    padding: 2px 7px;
+    border-radius: 10px;
+    border: 1px solid #dbeafe;
+}
+
+.seller-detail-line {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.seller-rating-line {
+    font-size: 11px;
+    color: #475569;
+    margin-top: 2px;
+}
+
+.seller-rating-line span {
+    color: #f59e0b;
+}
+
+/* Konten Titik Pertemuan */
+.cod-loc-line {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.cod-loc-line svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--primary);
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.cod-sub-desc {
+    font-size: 11px;
+    color: #64748b;
+    padding-left: 18px;
+    margin-top: 1px;
+}
+
+.cod-cctv-banner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 10px;
+    color: #475569;
+    margin: 8px 0;
+}
+
+.cod-cctv-banner svg {
+    width: 12px;
+    height: 12px;
+    stroke: #0284c7;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.cod-otp-text {
+    font-size: 10.5px;
+    color: #64748b;
+}
+
+.cod-otp-text strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Modal Footer */
+.detail-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    background: #fafbfd;
+}
+
+.btn-danger-trx {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+}
+
+.btn-danger-trx:hover {
+    background: #b91c1c;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+.btn-danger-trx svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.btn-close-gray {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 24px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+}
+
+.btn-close-gray:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+/* Responsif Mobile */
+@media (max-width: 640px) {
+    .product-summary-card {
+        flex-direction: column;
+    }
+    .product-cover-wrap {
+        width: 100%;
+        height: 150px;
+    }
+    .detail-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+    .detail-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .btn-danger-trx,
+    .btn-close-gray {
+        width: 100%;
+        justify-content: center;
+    }
+}

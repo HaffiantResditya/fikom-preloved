@@ -59,7 +59,7 @@ class RegisteredUserController extends Controller
             'whatsapp_number'  => $request->whatsapp_number,
             'major'            => $request->major,
             'role'             => 'student',
-            'account_status'   => 'pending', // Default: menunggu approval admin
+            'account_status'   => 'approved',
         ]);
 
         event(new Registered($user));
@@ -69,6 +69,6 @@ class RegisteredUserController extends Controller
         $request->session()->regenerate();
 
         // Redirect ke halaman beranda/home setelah berhasil mendaftar
-        return redirect()->route('home')->with('success', 'Pendaftaran berhasil! Akun Anda sedang menunggu persetujuan Admin.');
+        return redirect()->route('home')->with('success', 'Pendaftaran berhasil! Akun Anda telah aktif dan dapat langsung bertransaksi.');
     }
 }

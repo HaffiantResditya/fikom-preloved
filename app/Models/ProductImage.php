@@ -21,4 +21,13 @@ class ProductImage extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getUrlAttribute(): string
+    {
+        if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+            return $this->image_path;
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($this->image_path);
+    }
 }

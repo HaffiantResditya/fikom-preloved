@@ -29,7 +29,20 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if ($request->user()->isAdmin()) {
-            return redirect()->intended('/admin');
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withInput($request->only('email'))
+                ->withErrors(['email' => 'Akun Administrator memiliki portal login tersendiri. Silakan login melalui halaman /admin/login.']);
+        }
+
+        if ($request->user()->isSuspended()) {
+            return redirect()->route('suspended.notice');
+        }
+
+        if (!$request->user()->isApproved()) {
+            return redirect()->route('pending.notice');
         }
 
         return redirect()->intended(route('home', absolute: false));

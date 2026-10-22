@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -50,14 +48,6 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    /**
-     * Izinkan akses Filament hanya untuk admin.
-     */
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->role === 'admin';
-    }
-
     public function products()
     {
         return $this->hasMany(Product::class, 'seller_id');
@@ -66,6 +56,11 @@ class User extends Authenticatable implements FilamentUser
     public function isApproved(): bool
     {
         return $this->account_status === 'approved';
+    }
+
+    public function isSuspended(): bool
+    {
+        return in_array($this->account_status, ['suspended', 'rejected']);
     }
 
     public function isAdmin(): bool

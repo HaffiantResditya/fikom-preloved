@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Services\CloudinaryService;
 
 class ProductController extends Controller
 {
@@ -25,7 +26,7 @@ class ProductController extends Controller
             'title'       => 'required|string|max:150',
             'category_id' => 'required|exists:categories,id',
             'price'       => 'required|integer|min:0',
-            'condition'   => 'required|in:Baru,Bekas Seperti Baru,Bekas Layak Pakai',
+            'condition'   => 'required|in:Seperti Baru,Baik,Layak Pakai,Baru,Bekas Seperti Baru,Bekas Layak Pakai',
             'description' => 'required|string',
             'location'    => 'required|string|max:150',
             'cod_area'    => 'required|string|max:150',
@@ -33,12 +34,21 @@ class ProductController extends Controller
             'images.*'    => 'image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
+        $rawCond = strtolower(trim($request->condition));
+        if (str_contains($rawCond, 'seperti') || $rawCond === 'baru') {
+            $condition = 'Seperti Baru';
+        } elseif (str_contains($rawCond, 'layak')) {
+            $condition = 'Layak Pakai';
+        } else {
+            $condition = 'Baik';
+        }
+
         $product = Product::create([
             'seller_id'   => Auth::id(),
             'category_id' => $request->category_id,
             'title'       => $request->title,
             'price'       => $request->price,
-            'condition'   => $request->condition,
+            'condition'   => $condition,
             'description' => $request->description,
             'location'    => $request->location,
             'cod_area'    => $request->cod_area,
@@ -80,15 +90,34 @@ class ProductController extends Controller
                         $ext = 'png';
                     }
 
-                    $filename = 'products/' . uniqid() . '.' . $ext;
-                    Storage::disk('public')->put($filename, (string) $encoded);
-                    $storedFilename = $filename;
+                    // Upload ke Cloudinary jika dikonfigurasi
+                    if (CloudinaryService::isConfigured()) {
+                        $cloudUrl = CloudinaryService::upload((string) $encoded, 'product_' . uniqid() . '.' . $ext);
+                        if ($cloudUrl) {
+                            $storedFilename = $cloudUrl;
+                        }
+                    }
+
+                    if (!$storedFilename) {
+                        $filename = 'products/' . uniqid() . '.' . $ext;
+                        Storage::disk('public')->put($filename, (string) $encoded);
+                        $storedFilename = $filename;
+                    }
                 } catch (\Throwable) {
-                    $storedFilename = $imageFile->store('products', 'public');
+                    if (CloudinaryService::isConfigured()) {
+                        $storedFilename = CloudinaryService::upload($imageFile);
+                    }
+                    if (!$storedFilename) {
+                        $storedFilename = $imageFile->store('products', 'public');
+                    }
                 }
             } else {
-                // Simpan langsung format asli (JPG, WebP, dll) tanpa ketergantungan decoder GD
-                $storedFilename = $imageFile->store('products', 'public');
+                if (CloudinaryService::isConfigured()) {
+                    $storedFilename = CloudinaryService::upload($imageFile);
+                }
+                if (!$storedFilename) {
+                    $storedFilename = $imageFile->store('products', 'public');
+                }
             }
 
             ProductImage::create([
@@ -152,7 +181,9 @@ class ProductController extends Controller
         }
 
         foreach ($product->images as $img) {
-            Storage::disk('public')->delete($img->image_path);
+            if (!filter_var($img->image_path, FILTER_VALIDATE_URL)) {
+                Storage::disk('public')->delete($img->image_path);
+            }
         }
 
         $product->delete();

@@ -3,7 +3,7 @@
 [![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Alpine.js](https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpinedotjs&logoColor=white)](https://alpinejs.dev)
-[![Filament](https://img.shields.io/badge/Filament_PHP-Admin_Panel-FFA800?style=for-the-badge&logo=php&logoColor=white)](https://filamentphp.com)
+[![Blade](https://img.shields.io/badge/Admin_Panel-Custom_Blade-1E40AF?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![MySQL](https://img.shields.io/badge/MySQL-8.x-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com)
 
 **FIKOM Preloved** adalah aplikasi *marketplace* lokal berbasis *Customer-to-Customer* (C2C) yang dirancang eksklusif untuk mahasiswa Fakultas Ilmu Komputer. Platform ini menghubungkan mahasiswa tingkat akhir yang ingin menjual barang preloved (alat praktikum, perabot kos, modul/buku kuliah, perangkat elektronik) dengan mahasiswa baru yang membutuhkan barang berkualitas dengan harga terjangkau.
@@ -30,9 +30,11 @@ Transaksi dilakukan **100% secara tatap muka / Cash on Delivery (COD)** di lingk
 6. **📋 Halaman "Iklan Saya":**
    * Memantau status iklan pribadi (*Menunggu Review*, *Tayang*, *Ditolak*, *Terjual*).
    * Opsi menandai barang sebagai **"Terjual"** (*Sold Out*) atau menghapus iklan sewaktu-waktu.
-7. **⚙️ Panel Admin Filament:**
-   * Manajemen persetujuan pengguna (*Approve / Reject user*).
-   * Manajemen persetujuan iklan barang (*Approve / Reject product*).
+7. **⚙️ Panel Admin Kustom (Custom Blade & Multi-Auth Guard):**
+   * Portal login admin independen di `/admin/login` (guard `admin`).
+   * Manajemen & moderasi persetujuan pengguna (*Approve / Suspend user*).
+   * Manajemen persetujuan iklan barang (*Approve / Reject product*) beserta alasan penolakan.
+   * Laporan rekapitulasi barang terjual (*Sold Products & Omset Turnover*).
 
 ---
 
@@ -40,7 +42,7 @@ Transaksi dilakukan **100% secara tatap muka / Cash on Delivery (COD)** di lingk
 
 * **Backend:** PHP 8.2+, Laravel 12
 * **Database:** MySQL / MariaDB
-* **Admin Dashboard:** Filament PHP
+* **Admin Dashboard:** Custom Blade & Controller (Multi-Auth Guard `admin`)
 * **Frontend UI:** Laravel Blade, Tailwind CSS, Alpine.js
 * **Komponen & Paket Tambahan:**
   * `laravel/breeze` : Autentikasi dasar.
@@ -145,21 +147,22 @@ Hasil: **27 passed (65 assertions) — 100% Pass**
 ```text
 fikom-preloved/
 ├── app/
-│   ├── Filament/Resources/       # Resource Admin: UserResource & ProductResource
 │   ├── Http/
-│   │   ├── Controllers/          # HomeController, CatalogController, ProductController, dll.
-│   │   └── Middleware/           # CheckApprovedUser (blokir akses akun pending)
+│   │   ├── Controllers/          # HomeController, CatalogController, ProductController, Admin/*
+│   │   └── Middleware/           # CheckApprovedUser, EnsureUserIsAdmin
 │   └── Models/                   # User, Category, Product, ProductImage
 ├── database/
 │   ├── migrations/               # Schema database
 │   └── seeders/                  # CategorySeeder, DatabaseSeeder, SampleDataSeeder
 ├── resources/
 │   └── views/
+│       ├── admin/                # auth/login, dashboard, products, users, sold
+│       ├── layouts/              # app, guest, admin
 │       ├── components/           # Navbar, Footer, ProductCard, dll.
 │       ├── errors/               # 403.blade.php & 404.blade.php
-│       └── pages/                # home, catalog, pending, products/create, show, my-listings
+│       └── pages/                # home, catalog, pending, suspended, products/*
 └── routes/
-    ├── web.php                   # Rute publik & rute mahasiswa terproteksi
+    ├── web.php                   # Rute publik, mahasiswa, & admin kustom
     └── auth.php                  # Rute autentikasi Breeze
 ```
 

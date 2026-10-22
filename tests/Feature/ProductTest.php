@@ -95,7 +95,8 @@ class ProductTest extends TestCase
             'slug' => 'buku',
         ]);
 
-        $fakeImage = \Illuminate\Http\UploadedFile::fake()->image('test_product.png', 600, 600);
+        $pngContent = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+        $fakeImage = \Illuminate\Http\UploadedFile::fake()->createWithContent('test_product.png', $pngContent);
 
         $response = $this->actingAs($seller)->post('/jual', [
             'category_id' => $category->id,

@@ -1,0 +1,95 @@
+﻿/* =============================================
+   MODERASI_BARANG.CSS
+   Halaman: Moderasi Barang - Semua Barang
+   ============================================= */
+
+/* Kolom AKSI - tombol lihat detail */
+.btn-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--card-bg);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.btn-detail:hover {
+    background: var(--blue-bg);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-detail svg {
+    width: 13px; height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+/* Status inline pada kolom waktu */
+.status-pending-inline {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--orange);
+}
+
+.status-diterima-inline {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+}
+
+.status-ditolak-inline {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+}
+
+/* Harga sub-label */
+.price-tag-fair {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    margin-top: 3px;
+}
+
+.price-tag-discount {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-top: 3px;
+}
+
+.price-tag-illegal {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    margin-top: 3px;
+}
+
+/* Row ditolak */
+.row-rejected td       { background: #fffafa; }
+.row-rejected:hover td { background: #fff0f0 !important; }
+
+/* Warn icon */
+.warn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    font-size: 8px;
+    font-weight: 900;
+    margin-left: 3px;
+    vertical-align: middle;
+}

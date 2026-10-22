@@ -14,9 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo-fikom-preloved.svg') }}">
-    <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('images/logo-fikom-preloved.svg') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo-fikom-preloved.svg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('admin-assets/assets/Logo.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')

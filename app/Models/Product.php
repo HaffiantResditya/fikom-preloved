@@ -23,6 +23,7 @@ class Product extends Model
         'location',
         'cod_area',
         'status',
+        'rejection_reason',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -69,4 +70,17 @@ class Product extends Model
     {
         return $this->status === 'approved';
     }
+
+    public function getConditionLabelAttribute(): string
+    {
+        $cond = strtolower(trim($this->condition ?? ''));
+        if (str_contains($cond, 'seperti') || $cond === 'baru') {
+            return 'Seperti Baru';
+        }
+        if (str_contains($cond, 'layak')) {
+            return 'Layak Pakai';
+        }
+        return 'Baik';
+    }
 }
+

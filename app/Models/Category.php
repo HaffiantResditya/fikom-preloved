@@ -35,9 +35,11 @@ class Category extends Model
         $query = self::whereIn('slug', self::ORDERED_SLUGS);
 
         if ($withApprovedCount) {
-            $query->withCount(['products' => function ($q) {
-                $q->where('status', 'approved');
-            }]);
+            $query->withCount([
+                'products' => function ($q) {
+                    $q->where('status', 'approved');
+                }
+            ]);
         }
 
         return $query->get()->sortBy(function ($cat) {
@@ -53,15 +55,15 @@ class Category extends Model
     public function getDescriptionAttribute(): string
     {
         return match ($this->slug) {
-            'perabot-kos'     => 'Kasur, meja belajar, kipas, lemari, dan perlengkapan kamar kos.',
-            'elektronik'      => 'Mouse, keyboard, charger, headset, dan gadget pendukung kuliah.',
-            'buku-modul'      => 'Buku kuliah, modul, diktat, dan catatan dari kakak tingkat.',
-            'alat-praktikum'  => 'Laptop, jas lab, kalkulator, dan alat penunjang praktikum.',
-            'peralatan-dapur' => 'Rice cooker, panci, kompor mini, dan alat makan.',
-            'fashion'         => 'Jaket almamater, kemeja, sepatu, dan tas kuliah.',
-            'atk'             => 'Pulpen, binder, papan ujian, dan perlengkapan tulis lainnya.',
-            'olahraga-hobi'   => 'Raket, bola, gitar, dan perlengkapan hobi di waktu luang.',
-            default           => 'Temukan barang bekas berkualitas dari sesama mahasiswa FIKOM.',
+            'perabot-kos' => 'Kasur, meja belajar, kipas, lemari, dan perlengkapan kamar kos dari sesama mahasiswa FIKOM.',
+            'elektronik' => 'Mouse, keyboard, charger, headset, dan gadget pendukung kuliah dari sesama mahasiswa FIKOM.',
+            'buku-modul' => 'Buku kuliah, modul, diktat, dan catatan dari kakak tingkat dengan harga bersahabat.',
+            'alat-praktikum' => 'Laptop, kalkulator, komponen elektronik, dan alat penunjang praktikum kuliah.',
+            'peralatan-dapur' => 'Rice cooker, panci, kompor mini, dan alat makan untuk kebutuhan masak di kos.',
+            'fashion' => 'Jaket almamater, kemeja, sepatu, dan tas kuliah yang masih layak dan bergaya.',
+            'atk' => 'Pulpen, binder, papan ujian, dan perlengkapan tulis lainnya untuk kuliah.',
+            'olahraga-hobi' => 'Raket, bola, gitar, dan perlengkapan hobi untuk mengisi waktu luang di sela kuliah.',
+            default => 'Temukan barang bekas berkualitas dari sesama mahasiswa FIKOM.',
         };
     }
 
