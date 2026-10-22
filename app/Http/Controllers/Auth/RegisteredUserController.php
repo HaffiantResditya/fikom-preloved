@@ -48,6 +48,7 @@ class RegisteredUserController extends Controller
                 },
             ],
             'whatsapp_number'  => ['required', 'string', 'max:20', 'regex:/^[0-9+\-\s]+$/'],
+            'major'            => ['nullable', 'string', \Illuminate\Validation\Rule::in(User::MAJORS)],
             'password'         => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -56,6 +57,7 @@ class RegisteredUserController extends Controller
             'email'            => $request->email,
             'password'         => Hash::make($request->password),
             'whatsapp_number'  => $request->whatsapp_number,
+            'major'            => $request->major,
             'role'             => 'student',
             'account_status'   => 'pending', // Default: menunggu approval admin
         ]);

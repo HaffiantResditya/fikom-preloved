@@ -57,4 +57,23 @@ class RegistrationTest extends TestCase
         $this->assertGuest();
         $response->assertSessionHasErrors('email');
     }
+
+    public function test_new_students_can_register_with_major(): void
+    {
+        $response = $this->post('/register', [
+            'name'                  => 'Mahasiswa TI',
+            'email'                 => 'mhsti@mhs.udb.ac.id',
+            'whatsapp_number'       => '081234567890',
+            'major'                 => 'Teknik Informatika',
+            'password'              => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('home'));
+        $this->assertDatabaseHas('users', [
+            'email' => 'mhsti@mhs.udb.ac.id',
+            'major' => 'Teknik Informatika',
+        ]);
+    }
 }

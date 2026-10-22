@@ -12,14 +12,30 @@ class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
+    /**
+     * Daftar pilihan program studi / jurusan mahasiswa FIKOM.
+     */
+    public const MAJORS = [
+        'Teknik Informatika',
+        'Sistem Informasi',
+        'Teknik Komputer',
+        'Teknik Rekayasa Perangkat Lunak',
+    ];
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'whatsapp_number',
+        'major',
+        'npm',
+        'faculty',
+        'class_year',
         'role',
         'account_status',
         'profile_photo',
+        'location',
+        'bio',
     ];
 
     protected $hidden = [

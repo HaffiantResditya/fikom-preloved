@@ -47,6 +47,27 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="whatsapp_number" :value="__('Nomor WhatsApp')" />
+            <x-text-input id="whatsapp_number" name="whatsapp_number" type="text" class="mt-1 block w-full" :value="old('whatsapp_number', $user->whatsapp_number)" placeholder="08xxxxxxxxxx" />
+            <p class="text-xs text-gray-500 mt-1">Nomor WhatsApp aktif untuk dihubungi oleh calon pembeli.</p>
+            <x-input-error class="mt-2" :messages="$errors->get('whatsapp_number')" />
+        </div>
+
+        <div>
+            <x-input-label for="major" :value="__('Jurusan / Program Studi')" />
+            <select id="major" name="major" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                <option value="">-- Pilih Jurusan Mahasiswa --</option>
+                @foreach(\App\Models\User::MAJORS as $major)
+                    <option value="{{ $major }}" {{ old('major', $user->major) === $major ? 'selected' : '' }}>
+                        {{ $major }}
+                    </option>
+                @endforeach
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Jurusan mahasiswa di Fakultas Ilmu Komputer (FIKOM).</p>
+            <x-input-error class="mt-2" :messages="$errors->get('major')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

@@ -25,6 +25,20 @@
             <x-input-error :messages="$errors->get('whatsapp_number')" class="mt-2" />
         </div>
 
+        <!-- Jurusan -->
+        <div class="mt-4">
+            <x-input-label for="major" :value="__('Jurusan / Program Studi')" />
+            <select id="major" name="major" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                <option value="">-- Pilih Jurusan Mahasiswa --</option>
+                @foreach(\App\Models\User::MAJORS as $major)
+                    <option value="{{ $major }}" {{ old('major') === $major ? 'selected' : '' }}>
+                        {{ $major }}
+                    </option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('major')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

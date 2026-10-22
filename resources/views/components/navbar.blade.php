@@ -69,8 +69,11 @@
                                     Iklan Saya
                                 </a>
                             @endif
+                            <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">
+                                Profil Saya
+                            </a>
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">
-                                Pengaturan Profil
+                                Edit Profil
                             </a>
                             <div class="border-t border-slate-100 my-1"></div>
                             <form method="POST" action="{{ route('logout') }}">

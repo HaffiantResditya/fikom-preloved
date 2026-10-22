@@ -70,6 +70,11 @@
                         <div>
                             <p class="text-xs text-gray-400">Dijual oleh</p>
                             <p class="font-semibold text-gray-800">{{ $product->seller->name }}</p>
+                            @if($product->seller->major)
+                                <span class="inline-block mt-0.5 text-xs font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">
+                                    {{ $product->seller->major }}
+                                </span>
+                            @endif
                         </div>
                     </div>
 

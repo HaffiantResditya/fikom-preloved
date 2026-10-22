@@ -96,4 +96,38 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_user_can_update_their_major(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'name'  => $user->name,
+                'email' => $user->email,
+                'major' => 'Teknik Informatika',
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/profile');
+
+        $this->assertSame('Teknik Informatika', $user->fresh()->major);
+    }
+
+    public function test_user_cannot_update_invalid_major(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'name'  => $user->name,
+                'email' => $user->email,
+                'major' => 'Jurusan Tidak Valid',
+            ]);
+
+        $response->assertSessionHasErrors('major');
+    }
 }

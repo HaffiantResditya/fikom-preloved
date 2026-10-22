@@ -27,6 +27,7 @@ class SampleDataSeeder extends Seeder
                 'name'            => 'Budi Santoso',
                 'password'        => Hash::make('password123'),
                 'whatsapp_number' => '081298765432',
+                'major'           => 'Teknik Informatika',
                 'role'            => 'student',
                 'account_status'  => 'approved',
             ]
@@ -39,6 +40,7 @@ class SampleDataSeeder extends Seeder
                 'name'            => 'Siti Nurhaliza',
                 'password'        => Hash::make('password123'),
                 'whatsapp_number' => '081377889900',
+                'major'           => 'Sistem Informasi',
                 'role'            => 'student',
                 'account_status'  => 'pending',
             ]

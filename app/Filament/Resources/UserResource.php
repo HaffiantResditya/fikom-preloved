@@ -30,6 +30,11 @@ class UserResource extends Resource
             Forms\Components\TextInput::make('name')->required()->maxLength(100)->label('Nama'),
             Forms\Components\TextInput::make('email')->email()->required()->maxLength(100),
             Forms\Components\TextInput::make('whatsapp_number')->label('Nomor WhatsApp')->maxLength(20),
+            Forms\Components\Select::make('major')
+                ->label('Jurusan')
+                ->options(array_combine(User::MAJORS, User::MAJORS))
+                ->placeholder('Pilih Jurusan')
+                ->nullable(),
             Forms\Components\Select::make('role')
                 ->label('Role')
                 ->options(['admin' => 'Admin', 'student' => 'Mahasiswa'])
@@ -51,6 +56,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable()->label('Nama'),
                 Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\TextColumn::make('major')->label('Jurusan')->searchable()->placeholder('-'),
                 Tables\Columns\TextColumn::make('whatsapp_number')->label('WhatsApp'),
                 Tables\Columns\TextColumn::make('role')
                     ->badge()
@@ -70,6 +76,9 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y')->label('Terdaftar'),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('major')
+                    ->label('Jurusan')
+                    ->options(array_combine(User::MAJORS, User::MAJORS)),
                 Tables\Filters\SelectFilter::make('account_status')
                     ->label('Status Akun')
                     ->options([

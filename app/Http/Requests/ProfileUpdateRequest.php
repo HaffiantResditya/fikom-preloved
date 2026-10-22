@@ -26,6 +26,12 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'whatsapp_number' => ['nullable', 'string', 'max:20'],
+            'major' => ['nullable', 'string', Rule::in(User::MAJORS)],
+            'location' => ['nullable', 'string', 'max:150'],
+            'bio' => ['nullable', 'string', 'max:1000'],
+            'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'remove_photo' => ['nullable', 'boolean'],
         ];
     }
 }
