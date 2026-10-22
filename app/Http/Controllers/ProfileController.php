@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Services\CloudinaryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -95,13 +96,25 @@ class ProfileController extends Controller
 
         // Handle profile photo upload or removal
         if ($request->hasFile('profile_photo')) {
-            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            if ($user->profile_photo && !filter_var($user->profile_photo, FILTER_VALIDATE_URL) && Storage::disk('public')->exists($user->profile_photo)) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
-            $path = $request->file('profile_photo')->store('profiles', 'public');
-            $user->profile_photo = $path;
+
+            $uploadedUrl = null;
+            if (CloudinaryService::isConfigured()) {
+                $file = $request->file('profile_photo');
+                $filename = 'profile_' . $user->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $uploadedUrl = CloudinaryService::upload($file, $filename);
+            }
+
+            if ($uploadedUrl) {
+                $user->profile_photo = $uploadedUrl;
+            } else {
+                $path = $request->file('profile_photo')->store('profiles', 'public');
+                $user->profile_photo = $path;
+            }
         } elseif ($request->boolean('remove_photo')) {
-            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            if ($user->profile_photo && !filter_var($user->profile_photo, FILTER_VALIDATE_URL) && Storage::disk('public')->exists($user->profile_photo)) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
             $user->profile_photo = null;

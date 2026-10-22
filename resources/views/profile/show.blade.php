@@ -45,8 +45,8 @@
                     {{-- Profile Detail Row --}}
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center text-slate-400 overflow-hidden flex-shrink-0 shadow-inner">
-                            @if($user->profile_photo)
-                                <img src="{{ Storage::url($user->profile_photo) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                            @if($user->profile_photo_url)
+                                <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                             @else
                                 <svg class="w-10 h-10 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
@@ -362,7 +362,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                             @foreach($myProducts as $item)
                                 @php
-                                    $itemImage = $item->primaryImage?->image_path ?? $item->images?->first()?->image_path;
+                                    $itemImage = $item->primaryImage?->url ?? ($item->images?->first()?->url ?? null);
                                 @endphp
                                 <div x-show="activeTab === 'all' || activeTab === '{{ $item->status }}'"
                                      class="bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition group p-2.5">
@@ -372,7 +372,7 @@
                                         <a href="{{ route('products.show', $item->slug) }}" class="block">
                                             <div class="w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-slate-100 mb-2.5 relative">
                                                 @if($itemImage)
-                                                    <img src="{{ Storage::url($itemImage) }}"
+                                                    <img src="{{ $itemImage }}"
                                                          alt="{{ $item->title }}"
                                                          class="w-full h-full object-cover group-hover:scale-102 transition duration-300">
                                                 @else

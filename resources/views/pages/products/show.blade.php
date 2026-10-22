@@ -129,7 +129,10 @@
                     </div>
                 </div>
             @endif
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
             @php
                 $allImages = $product->images;
                 $galleryItems = [];
@@ -263,13 +266,18 @@
                             </svg>
                             <span>{{ $product->location }}</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <span>Penjual: {{ $product->seller->name }}</span>
+                        <div class="flex items-center gap-2.5">
+                            @if($product->seller?->profile_photo_url)
+                                <img src="{{ $product->seller->profile_photo_url }}" alt="{{ $product->seller->name }}" class="w-6 h-6 rounded-full object-cover border border-slate-200 flex-shrink-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center flex-shrink-0" style="display:none;">
+                                    {{ strtoupper(substr($product->seller->name ?? 'U', 0, 1)) }}
+                                </div>
+                            @else
+                                <div class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center flex-shrink-0">
+                                    {{ strtoupper(substr($product->seller->name ?? 'U', 0, 1)) }}
+                                </div>
+                            @endif
+                            <span>Penjual: <strong class="text-slate-900 font-semibold">{{ $product->seller->name }}</strong></span>
                         </div>
                     </div>
 

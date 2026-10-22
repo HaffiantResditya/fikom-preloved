@@ -75,8 +75,8 @@
                                 </template>
                                 <template x-if="!photoPreview">
                                     <span>
-                                        @if($user->profile_photo)
-                                            <img src="{{ Storage::url($user->profile_photo) }}"
+                                        @if($user->profile_photo_url)
+                                            <img src="{{ $user->profile_photo_url }}"
                                                  x-show="!removePhoto"
                                                  alt="{{ $user->name }}"
                                                  class="w-full h-full object-cover">

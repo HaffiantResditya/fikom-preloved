@@ -68,7 +68,16 @@
         {{-- Bottom Meta Row: Seller Avatar & Time Ago --}}
         <div class="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <div class="flex items-center gap-1.5 min-w-0">
-                <div class="w-4 h-4 rounded-full bg-slate-300 flex-shrink-0"></div>
+                @if($product->seller?->profile_photo_url)
+                    <img src="{{ $product->seller->profile_photo_url }}" alt="{{ $product->seller->name }}" class="w-4 h-4 rounded-full object-cover flex-shrink-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-4 h-4 rounded-full bg-blue-600 text-white font-bold text-[8px] flex items-center justify-center flex-shrink-0" style="display:none;">
+                        {{ strtoupper(substr($product->seller->name ?? 'U', 0, 1)) }}
+                    </div>
+                @else
+                    <div class="w-4 h-4 rounded-full bg-blue-600 text-white font-bold text-[8px] flex items-center justify-center flex-shrink-0">
+                        {{ strtoupper(substr($product->seller->name ?? 'U', 0, 1)) }}
+                    </div>
+                @endif
                 <span class="text-xs text-slate-500 font-medium truncate max-w-[90px] sm:max-w-[110px]">
                     {{ $product->seller->name ?? 'Mahasiswa' }}
                 </span>

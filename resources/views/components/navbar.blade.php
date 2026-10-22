@@ -48,6 +48,13 @@
                     {{-- User Dropdown --}}
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-800 hover:text-black transition">
+                            @if(auth()->user()->profile_photo_url)
+                                <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}" class="w-7 h-7 rounded-full object-cover border border-slate-200">
+                            @else
+                                <div class="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">
+                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                </div>
+                            @endif
                             <span class="max-w-[120px] truncate">{{ auth()->user()->name }}</span>
                             <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -55,9 +62,18 @@
                         </button>
                         <div x-show="open" @click.outside="open = false" x-transition
                              class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 z-50 text-xs sm:text-sm">
-                            <div class="px-4 py-2 border-b border-slate-100">
-                                <p class="font-semibold text-slate-900 truncate">{{ auth()->user()->name }}</p>
-                                <p class="text-slate-400 text-xs truncate">{{ auth()->user()->email }}</p>
+                            <div class="px-4 py-2 border-b border-slate-100 flex items-center gap-2.5">
+                                @if(auth()->user()->profile_photo_url)
+                                    <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full object-cover border border-slate-200 flex-shrink-0">
+                                @else
+                                    <div class="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                    </div>
+                                @endif
+                                <div class="min-w-0 flex-1">
+                                    <p class="font-semibold text-slate-900 truncate">{{ auth()->user()->name }}</p>
+                                    <p class="text-slate-400 text-xs truncate">{{ auth()->user()->email }}</p>
+                                </div>
                             </div>
                             @if(auth()->user()->isAdmin())
                                 <a href="/admin" class="block px-4 py-2 font-semibold text-amber-700 hover:bg-amber-50">
