@@ -24,11 +24,7 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        $transactions = $user->products()
-            ->whereIn('status', ['sold', 'pending'])
-            ->latest()
-            ->take(5)
-            ->get();
+        $transactions = $myProducts;
 
         $counts = [
             'all'      => $myProducts->count(),
@@ -58,11 +54,7 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        $transactions = $user->products()
-            ->whereIn('status', ['sold', 'pending'])
-            ->latest()
-            ->take(5)
-            ->get();
+        $transactions = $myProducts;
 
         $counts = [
             'all'      => $myProducts->count(),

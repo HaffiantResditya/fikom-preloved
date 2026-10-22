@@ -104,11 +104,13 @@
                     </div>
 
                     {{-- Table Body --}}
-                    <div class="divide-y divide-slate-100">
+                    <div class="divide-y divide-slate-100 max-h-80 overflow-y-auto scrollbar-thin">
                         @forelse($transactions as $trx)
-                            <div class="grid grid-cols-12 items-center py-3 text-xs">
-                                <div class="col-span-6 font-semibold text-slate-800 truncate pr-2" title="{{ $trx->title }}">
-                                    {{ $trx->title }}
+                            <div class="grid grid-cols-12 items-center py-3 text-xs hover:bg-slate-50/70 -mx-1 px-1 rounded-xl transition">
+                                <div class="col-span-6 font-semibold text-slate-800 truncate pr-2">
+                                    <a href="{{ route('products.show', $trx->slug) }}" class="hover:text-slate-900 transition truncate block" title="{{ $trx->title }}">
+                                        {{ $trx->title }}
+                                    </a>
                                 </div>
                                 <div class="col-span-3 text-right font-medium text-slate-600">
                                     Rp {{ number_format($trx->price, 0, ',', '.') }}
@@ -122,6 +124,14 @@
                                         <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                                             Selesai
                                         </span>
+                                    @elseif($trx->status === 'rejected')
+                                        <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
+                                            Ditolak
+                                        </span>
+                                    @elseif($trx->status === 'approved')
+                                        <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                                            Aktif
+                                        </span>
                                     @else
                                         <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
                                             {{ ucfirst($trx->status) }}
@@ -130,32 +140,8 @@
                                 </div>
                             </div>
                         @empty
-                            {{-- Fallback matching wireframe layout gracefully --}}
-                            <div class="grid grid-cols-12 items-center py-3 text-xs">
-                                <div class="col-span-6 font-semibold text-slate-800 truncate pr-2">
-                                    Kasur Lipat Busa
-                                </div>
-                                <div class="col-span-3 text-right font-medium text-slate-600">
-                                    Rp 150.000
-                                </div>
-                                <div class="col-span-3 text-right">
-                                    <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                                        Menunggu
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-12 items-center py-3 text-xs">
-                                <div class="col-span-6 font-semibold text-slate-800 truncate pr-2">
-                                    Meja Lipat Kayu
-                                </div>
-                                <div class="col-span-3 text-right font-medium text-slate-600">
-                                    Rp 75.000
-                                </div>
-                                <div class="col-span-3 text-right">
-                                    <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                        Selesai
-                                    </span>
-                                </div>
+                            <div class="py-6 text-center text-slate-400 text-xs">
+                                Belum ada riwayat transaksi barang.
                             </div>
                         @endforelse
                     </div>
@@ -361,6 +347,17 @@
                     </div>
 
                     {{-- Product Cards Grid --}}
+                    @if($counts['rejected'] > 0)
+                        <div x-show="activeTab === 'rejected'" class="mb-4 p-3.5 rounded-2xl bg-red-50/90 border border-red-200/80 flex items-start sm:items-center justify-between gap-3 text-xs text-red-800">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                <span>Iklan dengan status <strong>Ditolak</strong> tidak tayang di katalog publik. Klik <strong>Lihat</strong> untuk membaca detail barang dan alasan penolakan.</span>
+                            </div>
+                        </div>
+                    @endif
+
                     @if($myProducts->isNotEmpty())
                         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                             @foreach($myProducts as $item)
@@ -372,31 +369,38 @@
 
                                     {{-- Product Image --}}
                                     <div>
-                                        <div class="w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-slate-100 mb-2.5 relative">
-                                            @if($itemImage)
-                                                <img src="{{ Storage::url($itemImage) }}"
-                                                     alt="{{ $item->title }}"
-                                                     class="w-full h-full object-cover group-hover:scale-102 transition duration-300">
-                                            @else
-                                                <div class="w-full h-full flex items-center justify-center text-slate-300">
-                                                    <x-heroicon-o-photo class="w-8 h-8"/>
-                                                </div>
-                                            @endif
-                                        </div>
+                                        <a href="{{ route('products.show', $item->slug) }}" class="block">
+                                            <div class="w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-slate-100 mb-2.5 relative">
+                                                @if($itemImage)
+                                                    <img src="{{ Storage::url($itemImage) }}"
+                                                         alt="{{ $item->title }}"
+                                                         class="w-full h-full object-cover group-hover:scale-102 transition duration-300">
+                                                @else
+                                                    <div class="w-full h-full flex items-center justify-center text-slate-300">
+                                                        <x-heroicon-o-photo class="w-8 h-8"/>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </a>
 
                                         {{-- Title & Price --}}
-                                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm truncate leading-snug" title="{{ $item->title }}">
-                                            {{ $item->title }}
-                                        </h4>
+                                        <a href="{{ route('products.show', $item->slug) }}" class="block hover:text-slate-700 transition">
+                                            <h4 class="font-bold text-slate-900 text-xs sm:text-sm truncate leading-snug" title="{{ $item->title }}">
+                                                {{ $item->title }}
+                                            </h4>
+                                        </a>
                                         <p class="text-xs font-semibold text-slate-500 mt-0.5">
                                             Rp {{ number_format($item->price, 0, ',', '.') }}
                                         </p>
 
                                         {{-- Reason if rejected (Seperti wireframe) --}}
                                         @if($item->status === 'rejected')
-                                            <p class="text-[11px] text-red-500 font-medium leading-tight mt-1 truncate" title="Alasan: {{ $item->rejection_reason ?: 'Foto produk tidak lengkap' }}">
-                                                Alasan: {{ $item->rejection_reason ?: 'Foto produk tidak lengkap' }}
-                                            </p>
+                                            <a href="{{ route('products.show', $item->slug) }}" class="block mt-1" title="Klik untuk lihat detail & alasan penolakan: {{ $item->rejection_reason ?: 'Foto produk tidak lengkap' }}">
+                                                <p class="text-[11px] text-red-500 hover:text-red-700 font-medium leading-tight truncate flex items-center gap-1">
+                                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0"></span>
+                                                    <span class="truncate">Alasan: {{ $item->rejection_reason ?: 'Foto produk tidak lengkap' }}</span>
+                                                </p>
+                                            </a>
                                         @endif
                                     </div>
 
@@ -425,21 +429,24 @@
 
                                         {{-- Action Buttons --}}
                                         <div class="flex items-center gap-1">
-                                            @if($item->status === 'approved' || $item->status === 'sold')
-                                                <a href="{{ route('products.show', $item->slug) }}"
-                                                   class="px-2 py-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-medium transition">
-                                                    Lihat
-                                                </a>
-                                            @elseif($item->status === 'pending')
-                                                <a href="{{ route('products.show', $item->slug) }}"
-                                                   class="px-2 py-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-medium transition">
-                                                    Lihat
-                                                </a>
-                                            @endif
+                                            <a href="{{ route('products.show', $item->slug) }}"
+                                               class="px-2 py-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-medium transition"
+                                               title="Lihat Detail Barang">
+                                                Lihat
+                                            </a>
 
                                             @if($item->status === 'rejected')
-                                                <a href="{{ route('products.create') }}"
-                                                   class="px-2 py-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-medium transition">
+                                                <a href="{{ route('products.create', [
+                                                    'title' => $item->title,
+                                                    'category_id' => $item->category_id,
+                                                    'condition' => $item->condition,
+                                                    'price' => $item->price,
+                                                    'description' => $item->description,
+                                                    'location' => $item->location,
+                                                    'cod_area' => $item->cod_area,
+                                                ]) }}"
+                                                   class="px-2 py-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-[10px] sm:text-[11px] font-medium transition"
+                                                   title="Perbaiki & Pasang Ulang">
                                                     Perbaiki
                                                 </a>
                                                 <form method="POST" action="{{ route('products.destroy', $item) }}" onsubmit="return confirm('Hapus iklan ini?')">

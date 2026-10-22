@@ -172,11 +172,13 @@
                         </div>
 
                         {{-- Table Body --}}
-                        <div class="divide-y divide-slate-100">
+                        <div class="divide-y divide-slate-100 max-h-80 overflow-y-auto scrollbar-thin">
                             @forelse($transactions as $trx)
-                                <div class="grid grid-cols-12 items-center py-3 text-xs">
-                                    <div class="col-span-6 font-semibold text-slate-800 truncate pr-2" title="{{ $trx->title }}">
-                                        {{ $trx->title }}
+                                <div class="grid grid-cols-12 items-center py-3 text-xs hover:bg-slate-50/70 -mx-1 px-1 rounded-xl transition">
+                                    <div class="col-span-6 font-semibold text-slate-800 truncate pr-2">
+                                        <a href="{{ route('products.show', $trx->slug) }}" class="hover:text-slate-900 transition truncate block" title="{{ $trx->title }}">
+                                            {{ $trx->title }}
+                                        </a>
                                     </div>
                                     <div class="col-span-3 text-right font-medium text-slate-600">
                                         Rp {{ number_format($trx->price, 0, ',', '.') }}
@@ -190,6 +192,14 @@
                                             <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                                                 Selesai
                                             </span>
+                                        @elseif($trx->status === 'rejected')
+                                            <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
+                                                Ditolak
+                                            </span>
+                                        @elseif($trx->status === 'approved')
+                                            <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                                                Aktif
+                                            </span>
                                         @else
                                             <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
                                                 {{ ucfirst($trx->status) }}
@@ -198,31 +208,8 @@
                                     </div>
                                 </div>
                             @empty
-                                <div class="grid grid-cols-12 items-center py-3 text-xs">
-                                    <div class="col-span-6 font-semibold text-slate-800 truncate pr-2">
-                                        Kasur Lipat Busa
-                                    </div>
-                                    <div class="col-span-3 text-right font-medium text-slate-600">
-                                        Rp 150.000
-                                    </div>
-                                    <div class="col-span-3 text-right">
-                                        <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                                            Menunggu
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-12 items-center py-3 text-xs">
-                                    <div class="col-span-6 font-semibold text-slate-800 truncate pr-2">
-                                        Meja Lipat Kayu
-                                    </div>
-                                    <div class="col-span-3 text-right font-medium text-slate-600">
-                                        Rp 75.000
-                                    </div>
-                                    <div class="col-span-3 text-right">
-                                        <span class="inline-block text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                            Selesai
-                                        </span>
-                                    </div>
+                                <div class="py-6 text-center text-slate-400 text-xs">
+                                    Belum ada riwayat transaksi barang.
                                 </div>
                             @endforelse
                         </div>
