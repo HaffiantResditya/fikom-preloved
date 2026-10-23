@@ -23,17 +23,19 @@
             </form>
 
             {{-- Right Actions --}}
-            <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
                 @guest
-                    <a href="{{ route('login') }}" class="text-xs sm:text-sm font-medium text-slate-700 hover:text-black transition">
+                    <a href="{{ route('login') }}"
+                       class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-black px-2 py-1.5 rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
                         Masuk
                     </a>
-                    <a href="{{ route('register') }}" class="hidden sm:inline-block text-xs sm:text-sm font-medium text-slate-700 hover:text-black transition">
+                    <a href="{{ route('register') }}"
+                       class="hidden sm:inline-block text-xs sm:text-sm font-medium text-slate-700 hover:text-black px-2 py-1.5 rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
                         Daftar
                     </a>
                     <a href="{{ route('login') }}"
                        style="background-color: #0f172a !important; color: #ffffff !important;"
-                       class="font-medium text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg transition whitespace-nowrap shadow-sm hover:opacity-90">
+                       class="font-medium text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-lg transition whitespace-nowrap shadow-sm hover:opacity-90">
                         Mulai Jual
                     </a>
                 @endguest
