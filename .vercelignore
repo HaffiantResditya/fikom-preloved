@@ -1,0 +1,8 @@
+/node_modules
+/tests
+.git
+.env.example
+README.md
+phpunit.xml
+vite.config.js
+tailwind.config.js
