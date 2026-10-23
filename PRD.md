@@ -49,7 +49,7 @@
 ### 3.2. Katalog & Filter Presisi
 * **Dual-Knob Slider Harga:** Rentang harga dinamis Rp 0 hingga Rp 1.000.000 dengan step kelipatan Rp 25.000 dan input format Rupiah dua arah.
 * **Standardisasi 3 Kondisi Produk:** `Seperti Baru`, `Baik`, dan `Layak Pakai`.
-* **Kategori Cepat:** 7 Kategori unggulan dengan metadata ikon SVG dan rute pencarian instan.
+* **Kategori Cepat:** 8 Kategori resmi (*Perabot Kos, Elektronik, Buku / Modul, Alat Praktikum, Peralatan Dapur, Fashion, ATK, Olahraga & Hobi*) dengan metadata ikon SVG dan rute pencarian instan.
 * **Format Waktu Relatif Bahasa Indonesia:** Menggunakan `diffForHumans()` terjemahan bahasa Indonesia (misal: *"1 hari yang lalu"*, *"6 hari yang lalu"*).
 
 ### 3.3. Transaksi & Kontak Terintegrasi WhatsApp

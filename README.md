@@ -26,7 +26,7 @@ Seluruh transaksi dilakukan **100% secara tatap muka / Cash on Delivery (COD)** 
 3. **🔍 Katalog Pintar & Multi-Filter:**
    * Dual-slider harga interaktif (Rp 0 s/d Rp 1.000.000) dengan kelipatan presisi Rp 25.000.
    * Standardisasi 3 kondisi barang: *Seperti Baru*, *Baik*, dan *Layak Pakai*.
-   * Filter cepat berdasarkan 7 kategori barang preloved mahasiswa.
+   * Filter cepat berdasarkan **8 kategori resmi** barang preloved mahasiswa (*Perabot Kos, Elektronik, Buku / Modul, Alat Praktikum, Peralatan Dapur, Fashion, Alat Tulis (ATK), dan Olahraga & Hobi*).
    * Penulisan waktu relatif dalam Bahasa Indonesia (*"1 hari yang lalu"*, *"6 hari yang lalu"*).
 4. **📸 Integrasi Media Cloudinary:**
    * Foto produk dan profil disimpan langsung ke Cloudinary Media CDN, memastikan gambar selalu online di seluruh perangkat tanpa membebani disk hosting.
