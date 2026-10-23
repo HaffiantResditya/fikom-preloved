@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'approved' => \App\Http\Middleware\CheckApprovedUser::class,
             'admin'    => \App\Http\Middleware\EnsureUserIsAdmin::class,
         ]);
+        $middleware->trustProxies(at: '*');
         $middleware->validateCsrfTokens(except: [
             'logout',
         ]);
