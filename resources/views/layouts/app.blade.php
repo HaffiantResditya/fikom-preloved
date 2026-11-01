@@ -18,7 +18,13 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('admin-assets/assets/Logo.png') }}">
 
-    <style>[x-cloak] { display: none !important; }</style>
+    <style>
+        [x-cloak] { display: none !important; }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>

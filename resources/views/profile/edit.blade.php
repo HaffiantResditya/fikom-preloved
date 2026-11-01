@@ -8,7 +8,8 @@
              showDeleteModal: false,
              showPasswordInline: false,
              photoPreview: null,
-             removePhoto: false
+             removePhoto: false,
+             isSaving: false
          }">
 
         {{-- Header: Breadcrumb & Title & Mode Sunting Aktif Badge --}}
@@ -40,7 +41,8 @@
         <form id="edit-profile-form"
               method="POST"
               action="{{ route('profile.update') }}"
-              enctype="multipart/form-data">
+              enctype="multipart/form-data"
+              @submit="if ($el.checkValidity()) { isSaving = true; }">
             @csrf
             @method('patch')
 
@@ -436,14 +438,26 @@
                                 {{-- Tombol Batal -> Memicu Modal Konfirmasi Pembatalan --}}
                                 <button type="button"
                                         @click="showCancelModal = true"
+                                        :disabled="isSaving"
+                                        :class="isSaving ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''"
                                         class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold py-2.5 px-6 rounded-xl transition shadow-xs">
                                     Batal
                                 </button>
 
                                 {{-- Tombol Simpan Perubahan --}}
                                 <button type="submit"
-                                        class="bg-slate-900 hover:bg-black text-white text-xs sm:text-sm font-semibold py-2.5 px-6 rounded-xl transition shadow-sm">
-                                    Simpan Perubahan
+                                        :disabled="isSaving"
+                                        class="bg-slate-900 hover:bg-black disabled:opacity-80 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-semibold py-2.5 px-6 rounded-xl transition shadow-sm inline-flex items-center justify-center gap-2 min-w-[155px]">
+                                    <template x-if="!isSaving">
+                                        <span>Simpan Perubahan</span>
+                                    </template>
+                                    <template x-if="isSaving">
+                                        <span class="inline-flex items-center gap-2">
+                                            <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin inline-block"
+                                                  style="animation: spin 0.8s linear infinite;"></span>
+                                            <span>Menyimpan...</span>
+                                        </span>
+                                    </template>
                                 </button>
                             </div>
                         </div>
@@ -527,7 +541,9 @@
                         Pastikan kata sandi baru Anda minimal 8 karakter dengan kombinasi yang kuat.
                     </p>
 
-                    <form method="POST" action="{{ route('password.update') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('password.update') }}" class="space-y-4"
+                          x-data="{ isSavingPassword: false }"
+                          @submit="if ($el.checkValidity()) { isSavingPassword = true; }">
                         @csrf
                         @method('put')
 
@@ -554,12 +570,23 @@
 
                         <div class="flex items-center justify-end gap-3 pt-3">
                             <button type="button" @click="showPasswordModal = false"
-                                    class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl transition">
+                                    :disabled="isSavingPassword"
+                                    class="bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl transition">
                                 Batal
                             </button>
                             <button type="submit"
-                                    class="bg-slate-900 hover:bg-black text-white text-xs sm:text-sm font-semibold py-2.5 px-5 rounded-xl transition">
-                                Simpan Sandi Baru
+                                    :disabled="isSavingPassword"
+                                    class="bg-slate-900 hover:bg-black disabled:opacity-80 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-semibold py-2.5 px-5 rounded-xl transition inline-flex items-center justify-center gap-2 min-w-[145px]">
+                                <template x-if="!isSavingPassword">
+                                    <span>Simpan Sandi Baru</span>
+                                </template>
+                                <template x-if="isSavingPassword">
+                                    <span class="inline-flex items-center gap-2">
+                                        <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin inline-block"
+                                              style="animation: spin 0.8s linear infinite;"></span>
+                                        <span>Menyimpan...</span>
+                                    </span>
+                                </template>
                             </button>
                         </div>
                     </form>

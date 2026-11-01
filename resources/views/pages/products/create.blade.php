@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="title">Jual Barang</x-slot>
 
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="{ isSubmitting: false }">
         <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Pasang Iklan Barang</h1>
         <p class="text-gray-500 mb-8">Iklan akan direview oleh Admin sebelum tayang.</p>
 
@@ -20,6 +20,7 @@
         @endif
 
         <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data"
+              @submit="if ($el.checkValidity()) { isSubmitting = true; }"
               class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-6">
             @csrf
 
@@ -147,8 +148,18 @@
             </div>
 
             <button type="submit" id="submit-listing"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl transition shadow-lg text-base">
-                Pasang Iklan Sekarang
+                    :disabled="isSubmitting"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-80 disabled:cursor-not-allowed text-white font-bold py-4 rounded-2xl transition shadow-lg text-base flex items-center justify-center gap-2.5">
+                <template x-if="!isSubmitting">
+                    <span>Pasang Iklan Sekarang</span>
+                </template>
+                <template x-if="isSubmitting">
+                    <span class="inline-flex items-center gap-2.5">
+                        <span class="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin inline-block"
+                              style="animation: spin 0.8s linear infinite;"></span>
+                        <span>Memasang Iklan...</span>
+                    </span>
+                </template>
             </button>
         </form>
     </div>
