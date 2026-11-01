@@ -216,9 +216,20 @@
                         <tr>
                             <td>
                                 <div class="user-profile-wrap">
-                                    <div class="user-avatar" style="background:#2563eb; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; border-radius:50%; width:42px; height:42px; flex-shrink:0;">
-                                        {{ strtoupper(substr($student->name, 0, 2)) }}
-                                    </div>
+                                    @if ($student->profile_photo_url)
+                                        <img src="{{ $student->profile_photo_url }}" 
+                                             alt="{{ $student->name }}" 
+                                             class="user-avatar" 
+                                             style="width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid var(--border);"
+                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="user-avatar" style="display:none; background:#2563eb; color:#fff; align-items:center; justify-content:center; font-weight:700; font-size:14px; border-radius:50%; width:42px; height:42px; flex-shrink:0;">
+                                            {{ strtoupper(substr($student->name, 0, 2)) }}
+                                        </div>
+                                    @else
+                                        <div class="user-avatar" style="background:#2563eb; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; border-radius:50%; width:42px; height:42px; flex-shrink:0;">
+                                            {{ strtoupper(substr($student->name, 0, 2)) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <p class="user-info-name" style="font-weight: 700; color: var(--text); font-size: 13px;">
                                             {{ $student->name }}
@@ -236,8 +247,8 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="faculty-name" style="font-weight: 600; font-size: 13px;">Fakultas Ilmu Komputer</p>
-                                <p class="faculty-prodi" style="font-size: 12px; color: var(--text-muted);">S1 Informatika / TI</p>
+                                <p class="faculty-name" style="font-weight: 600; font-size: 13px;">{{ $student->faculty ?? 'Fakultas Ilmu Komputer' }}</p>
+                                <p class="faculty-prodi" style="font-size: 12px; color: var(--text-muted);">{{ $student->major ?? 'S1 Informatika' }}</p>
                             </td>
                             <td>
                                 <p class="item-count" style="font-size: 16px; font-weight: 800; color: var(--text);">
@@ -274,6 +285,8 @@
                                                 'name'           => $student->name,
                                                 'email'          => $student->email,
                                                 'whatsapp'       => $student->whatsapp_number ?? '-',
+                                                'avatar_url'     => $student->profile_photo_url,
+                                                'major'          => $student->major ?? 'S1 Informatika',
                                                 'status'         => $student->account_status,
                                                 'created_at'     => $student->created_at ? $student->created_at->translatedFormat('d F Y') : '-',
                                                 'products_count' => $student->products_count,
@@ -291,9 +304,11 @@
                                                 class="btn-sm btn-terima" 
                                                 title="Verifikasi & Setujui Akun"
                                                 onclick="openApproveUserModal('{{ route('admin.users.approve', $student) }}', {{ json_encode([
-                                                    'name' => $student->name,
-                                                    'email' => $student->email,
-                                                    'whatsapp' => $student->whatsapp_number ?? '-',
+                                                    'name'       => $student->name,
+                                                    'email'      => $student->email,
+                                                    'whatsapp'   => $student->whatsapp_number ?? '-',
+                                                    'avatar_url' => $student->profile_photo_url,
+                                                    'major'      => $student->major ?? 'S1 Informatika',
                                                     'created_at' => $student->created_at ? $student->created_at->translatedFormat('d F Y') : '-'
                                                 ]) }})">
                                             ✓
@@ -347,8 +362,9 @@
 
                 <!-- 1. Card Profil Utama Mahasiswa -->
                 <div class="student-profile-card">
-                    <div class="student-avatar-wrap">
-                        <div class="student-avatar-fallback" id="u-avatar-box" style="width: 64px; height: 64px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 24px; font-weight: 800; display: flex; align-items: center; justify-content: center;">
+                    <div class="student-avatar-wrap" style="position:relative; width:64px; height:64px; border-radius:50%; overflow:hidden; flex-shrink:0; border:2px solid #cbd5e1;">
+                        <img id="u-avatar-img" src="" alt="Foto Profil" class="student-avatar-img" style="display:none; width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; document.getElementById('u-avatar-box').style.display='flex';">
+                        <div class="student-avatar-fallback" id="u-avatar-box" style="width: 100%; height: 100%; border-radius: 50%; background: #2563eb; color: #fff; font-size: 24px; font-weight: 800; display: flex; align-items: center; justify-content: center;">
                             U
                         </div>
                         <span class="badge-verified-avatar" title="Terverifikasi Kampus">✓</span>
@@ -361,7 +377,7 @@
                         </div>
                         <div class="student-faculty-row">
                             <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg>
-                            <span><strong>Fakultas Ilmu Komputer</strong> &bull; S1 Informatika</span>
+                            <span><strong>Fakultas Ilmu Komputer</strong> &bull; <span id="u-prodi-text">S1 Informatika</span></span>
                         </div>
                         <p class="student-class-row" id="u-joined-date">Terdaftar sejak: -</p>
                     </div>
@@ -470,13 +486,16 @@
 
                     <!-- Kartu Preview Mahasiswa -->
                     <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                        <div id="approve-user-avatar" style="width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: #fff; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            U
+                        <div style="position: relative; width: 48px; height: 48px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1.5px solid #cbd5e1;">
+                            <img id="approve-user-avatar-img" src="" alt="Foto Mahasiswa" style="display:none; width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; document.getElementById('approve-user-avatar').style.display='flex';">
+                            <div id="approve-user-avatar" style="width: 100%; height: 100%; background: #2563eb; color: #fff; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center;">
+                                U
+                            </div>
                         </div>
                         <div style="flex: 1; min-width: 0;">
                             <h4 id="approve-user-name" style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 2px 0;">Nama Mahasiswa</h4>
                             <p id="approve-user-email" style="font-size: 12px; color: #2563eb; margin: 0 0 4px 0;">email@mhs.udb.ac.id</p>
-                            <p style="font-size: 11px; color: var(--text-muted); margin: 0;">Fakultas Ilmu Komputer &bull; S1 Informatika</p>
+                            <p style="font-size: 11px; color: var(--text-muted); margin: 0;">Fakultas Ilmu Komputer &bull; <span id="approve-user-major">S1 Informatika</span></p>
                         </div>
                     </div>
 
@@ -541,8 +560,11 @@
 
                     <!-- Kartu Info Mahasiswa -->
                     <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                        <div id="suspend-user-avatar" style="width: 44px; height: 44px; border-radius: 50%; background: #64748b; color: #fff; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            U
+                        <div style="position: relative; width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1.5px solid #cbd5e1;">
+                            <img id="suspend-user-avatar-img" src="" alt="Foto Mahasiswa" style="display:none; width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; document.getElementById('suspend-user-avatar').style.display='flex';">
+                            <div id="suspend-user-avatar" style="width: 100%; height: 100%; background: #64748b; color: #fff; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center;">
+                                U
+                            </div>
                         </div>
                         <div style="flex: 1; min-width: 0;">
                             <h4 id="suspend-user-name" style="font-size: 13px; font-weight: 700; color: var(--text); margin: 0 0 2px 0;">Nama Mahasiswa</h4>
@@ -600,7 +622,23 @@
         document.getElementById('u-wa-text').textContent = user.whatsapp;
         document.getElementById('u-wa-link').href = 'https://wa.me/' + (user.whatsapp ? user.whatsapp.replace(/[^0-9]/g, '') : '');
         document.getElementById('u-joined-date').textContent = 'Terdaftar sejak: ' + user.created_at;
-        document.getElementById('u-avatar-box').textContent = (user.name || 'U').substring(0, 2).toUpperCase();
+        // Avatar foto profil atau fallback inisial
+        const avatarImg = document.getElementById('u-avatar-img');
+        const avatarBox = document.getElementById('u-avatar-box');
+        if (user.avatar_url) {
+            avatarImg.src = user.avatar_url;
+            avatarImg.style.display = 'block';
+            avatarBox.style.display = 'none';
+        } else {
+            avatarImg.style.display = 'none';
+            avatarBox.style.display = 'flex';
+            avatarBox.textContent = (user.name || 'U').substring(0, 2).toUpperCase();
+        }
+
+        const prodiText = document.getElementById('u-prodi-text');
+        if (prodiText) {
+            prodiText.textContent = user.major || 'S1 Informatika';
+        }
 
         // Status badge
         const statusBadge = document.getElementById('u-status-badge');
@@ -681,6 +719,8 @@
                 name: activeUserModalData.name,
                 email: activeUserModalData.email,
                 whatsapp: activeUserModalData.whatsapp,
+                avatar_url: activeUserModalData.avatar_url,
+                major: activeUserModalData.major,
                 created_at: activeUserModalData.created_at
             });
         }
@@ -691,7 +731,8 @@
             closeUserModal();
             openSuspendUserModal(activeUserModalData.suspend_url, {
                 name: activeUserModalData.name,
-                email: activeUserModalData.email
+                email: activeUserModalData.email,
+                avatar_url: activeUserModalData.avatar_url
             });
         }
     }
@@ -701,7 +742,24 @@
         document.getElementById('form-approve-user').action = approveUrl;
         document.getElementById('approve-user-name').textContent = userData.name;
         document.getElementById('approve-user-email').textContent = userData.email;
-        document.getElementById('approve-user-avatar').textContent = (userData.name || 'U').substring(0, 2).toUpperCase();
+
+        // Avatar foto atau inisial
+        const approveImg = document.getElementById('approve-user-avatar-img');
+        const approveBox = document.getElementById('approve-user-avatar');
+        if (userData.avatar_url) {
+            approveImg.src = userData.avatar_url;
+            approveImg.style.display = 'block';
+            approveBox.style.display = 'none';
+        } else {
+            approveImg.style.display = 'none';
+            approveBox.style.display = 'flex';
+            approveBox.textContent = (userData.name || 'U').substring(0, 2).toUpperCase();
+        }
+
+        const approveMajor = document.getElementById('approve-user-major');
+        if (approveMajor) {
+            approveMajor.textContent = userData.major || 'S1 Informatika';
+        }
 
         document.getElementById('modal-terima-user').classList.add('is-open');
     }
@@ -715,7 +773,20 @@
         document.getElementById('form-suspend-user').action = suspendUrl;
         document.getElementById('suspend-user-name').textContent = userData.name;
         document.getElementById('suspend-user-email').textContent = userData.email;
-        document.getElementById('suspend-user-avatar').textContent = (userData.name || 'U').substring(0, 2).toUpperCase();
+
+        // Avatar foto atau inisial
+        const suspendImg = document.getElementById('suspend-user-avatar-img');
+        const suspendBox = document.getElementById('suspend-user-avatar');
+        if (userData.avatar_url) {
+            suspendImg.src = userData.avatar_url;
+            suspendImg.style.display = 'block';
+            suspendBox.style.display = 'none';
+        } else {
+            suspendImg.style.display = 'none';
+            suspendBox.style.display = 'flex';
+            suspendBox.textContent = (userData.name || 'U').substring(0, 2).toUpperCase();
+        }
+
         document.getElementById('suspend-reason-select').selectedIndex = 0;
         document.getElementById('suspend-note').value = '';
 

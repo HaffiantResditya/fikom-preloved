@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "vercel-build": "echo 'Assets already compiled, skipping build step.'"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

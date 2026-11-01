@@ -21,6 +21,9 @@
 
     <!-- Page Specific Styles -->
     @stack('styles')
+
+    <!-- Microsoft Clarity Tracking -->
+    <x-clarity />
 </head>
 <body>
 

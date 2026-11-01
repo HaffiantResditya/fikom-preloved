@@ -198,9 +198,16 @@
                             </td>
                             <td>
                                 <div class="seller-wrap">
-                                    <div class="seller-avatar" style="background:#2563eb;">
-                                        {{ strtoupper(substr($product->seller->name ?? 'U', 0, 2)) }}
-                                    </div>
+                                    @if ($product->seller?->profile_photo_url)
+                                        <img src="{{ $product->seller->profile_photo_url }}" alt="{{ $product->seller->name }}" class="seller-avatar" style="object-fit:cover; border:1px solid var(--border);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="seller-avatar" style="display:none; background:#2563eb;">
+                                            {{ strtoupper(substr($product->seller->name ?? 'U', 0, 2)) }}
+                                        </div>
+                                    @else
+                                        <div class="seller-avatar" style="background:#2563eb;">
+                                            {{ strtoupper(substr($product->seller->name ?? 'U', 0, 2)) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <p class="seller-info-name">{{ $product->seller->name ?? 'Mahasiswa' }}</p>
                                         <p class="seller-info-meta">{{ $product->seller->email ?? '-' }}</p>
@@ -284,9 +291,16 @@
                             </td>
                             <td>
                                 <div class="seller-wrap">
-                                    <div class="seller-avatar" style="background:#4b5563;">
-                                        {{ strtoupper(substr($item->seller->name ?? 'U', 0, 2)) }}
-                                    </div>
+                                    @if ($item->seller?->profile_photo_url)
+                                        <img src="{{ $item->seller->profile_photo_url }}" alt="{{ $item->seller->name }}" class="seller-avatar" style="object-fit:cover; border:1px solid var(--border);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="seller-avatar" style="display:none; background:#4b5563;">
+                                            {{ strtoupper(substr($item->seller->name ?? 'U', 0, 2)) }}
+                                        </div>
+                                    @else
+                                        <div class="seller-avatar" style="background:#4b5563;">
+                                            {{ strtoupper(substr($item->seller->name ?? 'U', 0, 2)) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <p class="seller-info-name">{{ $item->seller->name ?? 'Mahasiswa' }}</p>
                                         <p class="seller-info-meta">{{ $item->seller->email ?? '-' }}</p>

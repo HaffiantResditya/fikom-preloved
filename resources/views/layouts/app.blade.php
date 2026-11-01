@@ -27,6 +27,9 @@
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+
+    <!-- Microsoft Clarity Tracking -->
+    <x-clarity />
 </head>
 <body class="font-sans antialiased text-gray-800 min-h-screen flex flex-col"
       style="background-image: url('{{ asset('images/fikom_preloved_background.svg') }}'); background-repeat: no-repeat; background-size: cover; background-position: center top; background-attachment: fixed;">

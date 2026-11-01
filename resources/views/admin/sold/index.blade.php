@@ -196,9 +196,16 @@
                             </td>
                             <td>
                                 <div class="user-cell">
-                                    <span class="user-badge-icon" aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">
-                                        {{ strtoupper(substr($item->seller->name ?? 'U', 0, 1)) }}
-                                    </span>
+                                    @if ($item->seller?->profile_photo_url)
+                                        <img src="{{ $item->seller->profile_photo_url }}" alt="{{ $item->seller->name }}" class="user-badge-icon" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border);" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                        <span class="user-badge-icon" aria-hidden="true" style="display: none; width: 24px; height: 24px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 11px; align-items: center; justify-content: center; font-weight: 700;">
+                                            {{ strtoupper(substr($item->seller->name ?? 'U', 0, 1)) }}
+                                        </span>
+                                    @else
+                                        <span class="user-badge-icon" aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">
+                                            {{ strtoupper(substr($item->seller->name ?? 'U', 0, 1)) }}
+                                        </span>
+                                    @endif
                                     <div>
                                         <p class="user-name" style="font-weight: 600; font-size: 12px;">{{ $item->seller->name ?? 'Mahasiswa' }}</p>
                                         <p style="font-size: 11px; color: var(--text-muted);">{{ $item->seller->email ?? '-' }}</p>
@@ -243,11 +250,12 @@
                                                 'description' => $item->description,
                                                 'location'    => $item->location ?? 'Area Kampus',
                                                 'cod_area'    => $item->cod_area ?? 'Kampus Utama',
-                                                'seller_name' => $item->seller->name ?? 'Mahasiswa',
-                                                'seller_email'=> $item->seller->email ?? '-',
-                                                'seller_wa'   => $item->seller->whatsapp_number ?? '-',
-                                                'date'        => $item->updated_at ? $item->updated_at->translatedFormat('d F Y, H:i') : '-',
-                                                'image'       => $primaryImg
+                                                'seller_name'   => $item->seller->name ?? 'Mahasiswa',
+                                                'seller_email'  => $item->seller->email ?? '-',
+                                                'seller_wa'     => $item->seller->whatsapp_number ?? '-',
+                                                'seller_avatar' => $item->seller?->profile_photo_url,
+                                                'date'          => $item->updated_at ? $item->updated_at->translatedFormat('d F Y, H:i') : '-',
+                                                'image'         => $primaryImg
                                             ]) }})">
                                         <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                     </button>
@@ -342,9 +350,13 @@
                 <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;">
                     <h4 style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px;">Penjual Terdaftar</h4>
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                        <div>
-                            <p id="trx-modal-seller-name" style="font-weight: 700; font-size: 13px;">-</p>
-                            <p id="trx-modal-seller-email" style="font-size: 12px; color: var(--text-muted);">-</p>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img id="trx-modal-seller-img" src="" alt="Avatar" style="display: none; width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border);">
+                            <div id="trx-modal-seller-box" style="width: 36px; height: 36px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700;">U</div>
+                            <div>
+                                <p id="trx-modal-seller-name" style="font-weight: 700; font-size: 13px;">-</p>
+                                <p id="trx-modal-seller-email" style="font-size: 12px; color: var(--text-muted);">-</p>
+                            </div>
                         </div>
                         <a id="trx-modal-wa-btn" href="#" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 6px 12px; border-radius: 6px; text-decoration: none;">
                             💬 WhatsApp: <span id="trx-modal-seller-wa">-</span>
@@ -385,6 +397,18 @@
         document.getElementById('trx-modal-seller-email').textContent = data.seller_email;
         document.getElementById('trx-modal-seller-wa').textContent = data.seller_wa;
         document.getElementById('trx-modal-wa-btn').href = 'https://wa.me/' + (data.seller_wa ? data.seller_wa.replace(/[^0-9]/g, '') : '');
+
+        const trxSellerImg = document.getElementById('trx-modal-seller-img');
+        const trxSellerBox = document.getElementById('trx-modal-seller-box');
+        if (data.seller_avatar) {
+            trxSellerImg.src = data.seller_avatar;
+            trxSellerImg.style.display = 'block';
+            trxSellerBox.style.display = 'none';
+        } else {
+            trxSellerImg.style.display = 'none';
+            trxSellerBox.style.display = 'flex';
+            trxSellerBox.textContent = (data.seller_name || 'U').substring(0, 1).toUpperCase();
+        }
 
         document.getElementById('modal-detail-trx').classList.add('is-open');
     }

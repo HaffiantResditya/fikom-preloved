@@ -59,8 +59,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::post('/products/{product}/approve', [AdminDashboardController::class, 'approve'])->name('products.approve');
-        Route::post('/products/{product}/reject', [AdminDashboardController::class, 'reject'])->name('products.reject');
+        Route::post('/dashboard/products/{product}/approve', [AdminDashboardController::class, 'approve'])->name('dashboard.products.approve');
+        Route::post('/dashboard/products/{product}/reject', [AdminDashboardController::class, 'reject'])->name('dashboard.products.reject');
 
         // Moderasi Barang
         Route::get('/barang', [AdminProductController::class, 'index'])->name('products');

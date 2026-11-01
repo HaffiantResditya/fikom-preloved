@@ -104,6 +104,7 @@
                             </div>
                             <input id="password" type="password" name="password" required autocomplete="new-password"
                                 placeholder="Minimal 8 karakter"
+                                oninput="checkPasswordStrength(this.value); checkPasswordMatch();"
                                 class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
                             <button type="button" onclick="togglePasswordVisibility('password', 'eye-icon-pass')"
                                 class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -142,6 +143,7 @@
                             </div>
                             <input id="password_confirmation" type="password" name="password_confirmation" required
                                 autocomplete="new-password" placeholder="Minimal 8 karakter"
+                                oninput="checkPasswordMatch();"
                                 class="w-full pl-10 pr-10 py-2 text-xs border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800" />
                             <button type="button"
                                 onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-confirm')"
@@ -174,22 +176,27 @@
                         </label>
                     </div>
 
-                    <!-- Nomor WhatsApp -->
-                    <div class="mt-4">
-                        <x-input-label for="whatsapp_number" :value="__('Nomor WhatsApp')" />
-                        <x-text-input id="whatsapp_number" class="block mt-1 w-full" type="text" name="whatsapp_number"
-                            :value="old('whatsapp_number')" required placeholder="08xxxxxxxxxx" />
-                        <p class="text-xs text-gray-400 mt-1">Akan digunakan pembeli untuk menghubungi Anda.</p>
-                        <x-input-error :messages="$errors->get('whatsapp_number')" class="mt-2" />
+                    <!-- Tombol Submit -->
+                    <div class="pt-2">
+                        <button type="submit" class="fikom-btn-primary">
+                            Daftar Akun Kampus
+                        </button>
                     </div>
+                </form>
 
-                    <!-- LINK LOGIN -->
-                    <div class="text-center text-xs space-y-1">
-                        <p class="text-gray-500">Sudah punya akun Kampus?</p>
-                        <a href="{{ route('login') }}" class="block font-bold text-red-600 hover:underline text-sm">
-                            Masuk di sini!
-                        </a>
-                    </div>
+                <!-- SEPARATOR -->
+                <div class="fikom-divider">
+                    <hr>
+                    <span>atau</span>
+                </div>
+
+                <!-- LINK LOGIN -->
+                <div class="text-center text-xs space-y-1">
+                    <p class="text-gray-500">Sudah punya akun Kampus?</p>
+                    <a href="{{ route('login') }}" class="block font-bold text-red-600 hover:underline text-sm">
+                        Masuk di sini!
+                    </a>
+                </div>
             </div>
 
             <!-- FOOTER CARD -->

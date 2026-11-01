@@ -200,9 +200,16 @@
                             </td>
                             <td>
                                 <div class="seller-wrap">
-                                    <div class="seller-avatar" style="background:#2563eb;">
-                                        {{ strtoupper(substr($item->seller->name ?? 'U', 0, 2)) }}
-                                    </div>
+                                    @if ($item->seller?->profile_photo_url)
+                                        <img src="{{ $item->seller->profile_photo_url }}" alt="{{ $item->seller->name }}" class="seller-avatar" style="object-fit:cover; border:1px solid var(--border);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="seller-avatar" style="display:none; background:#2563eb;">
+                                            {{ strtoupper(substr($item->seller->name ?? 'U', 0, 2)) }}
+                                        </div>
+                                    @else
+                                        <div class="seller-avatar" style="background:#2563eb;">
+                                            {{ strtoupper(substr($item->seller->name ?? 'U', 0, 2)) }}
+                                        </div>
+                                    @endif
                                     <div>
                                         <p class="seller-info-name">{{ $item->seller->name ?? 'Mahasiswa' }}</p>
                                         <p class="seller-info-meta">{{ $item->seller->email ?? '-' }}</p>
@@ -232,22 +239,23 @@
                                             class="btn-icon" 
                                             title="Lihat Detail Barang"
                                             onclick="openDetailModal({{ json_encode([
-                                                'id'          => $item->id,
-                                                'title'       => $item->title,
-                                                'price'       => number_format($item->price, 0, ',', '.'),
-                                                'category'    => $item->category->name ?? 'Tanpa Kategori',
-                                                'condition'   => $item->condition,
-                                                'location'    => $item->location ?? '-',
-                                                'cod_area'    => $item->cod_area ?? '-',
-                                                'description' => $item->description,
-                                                'status'      => $item->status,
-                                                'created_at'  => $item->created_at ? $item->created_at->translatedFormat('d F Y, H:i') : '-',
-                                                'seller_name' => $item->seller->name ?? 'Mahasiswa',
-                                                'seller_email'=> $item->seller->email ?? '-',
-                                                'seller_wa'   => $item->seller->whatsapp_number ?? '-',
-                                                'images'      => $allImages,
-                                                'approve_url' => route('admin.products.approve', $item),
-                                                'reject_url'  => route('admin.products.reject', $item),
+                                                'id'            => $item->id,
+                                                'title'         => $item->title,
+                                                'price'         => number_format($item->price, 0, ',', '.'),
+                                                'category'      => $item->category->name ?? 'Tanpa Kategori',
+                                                'condition'     => $item->condition,
+                                                'location'      => $item->location ?? '-',
+                                                'cod_area'      => $item->cod_area ?? '-',
+                                                'description'   => $item->description,
+                                                'status'        => $item->status,
+                                                'created_at'    => $item->created_at ? $item->created_at->translatedFormat('d F Y, H:i') : '-',
+                                                'seller_name'   => $item->seller->name ?? 'Mahasiswa',
+                                                'seller_email'  => $item->seller->email ?? '-',
+                                                'seller_wa'     => $item->seller->whatsapp_number ?? '-',
+                                                'seller_avatar' => $item->seller?->profile_photo_url,
+                                                'images'        => $allImages,
+                                                'approve_url'   => route('admin.products.approve', $item),
+                                                'reject_url'    => route('admin.products.reject', $item),
                                             ]) }})">
                                         <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                     </button>
@@ -364,6 +372,7 @@
                         <div class="meta-subcard" style="width: 100%;">
                             <div class="meta-subcard-title">Data Penjual / Mahasiswa</div>
                             <div class="seller-profile-row">
+                                <img id="m-seller-avatar-img" src="" alt="Avatar" class="seller-avatar" style="display:none; width:34px; height:34px; border-radius:50%; object-fit:cover; border:1px solid var(--border);">
                                 <div class="seller-avatar" id="m-seller-avatar" style="background:#2563eb; width:34px; height:34px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;">U</div>
                                 <div>
                                     <p class="seller-name-bold" id="m-seller-name">-</p>
@@ -557,7 +566,18 @@
         document.getElementById('m-seller-email').textContent = data.seller_email;
         document.getElementById('m-seller-wa').textContent = data.seller_wa;
         document.getElementById('m-seller-wa-btn').href = 'https://wa.me/' + (data.seller_wa ? data.seller_wa.replace(/[^0-9]/g, '') : '');
-        document.getElementById('m-seller-avatar').textContent = (data.seller_name || 'U').substring(0, 2).toUpperCase();
+        
+        const mSellerImg = document.getElementById('m-seller-avatar-img');
+        const mSellerBox = document.getElementById('m-seller-avatar');
+        if (data.seller_avatar) {
+            mSellerImg.src = data.seller_avatar;
+            mSellerImg.style.display = 'block';
+            mSellerBox.style.display = 'none';
+        } else {
+            mSellerImg.style.display = 'none';
+            mSellerBox.style.display = 'flex';
+            mSellerBox.textContent = (data.seller_name || 'U').substring(0, 2).toUpperCase();
+        }
 
         // Status badge
         const badge = document.getElementById('m-status-badge');
