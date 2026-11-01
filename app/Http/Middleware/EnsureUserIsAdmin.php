@@ -11,8 +11,18 @@ class EnsureUserIsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('admin')->check() || !Auth::guard('admin')->user()->isAdmin()) {
-            return redirect()->route('admin.login')->with('error', 'Akses ditolak. Silakan login sebagai Administrator terlebih dahulu.');
+        $user = Auth::guard('admin')->user() ?? Auth::guard('web')->user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login sebagai Administrator terlebih dahulu.');
+        }
+
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')->with('error', 'Akses ditolak. Halaman ini hanya dapat diakses oleh Administrator.');
+        }
+
+        if (!Auth::guard('admin')->check()) {
+            Auth::guard('admin')->login($user);
         }
 
         return $next($request);

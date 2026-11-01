@@ -29,12 +29,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if ($request->user()->isAdmin()) {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return back()->withInput($request->only('email'))
-                ->withErrors(['email' => 'Akun Administrator memiliki portal login tersendiri. Silakan login melalui halaman /admin/login.']);
+            Auth::guard('admin')->login($request->user());
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         if ($request->user()->isSuspended()) {
@@ -54,6 +50,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
 

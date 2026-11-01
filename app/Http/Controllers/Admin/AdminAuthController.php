@@ -10,7 +10,12 @@ class AdminAuthController extends Controller
 {
     public function showLoginForm()
     {
-        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->isAdmin()) {
+        $user = Auth::guard('admin')->user() ?? Auth::guard('web')->user();
+
+        if ($user && $user->isAdmin()) {
+            if (!Auth::guard('admin')->check()) {
+                Auth::guard('admin')->login($user);
+            }
             return redirect()->route('admin.dashboard');
         }
 
@@ -36,6 +41,8 @@ class AdminAuthController extends Controller
                     ->withErrors(['email' => 'Akses ditolak. Akun Anda bukan akun Administrator.']);
             }
 
+            Auth::guard('web')->login($user);
+
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
         }
@@ -47,6 +54,11 @@ class AdminAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.login')->with('status', 'Anda telah berhasil keluar dari Panel Admin.');
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('status', 'Anda telah berhasil keluar dari Panel Admin.');
     }
 }

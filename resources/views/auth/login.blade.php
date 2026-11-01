@@ -15,7 +15,7 @@
                         MASUK KE AKUN KAMPUS
                     </h1>
                     <p class="text-[11px] sm:text-xs text-gray-500 mt-0.5">
-                        Gunakan email Student FIKOM untuk mulai jual &amp; beli
+                        Gunakan akun kampus resmi FIKOM untuk masuk
                     </p>
                 </div>
 
