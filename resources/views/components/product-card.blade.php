@@ -2,7 +2,7 @@
 
 @php
     $imageModel = $product->primaryImage ?? $product->images?->first();
-    $cardImageUrl = $imageModel?->url;
+    $cardImageUrl = $imageModel?->thumbnail_url ?? $imageModel?->url;
 
     // Soft pastel container backgrounds seperti pada gambar mockup
     $bgPalette = ['#eef2f7', '#e8f1fc', '#f5f0ff', '#fef9e7', '#f0fdf9', '#fef2f2'];
@@ -30,6 +30,8 @@
         @if($cardImageUrl)
             <img src="{{ $cardImageUrl }}"
                  alt="{{ $product->title }}"
+                 loading="lazy"
+                 decoding="async"
                  class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-xs">
         @else
             <div class="w-full h-full flex items-center justify-center text-slate-300">

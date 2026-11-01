@@ -25,9 +25,18 @@ class ProductImage extends Model
     public function getUrlAttribute(): string
     {
         if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
-            return $this->image_path;
+            return \App\Services\CloudinaryService::optimizeUrl($this->image_path, 800) ?? $this->image_path;
         }
 
         return \Illuminate\Support\Facades\Storage::url($this->image_path);
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+            return \App\Services\CloudinaryService::optimizeUrl($this->image_path, 480) ?? $this->image_path;
+        }
+
+        return $this->url;
     }
 }

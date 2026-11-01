@@ -1,6 +1,10 @@
 <x-app-layout>
     <x-slot name="title">Pasar Preloved Mahasiswa FIKOM</x-slot>
 
+    @push('styles')
+        <link rel="preload" as="image" href="{{ asset('images/hero.svg') }}" type="image/svg+xml" fetchpriority="high">
+    @endpush
+
     {{-- Hero Section --}}
     <section class="relative bg-transparent overflow-hidden pt-8 pb-12 lg:pt-12 lg:pb-16 border-b border-gray-200/60">
         {{-- Pastel decorative background arcs --}}
@@ -43,6 +47,10 @@
                 <div class="lg:col-span-6 flex justify-center lg:justify-end">
                     <div class="relative w-full max-w-lg lg:max-w-xl flex items-center justify-center">
                         <img src="{{ asset('images/hero.svg') }}" alt="FIKOM Preloved Hero"
+                            fetchpriority="high"
+                            decoding="async"
+                            width="560"
+                            height="340"
                             style="max-height: 340px; width: 100%; height: auto;"
                             class="w-full h-auto max-h-[340px] object-contain drop-shadow-md transition-transform duration-300 hover:scale-[1.01]">
                     </div>

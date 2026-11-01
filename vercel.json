@@ -10,15 +10,24 @@
   "routes": [
     {
       "src": "/build/(.*)",
-      "dest": "/public/build/$1"
+      "dest": "/public/build/$1",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
     },
     {
       "src": "/images/(.*)",
-      "dest": "/public/images/$1"
+      "dest": "/public/images/$1",
+      "headers": {
+        "cache-control": "public, max-age=2592000, stale-while-revalidate=86400"
+      }
     },
     {
       "src": "/admin-assets/(.*)",
-      "dest": "/public/admin-assets/$1"
+      "dest": "/public/admin-assets/$1",
+      "headers": {
+        "cache-control": "public, max-age=2592000, stale-while-revalidate=86400"
+      }
     },
     {
       "src": "/favicon.ico",

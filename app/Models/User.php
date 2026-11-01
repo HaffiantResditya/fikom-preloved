@@ -76,7 +76,7 @@ class User extends Authenticatable
         }
 
         if (filter_var($this->profile_photo, FILTER_VALIDATE_URL)) {
-            return $this->profile_photo;
+            return \App\Services\CloudinaryService::optimizeUrl($this->profile_photo, 300) ?? $this->profile_photo;
         }
 
         if (Storage::disk('public')->exists($this->profile_photo)) {

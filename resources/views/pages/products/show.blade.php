@@ -177,6 +177,8 @@
 
                         <template x-if="activeImg">
                             <img :src="activeImg" alt="{{ $product->title }}"
+                                fetchpriority="high"
+                                decoding="async"
                                 class="max-h-full max-w-full object-contain drop-shadow-sm transition-all duration-200"
                                 :style="activeIndex === 1 ? 'transform: scale(0.96);' : (activeIndex === 2 ? 'transform: scale(1.03);' : (activeIndex === 3 ? 'transform: scale(0.98);' : ''))"
                                 id="main-product-image">
@@ -199,6 +201,8 @@
                                 class="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl bg-[#e8f3fc] p-2 flex items-center justify-center border-2 transition-all duration-150 overflow-hidden cursor-pointer flex-shrink-0"
                                 :class="activeIndex === {{ $index }} ? 'border-slate-800 ring-1 ring-slate-800 shadow-sm' : 'border-slate-200/90 hover:border-slate-400 opacity-80 hover:opacity-100'">
                                 <img src="{{ $item['url'] }}" alt="{{ $item['title'] }}"
+                                    loading="lazy"
+                                    decoding="async"
                                     class="max-h-full max-w-full object-contain pointer-events-none transition-transform duration-200"
                                     :class="activeIndex === {{ $index }} ? 'scale-105' : ''">
                             </button>

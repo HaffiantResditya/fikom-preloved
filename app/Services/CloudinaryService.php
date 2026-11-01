@@ -75,4 +75,32 @@ class CloudinaryService
             return null;
         }
     }
+
+    /**
+     * Transform a Cloudinary image URL with auto-format, auto-quality, and max-width limiter.
+     * Drastically reduces download size (e.g. 5MB raw photo -> ~40KB WebP) without visible quality loss.
+     *
+     * @param string|null $url Original image URL
+     * @param int $width Max width boundary for the image
+     * @return string|null Optimized URL or original URL
+     */
+    public static function optimizeUrl(?string $url, int $width = 800): ?string
+    {
+        if (empty($url)) {
+            return $url;
+        }
+
+        // Hanya transform URL resmi dari Cloudinary
+        if (str_contains($url, 'res.cloudinary.com') && str_contains($url, '/image/upload/')) {
+            // Hindari transformasi ganda jika sudah ada parameter f_auto / w_
+            if (str_contains($url, '/image/upload/f_auto') || str_contains($url, '/image/upload/w_')) {
+                return $url;
+            }
+
+            $transformation = "f_auto,q_auto,w_{$width},c_limit";
+            return str_replace('/image/upload/', "/image/upload/{$transformation}/", $url);
+        }
+
+        return $url;
+    }
 }
