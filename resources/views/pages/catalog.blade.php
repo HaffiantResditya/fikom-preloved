@@ -302,6 +302,52 @@
                 }
             }
 
+            function attachAutoPriceFormat(displayEl, hiddenInputEl, rangeEl, isMin) {
+                if (!displayEl) return;
+
+                // Format otomatis saat pengguna mengetik (input event real-time)
+                displayEl.addEventListener('input', function () {
+                    const rawDigits = this.value.replace(/[^0-9]/g, '');
+                    if (!rawDigits) {
+                        this.value = 'Rp ';
+                        hiddenInputEl.value = '0';
+                        if (rangeEl) rangeEl.value = 0;
+                        updateSliderBar();
+                        return;
+                    }
+
+                    const num = parseInt(rawDigits, 10);
+                    this.value = formatRupiah(num);
+                    hiddenInputEl.value = num;
+
+                    if (rangeEl) {
+                        rangeEl.value = Math.min(num, maxSliderLimit);
+                    }
+                    updateSliderBar();
+                });
+
+                // Normalisasi saat pengguna selesai mengetik (blur event)
+                displayEl.addEventListener('blur', function () {
+                    const rawDigits = this.value.replace(/[^0-9]/g, '');
+                    if (!rawDigits || parseInt(rawDigits, 10) === 0) {
+                        if (isMin) {
+                            this.value = 'Rp 0';
+                            hiddenInputEl.value = '0';
+                            if (rangeEl) rangeEl.value = 0;
+                        } else {
+                            this.value = formatRupiah(maxSliderLimit);
+                            hiddenInputEl.value = maxSliderLimit;
+                            if (rangeEl) rangeEl.value = maxSliderLimit;
+                        }
+                    } else {
+                        const num = parseInt(rawDigits, 10);
+                        this.value = formatRupiah(num);
+                        hiddenInputEl.value = num;
+                    }
+                    updateSliderBar();
+                });
+            }
+
             if (minRange && maxRange) {
                 minRange.addEventListener('input', function () {
                     let minVal = parseInt(minRange.value);
@@ -329,25 +375,8 @@
                     updateSliderBar();
                 });
 
-                minDisplay.addEventListener('change', function () {
-                    let val = parseRupiah(minDisplay.value);
-                    let maxVal = parseInt(maxRange.value);
-                    if (val > maxVal) val = maxVal;
-                    minRange.value = val;
-                    minInput.value = val;
-                    minDisplay.value = formatRupiah(val);
-                    updateSliderBar();
-                });
-
-                maxDisplay.addEventListener('change', function () {
-                    let val = parseRupiah(maxDisplay.value);
-                    let minVal = parseInt(minRange.value) || 0;
-                    if (val < minVal) val = minVal;
-                    maxRange.value = Math.min(val, maxSliderLimit);
-                    maxInput.value = val;
-                    maxDisplay.value = formatRupiah(val);
-                    updateSliderBar();
-                });
+                attachAutoPriceFormat(minDisplay, minInput, minRange, true);
+                attachAutoPriceFormat(maxDisplay, maxInput, maxRange, false);
 
                 updateSliderBar();
             }
