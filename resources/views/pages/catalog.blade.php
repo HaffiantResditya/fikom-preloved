@@ -142,7 +142,7 @@
                                     <input type="text" id="max_price_display"
                                            value="Rp {{ number_format($rawMax, 0, ',', '.') }}"
                                            class="w-full text-xs text-slate-800 font-medium px-2.5 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-slate-400 transition">
-                                    <input type="hidden" name="max_price" id="max_price_input" value="{{ $hasMax ? $rawMax : '' }}">
+                                    <input type="hidden" name="max_price" id="max_price_input" value="{{ $hasMax ? $rawMax : $catalogCeiling }}">
                                 </div>
                             </div>
 
@@ -341,10 +341,9 @@
 
                 maxDisplay.addEventListener('change', function () {
                     let val = parseRupiah(maxDisplay.value);
-                    let minVal = parseInt(minRange.value);
+                    let minVal = parseInt(minRange.value) || 0;
                     if (val < minVal) val = minVal;
-                    if (val > maxSliderLimit) val = maxSliderLimit;
-                    maxRange.value = val;
+                    maxRange.value = Math.min(val, maxSliderLimit);
                     maxInput.value = val;
                     maxDisplay.value = formatRupiah(val);
                     updateSliderBar();
@@ -353,15 +352,26 @@
                 updateSliderBar();
             }
 
-            // Exclude default min / max prices on submit if untouched
+            // Submit form handler: pastikan parameter filter harga terkirim dengan tepat
             if (filterForm) {
                 filterForm.addEventListener('submit', function () {
-                    const minVal = parseInt(minInput.value) || 0;
-                    const maxVal = parseInt(maxInput.value) || maxSliderLimit;
-                    if (minVal <= 0) {
+                    const minVal = parseRupiah(minDisplay.value);
+                    const maxVal = parseRupiah(maxDisplay.value);
+
+                    if (minVal > 0) {
+                        minInput.value = minVal;
+                        minInput.disabled = false;
+                    } else {
+                        minInput.value = '';
                         minInput.disabled = true;
                     }
-                    if (maxVal >= maxSliderLimit) {
+
+                    // Selalu kirimkan max_price (termasuk 1.000.000) agar query memfilter barang <= 1.000.000
+                    if (maxVal > 0) {
+                        maxInput.value = maxVal;
+                        maxInput.disabled = false;
+                    } else {
+                        maxInput.value = '';
                         maxInput.disabled = true;
                     }
                 });

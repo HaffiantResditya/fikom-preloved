@@ -266,6 +266,67 @@ class ProductTest extends TestCase
         $response = $this->actingAs($otherUser)->get(route('products.show', $product->slug));
         $response->assertStatus(404);
     }
+
+    public function test_catalog_max_price_filter_excludes_items_above_budget(): void
+    {
+        $seller = User::factory()->create([
+            'email'          => 'seller.filter@mhs.udb.ac.id',
+            'role'           => 'student',
+            'account_status' => 'approved',
+        ]);
+
+        $category = Category::first() ?? Category::create([
+            'name'        => 'Elektronik Test',
+            'slug'        => 'elektronik-test',
+            'description' => 'Kategori test',
+        ]);
+
+        Product::create([
+            'seller_id'   => $seller->id,
+            'category_id' => $category->id,
+            'title'       => 'Barang Murah Mahasiswa',
+            'slug'        => 'barang-murah-mahasiswa-' . uniqid(),
+            'price'       => 250000,
+            'condition'   => 'Baik',
+            'description' => 'Deskripsi barang murah',
+            'location'    => 'Kampus UDB',
+            'cod_area'    => 'Gedung FIKOM',
+            'status'      => 'approved',
+        ]);
+
+        Product::create([
+            'seller_id'   => $seller->id,
+            'category_id' => $category->id,
+            'title'       => 'Barang Tepat Satu Juta',
+            'slug'        => 'barang-tepat-satu-juta-' . uniqid(),
+            'price'       => 1000000,
+            'condition'   => 'Seperti Baru',
+            'description' => 'Deskripsi barang 1 juta',
+            'location'    => 'Kampus UDB',
+            'cod_area'    => 'Gedung FIKOM',
+            'status'      => 'approved',
+        ]);
+
+        Product::create([
+            'seller_id'   => $seller->id,
+            'category_id' => $category->id,
+            'title'       => 'Laptop Mahal Gaming',
+            'slug'        => 'laptop-mahal-gaming-' . uniqid(),
+            'price'       => 15000000,
+            'condition'   => 'Seperti Baru',
+            'description' => 'Deskripsi laptop mahal',
+            'location'    => 'Kampus UDB',
+            'cod_area'    => 'Gedung FIKOM',
+            'status'      => 'approved',
+        ]);
+
+        // Request katalog dengan filter max_price = 1000000
+        $response = $this->get('/catalog?max_price=1000000');
+        $response->assertStatus(200);
+        $response->assertSee('Barang Murah Mahasiswa');
+        $response->assertSee('Barang Tepat Satu Juta');
+        $response->assertDontSee('Laptop Mahal Gaming');
+    }
 }
 
 
