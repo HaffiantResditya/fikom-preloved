@@ -440,9 +440,13 @@
             function bindCatalogDynamicHandlers() {
                 if (!mainSection) return;
 
-                // Intercept semua link pagination
+                // Intercept semua link pagination dengan prefetching instan pada hover/touch
                 const pageLinks = mainSection.querySelectorAll('nav[role="navigation"] a');
                 pageLinks.forEach(link => {
+                    link.addEventListener('pointerenter', function () {
+                        fetch(this.href, { priority: 'low' }).catch(() => {});
+                    }, { once: true });
+
                     link.addEventListener('click', function (e) {
                         e.preventDefault();
                         loadCatalogUrl(this.href);

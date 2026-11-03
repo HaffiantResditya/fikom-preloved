@@ -67,6 +67,7 @@
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Kategori Akses Cepat</span>
             </div>
             <a href="{{ route('categories') }}"
+                data-turbo-prefetch="true"
                 class="text-xs font-semibold text-slate-600 hover:text-black transition flex items-center gap-1">
                 Lihat Semua →
             </a>
@@ -78,6 +79,7 @@
                     $iconStyle = $cat->icon_meta;
                 @endphp
                 <a href="{{ route('catalog', ['category' => $cat->slug]) }}"
+                    data-turbo-prefetch="true"
                     class="group bg-white rounded-2xl border border-slate-200/90 p-6 flex flex-col items-center justify-center text-center hover:border-slate-300 hover:shadow-sm transition">
                     <div style="{{ $iconStyle['bg'] }}"
                         class="w-14 h-14 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -99,6 +101,7 @@
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Grid Produk Terbaru</span>
             </div>
             <a href="{{ route('catalog', ['category' => 'semua']) }}"
+                data-turbo-prefetch="true"
                 class="text-xs font-semibold text-slate-600 hover:text-black transition flex items-center gap-1">
                 Lihat Semua →
             </a>

@@ -5,25 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::getOrderedCategories();
+        $categories = Cache::remember('ordered_categories_v1', 600, function () {
+            return Category::getOrderedCategories();
+        });
 
-        $selectedCategorySlug = $request->input('category');
+        $selectedCategorySlug = $request->input('category', 'semua') ?: 'semua';
+        $currentCategory = null;
 
-        if ($selectedCategorySlug && $selectedCategorySlug !== 'semua') {
-            $currentCategory = Category::where('slug', $selectedCategorySlug)->first();
+        if ($selectedCategorySlug !== 'semua') {
+            $currentCategory = $categories->firstWhere('slug', $selectedCategorySlug);
             if (!$currentCategory) {
                 $selectedCategorySlug = 'semua';
             }
-        } else {
-            $selectedCategorySlug = 'semua';
         }
 
-        if ($selectedCategorySlug === 'semua') {
+        if ($selectedCategorySlug === 'semua' || !$currentCategory) {
             $currentCategory = (object) [
                 'name' => 'Semua Produk',
                 'description' => 'Temukan seluruh barang preloved berkualitas dari sesama mahasiswa FIKOM.',
@@ -91,7 +93,9 @@ class CatalogController extends Controller
         // 6 produk per halaman sesuai mockup "Menampilkan 1-6"
         $products = $query->paginate(6)->withQueryString();
 
-        $highestProductPrice = (int) Product::where('status', 'approved')->max('price');
+        $highestProductPrice = Cache::remember('catalog_ceiling_price_v1', 300, function () {
+            return (int) (Product::where('status', 'approved')->max('price') ?: 1000000);
+        });
         $maxCatalogPrice = 1000000;
 
         return view('pages.catalog', compact(

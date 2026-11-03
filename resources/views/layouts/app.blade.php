@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="turbo-prefetch" content="true">
+    <meta name="turbo-cache-control" content="cache">
     <meta name="description" content="Marketplace preloved eksklusif mahasiswa FIKOM — jual beli barang bekas dengan aman dan mudah di lingkungan kampus.">
 
     <title>{{ isset($title) ? $title . ' — ' : '' }}{{ config('app.name', 'FIKOM Preloved') }}</title>
