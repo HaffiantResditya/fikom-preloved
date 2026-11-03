@@ -42,7 +42,7 @@
 
                 @auth
                     @if(auth()->user()->isAdmin())
-                        <a href="/admin" data-turbo="false" class="bg-amber-100 text-amber-800 hover:bg-amber-200 text-xs font-semibold px-2.5 py-1.5 rounded-md transition flex items-center gap-1">
+                        <a href="/admin" class="bg-amber-100 text-amber-800 hover:bg-amber-200 text-xs font-semibold px-2.5 py-1.5 rounded-md transition flex items-center gap-1">
                             <x-heroicon-o-shield-check class="w-3.5 h-3.5"/> Admin
                         </a>
                     @endif
@@ -65,7 +65,7 @@
                         <div x-show="open" @click.outside="open = false" x-transition
                              class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2.5 z-50 text-sm">
                             @if(auth()->user()->isAdmin())
-                                <a href="/admin" data-turbo="false" class="flex items-center gap-3 px-4 py-2.5 font-semibold text-amber-700 hover:bg-amber-50 rounded-xl mx-1.5 transition">
+                                <a href="/admin" class="flex items-center gap-3 px-4 py-2.5 font-semibold text-amber-700 hover:bg-amber-50 rounded-xl mx-1.5 transition">
                                     <span class="text-base">🛡️</span>
                                     <span>Dashboard Admin</span>
                                 </a>
@@ -85,7 +85,7 @@
                                 <span>Profil Saya</span>
                             </a>
                             <div class="border-t border-slate-100 my-1.5 mx-2"></div>
-                            <form method="POST" action="{{ route('logout') }}" data-turbo="false">
+                            <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="flex items-center gap-3 w-full text-left px-4 py-2.5 text-red-600 hover:bg-red-50 rounded-xl mx-1.5 transition font-medium">
                                     <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
