@@ -2,9 +2,12 @@
   "version": 2,
   "framework": null,
   "outputDirectory": "public",
+  "regions": ["sin1"],
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.7.3"
+      "runtime": "vercel-php@0.7.3",
+      "memory": 1024,
+      "maxDuration": 15
     }
   },
   "routes": [
@@ -55,7 +58,7 @@
     "APP_ROUTES_CACHE": "/tmp/routes.php",
     "APP_SERVICES_CACHE": "/tmp/services.php",
     "VIEW_COMPILED_PATH": "/tmp",
-    "CACHE_STORE": "database",
+    "CACHE_STORE": "file",
     "SESSION_DRIVER": "cookie",
     "LOG_CHANNEL": "stderr"
   }
