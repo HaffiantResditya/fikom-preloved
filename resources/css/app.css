@@ -5,3 +5,11 @@
 [x-cloak] {
     display: none !important;
 }
+
+/* Hotwire Turbo SPA Progress Bar */
+.turbo-progress-bar {
+    height: 3px;
+    background: linear-gradient(90deg, #0284c7, #38bdf8, #0ea5e9);
+    box-shadow: 0 0 10px rgba(14, 165, 233, 0.7);
+    z-index: 99999;
+}

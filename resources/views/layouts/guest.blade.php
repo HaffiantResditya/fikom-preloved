@@ -294,8 +294,10 @@
         }
 
         // Anti double-submit & loading spinner otomatis untuk tombol form
-        document.addEventListener('DOMContentLoaded', function () {
+        function initGuestSubmitHandlers() {
             document.querySelectorAll('form').forEach(function (form) {
+                if (form.dataset.submitSpinAttached === 'true') return;
+                form.dataset.submitSpinAttached = 'true';
                 form.addEventListener('submit', function (e) {
                     if (form.checkValidity && !form.checkValidity()) {
                         return; // Biarkan HTML5 validation berjalan jika ada yang belum terisi
@@ -310,7 +312,13 @@
                     }
                 });
             });
-        });
+        }
+        document.addEventListener('turbo:load', initGuestSubmitHandlers);
+        if (document.readyState !== 'loading') {
+            initGuestSubmitHandlers();
+        } else {
+            document.addEventListener('DOMContentLoaded', initGuestSubmitHandlers);
+        }
 
         // Modal Helper untuk Syarat & Ketentuan / Kebijakan
         function openFikomModal(modalId) {

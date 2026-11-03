@@ -268,8 +268,11 @@
 
     @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        function initCatalogPage() {
             const minRange = document.getElementById('min_range');
+            if (!minRange || minRange.dataset.initialized === 'true') return;
+            minRange.dataset.initialized = 'true';
+
             const maxRange = document.getElementById('max_range');
             const minInput = document.getElementById('min_price_input');
             const maxInput = document.getElementById('max_price_input');
@@ -496,7 +499,14 @@
                     loadCatalogUrl(`${url.pathname}?${params.toString()}`);
                 });
             }
-        });
+        }
+
+        document.addEventListener('turbo:load', initCatalogPage);
+        if (document.readyState !== 'loading') {
+            initCatalogPage();
+        } else {
+            document.addEventListener('DOMContentLoaded', initCatalogPage);
+        }
     </script>
     @endpush
 </x-app-layout>
