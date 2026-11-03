@@ -2,12 +2,9 @@
   "version": 2,
   "framework": null,
   "outputDirectory": "public",
-  "regions": ["sin1"],
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.7.3",
-      "memory": 1024,
-      "maxDuration": 15
+      "runtime": "vercel-php@0.7.3"
     }
   },
   "routes": [
