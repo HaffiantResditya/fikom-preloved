@@ -8,14 +8,10 @@
 
     <title>{{ config('app.name', 'FIKOM PRELOVED') }}</title>
 
-    <!-- Google Fonts: Poppins & Figtree (Optimized Non-blocking) -->
+    <!-- Google Fonts: Poppins & Figtree -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
-    </noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Cloudinary Image CDN Preconnect for Fast LCP -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
@@ -26,7 +22,8 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('admin-assets/assets/Logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('admin-assets/assets/Logo.png') }}">
 
-    <!-- Vite Compiled Assets -->
+    <!-- Tailwind CSS CDN Fallback + Vite Compiled Assets -->
+    <script src="https://cdn.tailwindcss.com"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Standalone Styles for Guaranteed Robust Rendering -->
