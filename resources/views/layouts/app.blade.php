@@ -33,6 +33,7 @@
     @stack('styles')
 </head>
 <body class="font-sans antialiased text-gray-800 min-h-screen flex flex-col"
+      data-instant-allow-query-string
       style="background-image: url('{{ asset('images/fikom_preloved_background.svg') }}'); background-repeat: no-repeat; background-size: cover; background-position: center top; background-attachment: fixed;">
 
     {{-- Navbar --}}

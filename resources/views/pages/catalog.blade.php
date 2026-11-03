@@ -204,7 +204,7 @@
                 </aside>
 
                 {{-- Right Main Content Area --}}
-                <main class="lg:col-span-9">
+                <main class="lg:col-span-9" id="catalog-products-main">
 
                     {{-- Top Status Bar: Count summary & Sort dropdown --}}
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
@@ -381,38 +381,119 @@
                 updateSliderBar();
             }
 
-            // Submit form handler: pastikan parameter filter harga terkirim dengan tepat
+            // ── Seamless Instant Pagination & Filter (Tanpa Reload Halaman) ──
+            const mainSection = document.getElementById('catalog-products-main');
+
+            async function loadCatalogUrl(url, pushHistory = true) {
+                if (!mainSection) {
+                    window.location.href = url;
+                    return;
+                }
+
+                mainSection.style.transition = 'opacity 0.15s ease';
+                mainSection.style.opacity = '0.35';
+                mainSection.style.pointerEvents = 'none';
+
+                try {
+                    const response = await fetch(url, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+
+                    if (!response.ok) {
+                        window.location.href = url;
+                        return;
+                    }
+
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newMain = doc.getElementById('catalog-products-main');
+
+                    if (newMain) {
+                        mainSection.innerHTML = newMain.innerHTML;
+                        if (pushHistory) {
+                            window.history.pushState({ catalogUrl: url }, '', url);
+                        }
+
+                        // Scroll lembut ke atas daftar produk bila pengguna berada di bawah
+                        const topPos = mainSection.getBoundingClientRect().top + window.pageYOffset - 85;
+                        if (window.pageYOffset > topPos) {
+                            window.scrollTo({ top: topPos, behavior: 'smooth' });
+                        }
+
+                        // Re-inisialisasi pagination link dan sort dropdown baru
+                        bindCatalogDynamicHandlers();
+                    } else {
+                        window.location.href = url;
+                    }
+                } catch (err) {
+                    window.location.href = url;
+                } finally {
+                    mainSection.style.opacity = '1';
+                    mainSection.style.pointerEvents = 'auto';
+                }
+            }
+
+            function bindCatalogDynamicHandlers() {
+                if (!mainSection) return;
+
+                // Intercept semua link pagination
+                const pageLinks = mainSection.querySelectorAll('nav[role="navigation"] a');
+                pageLinks.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        loadCatalogUrl(this.href);
+                    });
+                });
+
+                // Intercept dropdown pengurutan (sort)
+                const newSort = mainSection.querySelector('#sort-dropdown');
+                if (newSort) {
+                    newSort.addEventListener('change', function () {
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('sort', this.value);
+                        url.searchParams.set('page', '1');
+                        loadCatalogUrl(url.toString());
+                    });
+                }
+            }
+
+            // Inisialisasi awal listener dinamis pagination & sort
+            bindCatalogDynamicHandlers();
+
+            // Handle tombol Back/Forward browser
+            window.addEventListener('popstate', function (event) {
+                if (event.state && event.state.catalogUrl) {
+                    loadCatalogUrl(event.state.catalogUrl, false);
+                } else {
+                    loadCatalogUrl(window.location.href, false);
+                }
+            });
+
+            // Submit filter form secara AJAX tanpa reload halaman penuh
             if (filterForm) {
-                filterForm.addEventListener('submit', function () {
+                filterForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
                     const minVal = parseRupiah(minDisplay.value);
                     const maxVal = parseRupiah(maxDisplay.value);
 
+                    const url = new URL(filterForm.action, window.location.origin);
+                    const params = new URLSearchParams(new FormData(filterForm));
+
                     if (minVal > 0) {
-                        minInput.value = minVal;
-                        minInput.disabled = false;
+                        params.set('min_price', minVal);
                     } else {
-                        minInput.value = '';
-                        minInput.disabled = true;
+                        params.delete('min_price');
                     }
 
-                    // Selalu kirimkan max_price (termasuk 1.000.000) agar query memfilter barang <= 1.000.000
                     if (maxVal > 0) {
-                        maxInput.value = maxVal;
-                        maxInput.disabled = false;
+                        params.set('max_price', maxVal);
                     } else {
-                        maxInput.value = '';
-                        maxInput.disabled = true;
+                        params.delete('max_price');
                     }
-                });
-            }
 
-            // Sync sort dropdown directly with URL without polluting price bounds
-            if (sortDropdown) {
-                sortDropdown.addEventListener('change', function () {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('sort', this.value);
-                    url.searchParams.set('page', '1');
-                    window.location.href = url.toString();
+                    params.set('page', '1');
+                    loadCatalogUrl(`${url.pathname}?${params.toString()}`);
                 });
             }
         });
