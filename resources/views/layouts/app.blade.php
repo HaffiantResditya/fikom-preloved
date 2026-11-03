@@ -26,6 +26,8 @@
 
     <style>
         [x-cloak] { display: none !important; }
+        body { width: 100% !important; }
+        nav { width: 100% !important; }
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }

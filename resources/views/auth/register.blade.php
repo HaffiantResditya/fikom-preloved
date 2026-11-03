@@ -208,6 +208,7 @@
         <!-- Navigasi Kembali ke Beranda (Tengah Halaman di Bagian Bawah) -->
         <div class="text-center mt-4">
             <a href="{{ route('home') }}"
+                data-turbo="false"
                 class="inline-flex items-center text-xs text-gray-500 hover:text-[#1e4b8a] transition font-medium">
                 <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -26,10 +26,12 @@
             <div class="flex items-center gap-1 sm:gap-3 flex-shrink-0">
                 @guest
                     <a href="{{ route('login') }}"
+                       data-turbo="false"
                        class="text-xs sm:text-sm font-medium text-slate-700 hover:text-black px-1.5 sm:px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
                         Masuk
                     </a>
                     <a href="{{ route('register') }}"
+                       data-turbo="false"
                        class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-black px-1.5 sm:px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
                         Daftar
                     </a>

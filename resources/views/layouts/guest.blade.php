@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="turbo-visit-control" content="reload">
 
     <title>{{ config('app.name', 'FIKOM PRELOVED') }}</title>
 
@@ -28,7 +29,7 @@
 
     <!-- Standalone Styles for Guaranteed Robust Rendering -->
     <style>
-        body {
+        body.guest-auth-body {
             font-family: 'Poppins', 'Figtree', sans-serif;
             margin: 0;
             padding: 0;
@@ -270,7 +271,7 @@
     </style>
 </head>
 
-<body class="antialiased p-4">
+<body class="antialiased p-4 guest-auth-body">
     <!-- Slot Konten Utama -->
     <div class="w-full min-h-screen flex flex-col justify-center items-center py-6">
         {{ $slot }}
