@@ -25,6 +25,13 @@ class ProfileUpdateRequest extends FormRequest
                 'email',
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
+                function ($attribute, $value, $fail) {
+                    $allowedDomains = ['mhs.udb.ac.id'];
+                    $emailDomain = strtolower(substr(strrchr($value, '@'), 1));
+                    if (!in_array($emailDomain, $allowedDomains)) {
+                        $fail('Hanya email resmi kampus (@mhs.udb.ac.id) yang diizinkan.');
+                    }
+                },
             ],
             'whatsapp_number' => ['nullable', 'string', 'max:20'],
             'major' => ['nullable', 'string', Rule::in(User::MAJORS)],

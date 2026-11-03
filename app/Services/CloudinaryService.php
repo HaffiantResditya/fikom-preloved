@@ -10,9 +10,11 @@ class CloudinaryService
 {
     public static function isConfigured(): bool
     {
-        return !empty(env('CLOUDINARY_CLOUD_NAME')) &&
-               !empty(env('CLOUDINARY_API_KEY')) &&
-               !empty(env('CLOUDINARY_API_SECRET'));
+        $cloudName = config('services.cloudinary.cloud_name') ?? env('CLOUDINARY_CLOUD_NAME');
+        $apiKey = config('services.cloudinary.api_key') ?? env('CLOUDINARY_API_KEY');
+        $apiSecret = config('services.cloudinary.api_secret') ?? env('CLOUDINARY_API_SECRET');
+
+        return !empty($cloudName) && !empty($apiKey) && !empty($apiSecret);
     }
 
     /**
@@ -29,9 +31,9 @@ class CloudinaryService
         }
 
         try {
-            $cloudName = trim(env('CLOUDINARY_CLOUD_NAME'));
-            $apiKey = trim(env('CLOUDINARY_API_KEY'));
-            $apiSecret = trim(env('CLOUDINARY_API_SECRET'));
+            $cloudName = trim(config('services.cloudinary.cloud_name') ?? env('CLOUDINARY_CLOUD_NAME'));
+            $apiKey = trim(config('services.cloudinary.api_key') ?? env('CLOUDINARY_API_KEY'));
+            $apiSecret = trim(config('services.cloudinary.api_secret') ?? env('CLOUDINARY_API_SECRET'));
 
             $timestamp = time();
             $folder = 'fikom_preloved';

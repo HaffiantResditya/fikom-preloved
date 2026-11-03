@@ -8,10 +8,14 @@
 
     <title>{{ isset($title) ? $title . ' — ' : '' }}{{ config('app.name', 'FIKOM Preloved') }}</title>
 
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter (Optimized Non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    </noscript>
 
     <!-- Cloudinary Image CDN Preconnect for Fast LCP -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
@@ -31,12 +35,9 @@
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
-
-    <!-- Microsoft Clarity Tracking -->
-    <x-clarity />
 </head>
-<body class="font-sans antialiased text-gray-800 min-h-screen flex flex-col"
-      style="background-image: url('{{ asset('images/fikom_preloved_background.svg') }}'); background-repeat: no-repeat; background-size: cover; background-position: center top; background-attachment: fixed;">
+<body class="font-sans antialiased text-gray-800 min-h-screen flex flex-col bg-cover bg-top bg-no-repeat sm:bg-fixed"
+      style="background-image: url('{{ asset('images/fikom_preloved_background.svg') }}');">
 
     {{-- Navbar --}}
     @include('components.navbar')
@@ -68,5 +69,8 @@
     @include('components.footer')
 
     @stack('scripts')
+
+    <!-- Microsoft Clarity Tracking (Loaded at bottom of body) -->
+    <x-clarity />
 </body>
 </html>

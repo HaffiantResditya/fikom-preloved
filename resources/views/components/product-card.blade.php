@@ -32,6 +32,8 @@
                  alt="{{ $product->title }}"
                  loading="lazy"
                  decoding="async"
+                 width="300"
+                 height="200"
                  class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-xs">
         @else
             <div class="w-full h-full flex items-center justify-center text-slate-300">

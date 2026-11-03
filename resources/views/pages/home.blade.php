@@ -49,8 +49,8 @@
                         <img src="{{ asset('images/hero.svg') }}" alt="FIKOM Preloved Hero"
                             fetchpriority="high"
                             decoding="async"
-                            width="560"
-                            height="340"
+                            width="546"
+                            height="312"
                             style="max-height: 340px; width: 100%; height: auto;"
                             class="w-full h-auto max-h-[340px] object-contain drop-shadow-md transition-transform duration-300 hover:scale-[1.01]">
                     </div>

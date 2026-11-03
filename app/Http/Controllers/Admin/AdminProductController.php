@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AdminProductController extends Controller
 {
@@ -62,6 +63,8 @@ class AdminProductController extends Controller
     public function approve(Product $product)
     {
         $product->update(['status' => 'approved']);
+        Cache::forget('home_featured_products_v1');
+        Cache::forget('all_categories_approved_count_v1');
         return back()->with('success', "Barang '{$product->title}' berhasil disetujui dan aktif di katalog!");
     }
 
