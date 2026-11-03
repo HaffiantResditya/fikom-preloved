@@ -58,7 +58,7 @@
     "APP_ROUTES_CACHE": "/tmp/routes.php",
     "APP_SERVICES_CACHE": "/tmp/services.php",
     "VIEW_COMPILED_PATH": "/tmp",
-    "CACHE_STORE": "file",
+    "CACHE_STORE": "database",
     "SESSION_DRIVER": "cookie",
     "LOG_CHANNEL": "stderr"
   }
