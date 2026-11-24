@@ -4,7 +4,7 @@
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Alpine.js](https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpinedotjs&logoColor=white)](https://alpinejs.dev)
 [![Vercel](https://img.shields.io/badge/Deployment-Vercel_Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
-[![Aiven MySQL](https://img.shields.io/badge/Database-Aiven_Cloud_MySQL-FF3E00?style=for-the-badge&logo=mysql&logoColor=white)](https://aiven.io)
+[![TiDB Cloud](https://img.shields.io/badge/Database-TiDB_Cloud_Serverless-007FFF?style=for-the-badge&logo=mysql&logoColor=white)](https://tidbcloud.com)
 [![Cloudinary](https://img.shields.io/badge/Media-Cloudinary_CDN-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)](https://cloudinary.com)
 [![Admin Panel](https://img.shields.io/badge/Admin_Panel-Custom_Blade-4F46E5?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 
@@ -50,7 +50,7 @@ Seluruh transaksi dilakukan **100% secara tatap muka / Cash on Delivery (COD)** 
 | :--- | :--- | :--- |
 | **Backend Framework** | Laravel 12 (PHP 8.2+) | Model-View-Controller murni |
 | **Hosting & Deployment** | Vercel Serverless | Runtime `vercel-php@0.7.3` |
-| **Database** | Aiven Cloud MySQL 8.x | Database online terenkripsi SSL |
+| **Database** | TiDB Cloud Serverless (MySQL 8.0) | Database cloud permanen terenkripsi SSL/TLS (Region AWS Singapore) |
 | **Media Storage** | Cloudinary CDN | Penyimpanan gambar cloud realtime |
 | **Frontend UI** | Blade + Tailwind CSS + Alpine.js | Tampilan modern, responsif, dan interaktif |
 | **Admin Panel** | Custom Blade Panel | Menggantikan Filament untuk efisiensi memori RAM |
@@ -63,7 +63,7 @@ Seluruh transaksi dilakukan **100% secara tatap muka / Cash on Delivery (COD)** 
 * PHP >= 8.2 (ekstensi `pdo_mysql`, `mbstring`, `gd`, `fileinfo`)
 * Composer
 * Node.js & NPM
-* Akun MySQL (Lokal atau Aiven Cloud)
+* Akun MySQL (Lokal atau TiDB Cloud Serverless)
 
 ### 2. Kloning Repositori
 ```bash
@@ -87,10 +87,10 @@ php artisan key:generate
 Sesuaikan variabel database dan Cloudinary di file `.env`:
 ```env
 DB_CONNECTION=mysql
-DB_HOST=mysql-fikom-preloved-fikom-preloved.k.aivencloud.com
-DB_PORT=20705
+DB_HOST=gateway01.ap-southeast-1.prod.aws.tidbcloud.com
+DB_PORT=4000
 DB_DATABASE=defaultdb
-DB_USERNAME=avnadmin
+DB_USERNAME=your_username.root
 DB_PASSWORD=your_password
 
 CLOUDINARY_CLOUD_NAME=your_cloud_name

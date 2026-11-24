@@ -24,7 +24,8 @@
 * **Storage & Static Routing:** `vercel.json` dengan mapped static build `public/build`
 
 ### 2.2. Database & Penyimpanan Berkas Cloud
-* **Database Engine:** **MySQL 8.x Cloud** hosted di **Aiven Cloud** (SSL Encrypted connection)
+* **Database Engine:** **TiDB Cloud Serverless** (MySQL 8.0 Compatible, TLS/SSL Encrypted, Region AWS Singapore `ap-southeast-1`)
+  * Menyediakan penyimpanan cloud permanen (5 GB free tier) dengan latensi rendah terdekat ke server Vercel Singapore (`sin1`).
 * **Media Storage (Gambar Produk & Foto Profil):** **Cloudinary Media CDN**
   * Unggahan gambar langsung diintegrasikan dengan Cloudinary API melalui command sinkronisasi dan model accessor sehingga sistem tidak bergantung pada storage disk server lokal (sesuai standar *stateless serverless*).
 
